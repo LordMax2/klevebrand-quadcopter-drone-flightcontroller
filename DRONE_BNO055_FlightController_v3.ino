@@ -90,32 +90,37 @@ void setup() {
   while (!Serial);
   printf_begin();
 
+  // Check if the IMU is responding
   if (!bno.begin())
   {
     Serial.print("Error, no BNO055 detected ... Check your wiring or I2C ADDR!");
     while (1);
   }
 
+  // Dont know why this is needed, but its here a least
   int8_t temp = bno.getTemp();
   bno.setExtCrystalUse(true);
 
   delay(1000);
 
+  // Check if the radio is responding
   if (!radio.begin()) {
     Serial.println(F("radio hardware is not responding!!"));
     while (1) {}
   }
+
+  // Configure the radio
   radio.setPALevel(RF24_PA_MAX);
   radio.openReadingPipe(1, pAddress);
   radio.openWritingPipe(fAddress);
 
+  // Print the radio details to see that everything looks correct
   radio.printDetails();
-
-  //radio.printDetails();
   radio.startListening();
 
   delay(5000);
 
+  // Configure the pins for the ESCs
   pinMode(5, OUTPUT);
   pinMode(6, OUTPUT);
   pinMode(7, OUTPUT);
@@ -133,32 +138,41 @@ void setup() {
 }
 
 void loop() {
+  // Depending on the flight mode and some settings choose which tuple to get from the IMU
+  // VECTOR_GYROSCOPE is a tuple with values in the change of degrees/s
+  // VECTOR_EULER is a calculated tuple which contains the angle agains the horizon
   if (autoLevel == true || holdPosition == true) {
     gyro = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
-    //Serial.println("VECTOR_EULER");
   } else if (acro == true) {
     gyro = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
-    //Serial.println("VECTOR_GYROSCOPE");
   } else {
     gyro = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
-    //Serial.println("Else");
   }
+
+  // Try to get information from the reciver via the radio
   GetRadio();
+
   if (lostConnection == true) {
-    PID_reset();
+    PIDReset();
     motor_LF.writeMicroseconds(1000);
     motor_RF.writeMicroseconds(1000);
     motor_LB.writeMicroseconds(1000);
     motor_RB.writeMicroseconds(1000);
     Serial.println("LOST CONNECTION!");
   } else {
-    GoodConnection();
+    ReciverHandleLimits();
+    IMUCalibrateOffsetZero(gyro.x(), gyro.y(), gyro.z());
+    PIDCalculate(gyro.x(), gyro.y(), gyro.z());
+
+    PIDPrintDebug();
+    
     motor_LF.writeMicroseconds(pid_throttle_L_F);
     motor_RF.writeMicroseconds(pid_throttle_R_F);
     motor_LB.writeMicroseconds(pid_throttle_L_B);
     motor_RB.writeMicroseconds(pid_throttle_R_B);
   }
-  //sendFeedback(gyro.x(), gyro.y(), gyro.z());
+  
+  //SendFeedbackArray(gyro.x(), gyro.y(), gyro.z());
 }
 
 void GetRadio() {
@@ -187,7 +201,6 @@ void GetRadio() {
       autoLevel = true;
       holdPosition = false;
     }
-    //Serial.println();
   }
   if (millis() - previousMessageMillis >= 400) {
     lostConnection = true;
@@ -197,40 +210,40 @@ void GetRadio() {
   }
 }
 
-void GoodConnection() {
+/*************************************************************************/
+  // Debug methods to print diffrerent formated versions of the IMU values
+/*************************************************************************/
+void PIDPrintDebug() {
+  //print_roll_pitch_yaw(gyro.x(), gyro.y(), gyro.z());
+  //printDesiredAngles();
+  //print_PID();
+  //print_throttle();
+  //print_detailed_PID();
+  //printDesiredYaw(gyro.z());
+}
 
-
+void ReciverHandleLimits() {
+  // Check the yaw from the reciver and translate it to more of a compass with 360 degrees
   if (yaw_desired_angle > 360) {
     yaw_desired_angle = 0;
   } else if (yaw_desired_angle < 0) {
     yaw_desired_angle = 360;
   }
 
+  // Limit the input throttle
   if (input_throttle > 1600) {
     input_throttle = 1600;
   } else if (input_throttle < 1000) {
     input_throttle = 1000;
   }
 
+  // Check if we are still in launch mode
   if (millis() >= 15000) {
     launchMode = false;
   }
-
-  SetZero(gyro.x(), gyro.y(), gyro.z());
-  PIDControl(gyro.x(), gyro.y(), gyro.z());
-
-
-
-  //print_roll_pitch_yaw(gyro.x(), gyro.y(), gyro.z());
-  //printDesiredAngles();
-  //print_PID();
-  print_throttle();
-  //print_detailed_PID();
-  //printDesiredYaw(gyro.z());
-
 }
 
-void sendFeedback(float x, float y, float z) {
+void SendFeedbackArray(float x, float y, float z) {
   feedbackArray[0] = x;
   feedbackArray[1] = z;
   feedbackArray[2] = y;
@@ -247,7 +260,7 @@ void sendFeedback(float x, float y, float z) {
   radio.startListening();
 }
 
-void PIDControl(float x, float y, float z) {
+void PIDCalculate(float x, float y, float z) {
   if (input_throttle > 1050) {
     /* PID */
     roll_error = roll_desired_angle - y;
@@ -262,7 +275,6 @@ void PIDControl(float x, float y, float z) {
     //Integral and Derivative need a delay 10 ms should be enough. We will use an exact delay to speed up the process
     // if you dont use a delay integral will wind up fast
     // Derivitive will not see any substantial change to be usefull
-
     static unsigned long _ExactTimer;
     if (( millis() - _ExactTimer) >= (10)) {
       _ExactTimer += (10);
@@ -284,10 +296,7 @@ void PIDControl(float x, float y, float z) {
         yaw_pid_i += yaw_ki * yaw_error;
         if (yaw_pid_i > yaw_pid_max) yaw_pid_i = yaw_pid_max;
         if (yaw_pid_i < yaw_pid_max * -1) yaw_pid_i = yaw_pid_max * -1;
-
       }
-
-
 
       // Derivate
       roll_pid_d = roll_kd * (roll_error - roll_previous_error);
@@ -299,25 +308,20 @@ void PIDControl(float x, float y, float z) {
       pitch_previous_error = pitch_error;
       yaw_previous_error = yaw_error;
     }
+
     // ROLL
-
-
     roll_PID = roll_pid_p + roll_pid_i + roll_pid_d;
     if (roll_PID > pid_max) roll_PID = pid_max;
     else if (roll_PID < pid_max * -1)
       roll_PID = pid_max * -1;
 
     // PITCH
-
-
     pitch_PID = pitch_pid_p + pitch_pid_i + pitch_pid_d;
     if (pitch_PID > pid_max) pitch_PID = pid_max;
     else if (pitch_PID < pid_max * -1)
       pitch_PID = pid_max * -1;
 
     // YAW
-
-
     yaw_PID = yaw_pid_p + yaw_pid_i + yaw_pid_d;
     if (yaw_PID > yaw_pid_max) yaw_PID = yaw_pid_max;
     else if (yaw_PID < yaw_pid_max * -1)
@@ -328,8 +332,6 @@ void PIDControl(float x, float y, float z) {
     pid_throttle_R_F = input_throttle - roll_PID + pitch_PID + yaw_PID;
     pid_throttle_L_B = input_throttle + roll_PID - pitch_PID + yaw_PID;
     pid_throttle_R_B = input_throttle - roll_PID - pitch_PID - yaw_PID;
-
-
 
     /* Regulate throttle for ESCs */
     //Right front
@@ -364,7 +366,7 @@ void PIDControl(float x, float y, float z) {
       pid_throttle_L_B = 2000;
     }
   } else {
-    PID_reset();
+    PIDReset();
   }
 }
 
@@ -415,7 +417,7 @@ void print_detailed_PID() {
   Serial.println(pitch_PID);
 }
 
-void SetZero(float x, float y, float z) {
+void IMUCalibrateOffsetZero(float x, float y, float z) {
   if (setZeroBool) {
     pitchOffset = y;
     rollOffset = z;
@@ -424,7 +426,7 @@ void SetZero(float x, float y, float z) {
   }
 }
 
-void PID_reset() {
+void PIDReset() {
   pid_throttle_L_F = 1000;
   pid_throttle_L_B = 1000;
   pid_throttle_R_F = 1000;
