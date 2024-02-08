@@ -275,10 +275,10 @@ void PIDCalculate(float x, float y, float z) {
     //Integral and Derivative need a delay 10 ms should be enough. We will use an exact delay to speed up the process
     // if you dont use a delay integral will wind up fast
     // Derivitive will not see any substantial change to be usefull
-    static unsigned long _ExactTimer;
-    if (( millis() - _ExactTimer) >= (10)) {
-      _ExactTimer += (10);
-      if (( millis() - _ExactTimer) >= (1))_ExactTimer = millis(); // prevents timer windup
+    static unsigned long _exactTimer;
+    if (( millis() - _exactTimer) >= (10)) {
+      _exactTimer += (10);
+      if (( millis() - _exactTimer) >= (1)) _exactTimer = millis(); // prevents timer windup
       // Integral
       if (launchMode) {
         roll_pid_i = 0;
@@ -335,39 +335,50 @@ void PIDCalculate(float x, float y, float z) {
 
     /* Regulate throttle for ESCs */
     //Right front
-    if (pid_throttle_R_F < 1100) {
-      pid_throttle_R_F = 1100;
-    }
-    if (pid_throttle_R_F > 2000) {
-      pid_throttle_R_F = 2000;
-    }
+    if (pid_throttle_R_F < 1100) pid_throttle_R_F = 1100;
+    if (pid_throttle_R_F > 2000) pid_throttle_R_F = 2000;
 
     //Left front
-    if (pid_throttle_L_F < 1100) {
-      pid_throttle_L_F = 1100;
-    }
+    if (pid_throttle_L_F < 1100) pid_throttle_L_F = 1100;
     if (pid_throttle_L_F > 2000) {
       pid_throttle_L_F = 2000;
     }
 
     //Right back
-    if (pid_throttle_R_B < 1100) {
-      pid_throttle_R_B = 1100;
-    }
-    if (pid_throttle_R_B > 2000) {
-      pid_throttle_R_B = 2000;
-    }
+    if (pid_throttle_R_B < 1100) pid_throttle_R_B = 1100;
+    if (pid_throttle_R_B > 2000) pid_throttle_R_B = 2000;
 
     //Left back
-    if (pid_throttle_L_B < 1100) {
-      pid_throttle_L_B = 1100;
-    }
-    if (pid_throttle_L_B > 2000) {
-      pid_throttle_L_B = 2000;
-    }
-  } else {
+    if (pid_throttle_L_B < 1100) pid_throttle_L_B = 1100;
+    if (pid_throttle_L_B > 2000) pid_throttle_L_B = 2000;
+  } 
+  else {
     PIDReset();
   }
+}
+
+void IMUCalibrateOffsetZero(float x, float y, float z) {
+  if (setZeroBool) {
+    pitchOffset = y;
+    rollOffset = z;
+    yaw_desired_angle = x;
+    setZeroBool = false;
+  }
+}
+
+void PIDReset() {
+  pid_throttle_L_F = 1000;
+  pid_throttle_L_B = 1000;
+  pid_throttle_R_F = 1000;
+  pid_throttle_R_B = 1000;
+
+  pitch_PID = 0, roll_PID = 0, yaw_PID = 0;
+  roll_error = 0, pitch_error = 0, yaw_error = 0;
+  roll_previous_error = 0, pitch_previous_error = 0, yaw_previous_error = 0;
+
+  yaw_pid_p = 0, roll_pid_p = 0, pitch_pid_p = 0;
+  yaw_pid_i = 0, roll_pid_i = 0, pitch_pid_i = 0;
+  yaw_pid_d = 0, roll_pid_d = 0, pitch_pid_d = 0;
 }
 
 void print_roll_pitch_yaw(float x, float y, float z) {
@@ -381,7 +392,6 @@ void printDesiredAngles() {
   Serial.print(",");
   Serial.println(pitch_desired_angle);
 }
-
 
 void printDesiredYaw(float yaw) {
   Serial.print(yaw_desired_angle);
@@ -415,28 +425,4 @@ void print_detailed_PID() {
   Serial.print(pitch_pid_d);
   Serial.print(", ");
   Serial.println(pitch_PID);
-}
-
-void IMUCalibrateOffsetZero(float x, float y, float z) {
-  if (setZeroBool) {
-    pitchOffset = y;
-    rollOffset = z;
-    yaw_desired_angle = x;
-    setZeroBool = false;
-  }
-}
-
-void PIDReset() {
-  pid_throttle_L_F = 1000;
-  pid_throttle_L_B = 1000;
-  pid_throttle_R_F = 1000;
-  pid_throttle_R_B = 1000;
-
-  pitch_PID = 0, roll_PID = 0, yaw_PID = 0;
-  roll_error = 0, pitch_error = 0, yaw_error = 0;
-  roll_previous_error = 0, pitch_previous_error = 0, yaw_previous_error = 0;
-
-  yaw_pid_p = 0, roll_pid_p = 0, pitch_pid_p = 0;
-  yaw_pid_i = 0, roll_pid_i = 0, pitch_pid_i = 0;
-  yaw_pid_d = 0, roll_pid_d = 0, pitch_pid_d = 0;
 }
