@@ -205,21 +205,8 @@ void GetRadio() {
   if (millis() - previousMessageMillis >= 400) {
     lostConnection = true;
   } else {
-
     lostConnection = false;
   }
-}
-
-/*************************************************************************/
-  // Debug methods to print diffrerent formated versions of the IMU values
-/*************************************************************************/
-void PIDPrintDebug() {
-  //print_roll_pitch_yaw(gyro.x(), gyro.y(), gyro.z());
-  //printDesiredAngles();
-  //print_PID();
-  //print_throttle();
-  //print_detailed_PID();
-  //printDesiredYaw(gyro.z());
 }
 
 void ReciverHandleLimits() {
@@ -379,6 +366,18 @@ void PIDReset() {
   yaw_pid_p = 0, roll_pid_p = 0, pitch_pid_p = 0;
   yaw_pid_i = 0, roll_pid_i = 0, pitch_pid_i = 0;
   yaw_pid_d = 0, roll_pid_d = 0, pitch_pid_d = 0;
+}
+
+/*************************************************************************/
+  // Debug methods to print diffrerent formated versions of the IMU values
+/*************************************************************************/
+void PIDPrintDebug() {
+  //print_roll_pitch_yaw(gyro.x(), gyro.y(), gyro.z());
+  //printDesiredAngles();
+  //print_PID();
+  //print_throttle();
+  //print_detailed_PID();
+  //printDesiredYaw(gyro.z());
 }
 
 void print_roll_pitch_yaw(float x, float y, float z) {
