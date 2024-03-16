@@ -15,6 +15,9 @@
 #define RADIO_CE_PIN   9
 #define RADIO_CSN_PIN 10
 
+#define PID_THROTTLE_THRESHOLD 1050
+#define PID_UPDATE_INTERVAL 1050
+
 enum FlightMode {
     acro = 1,
     autoLevel = 2,
@@ -26,6 +29,7 @@ class PID {
     void calculate(float throttle, bool launchMode, float x, float y, float z);
     void regulateThrottle();
     void reset();
+    long previousTimer;
     /* Roll PID */
     float roll_PID, pid_throttle_L_F, pid_throttle_L_B, pid_throttle_R_F, pid_throttle_R_B, roll_error, roll_previous_error;
     float roll_pid_p = 0;
@@ -63,6 +67,11 @@ class PID {
     int pid_max = 400;
 
     float pitchOffset = 0, rollOffset = 0;
+  private:
+    void updateIntegral();
+    void resetIntegral();
+    void constrainPID(float &pid_value);
+    void constrainYawPID(float &yaw_PID);
 };
 
 class Gyro {
