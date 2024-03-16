@@ -227,9 +227,9 @@ void PID::calculate(float throttle, bool launchMode, float x, float y, float z) 
         return;
     }
 
-    roll_error = roll_desired_angle - y;
-    pitch_error = pitch_desired_angle - z;
-    yaw_error = yaw_desired_angle - x;
+    roll_error = roll_desired_angle - x;
+    pitch_error = pitch_desired_angle - y;
+    yaw_error = yaw_desired_angle - z;
 
     roll_pid_p = roll_kp * roll_error;
     pitch_pid_p = pitch_kp * pitch_error;
