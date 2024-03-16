@@ -3,18 +3,18 @@
 void Reciver::setup() {
   Serial.println("Setting up Radio...");
 
-  if (!Reciver::radio.begin()) {
+  if (!radio.begin()) {
     Serial.println(F("radio hardware is not responding!!"));
     while (1) {}
   }
-  Reciver::radio.setPALevel(RF24_PA_MAX);
-  Reciver::radio.openReadingPipe(1, pAddress);
-  Reciver::radio.openWritingPipe(fAddress);
+  radio.setPALevel(RF24_PA_MAX);
+  radio.openReadingPipe(1, pAddress);
+  radio.openWritingPipe(fAddress);
 
-  Reciver::radio.printDetails();
+  radio.printDetails();
 
   //radio.printDetails();
-  Reciver::radio.startListening();
+  radio.startListening();
 
   delay(5000);
   Serial.println("Radio is set up!");
@@ -26,21 +26,21 @@ void Reciver::recive() {
   if(radio.available()) {
     radio.read(&recivedDataArray, sizeof(recivedDataArray));
 
-    Reciver::reciverData.lastRecivedMessageMillis = millis();
+    reciverData.lastRecivedMessageMillis = millis();
 
-    Reciver::reciverData.inputThrottle = recivedDataArray[0];
-    Reciver::reciverData.yawDesiredAngle = recivedDataArray[1];
-    Reciver::reciverData.rollDesiredAngle = recivedDataArray[2];
-    Reciver::reciverData.pitchDesiredAngle = recivedDataArray[3];
+    reciverData.inputThrottle = recivedDataArray[0];
+    reciverData.yawDesiredAngle = recivedDataArray[1];
+    reciverData.rollDesiredAngle = recivedDataArray[2];
+    reciverData.pitchDesiredAngle = recivedDataArray[3];
 
     if (recivedDataArray[4] == 1.0f) {
-        Reciver::reciverData.flightMode = acro;
+        reciverData.flightMode = acro;
     } else if (recivedDataArray[4] == 2.0f) {
-        Reciver::reciverData.flightMode = autoLevel;
+        reciverData.flightMode = autoLevel;
     } else if (recivedDataArray[4] == 3.0f) {
-        Reciver::reciverData.flightMode = holdPosition;
+        reciverData.flightMode = holdPosition;
     } else {
-        Reciver::reciverData.flightMode = autoLevel; 
+        reciverData.flightMode = autoLevel; 
     }
   }
 }
@@ -63,27 +63,27 @@ void Reciver::transmit(float roll, float pitch, float yaw, FlightMode flightMode
       feedbackArray[3] = 0.0f;
   }
 
-  Reciver::radio.stopListening();
-  Reciver::radio.write( &feedbackArray, sizeof(feedbackArray));
-  Reciver::radio.startListening();
+  radio.stopListening();
+  radio.write( &feedbackArray, sizeof(feedbackArray));
+  radio.startListening();
 }
 
 void Gyro::setReports() {
-  if (!Gyro::bno08x.enableReport(Gyro::reportType, Gyro::reportIntervalUs)) {
+  if (!bno08x.enableReport(reportType, reportIntervalUs)) {
     Serial.println("Could not enable stabilized remote vector");
   }
 }
 
 void Gyro::setup() {
   Serial.println("Setting up gyroscope");
-  if (!Gyro::bno08x.begin_I2C()) {
+  if (!bno08x.begin_I2C()) {
     Serial.println("Failed to find BNO08x chip");
     while (1) { delay(10); }
   }
 
   Serial.println("BNO085 set up!");
   
-  Gyro::setReports();
+  setReports();
 
   delay(5000);
 }
@@ -93,10 +93,10 @@ void Gyro::get() {
     // in this demo only one report type will be received depending on FAST_MODE define (above)
     switch (sensorValue.sensorId) {
       case SH2_ARVR_STABILIZED_RV:
-        Gyro::quaternionToEulerRV(&sensorValue.un.arvrStabilizedRV, &ypr, true);
+        quaternionToEulerRV(&sensorValue.un.arvrStabilizedRV, &ypr, true);
         break;
       case SH2_GYRO_INTEGRATED_RV:
-        Gyro::quaternionToEulerGI(&sensorValue.un.gyroIntegratedRV, &ypr, true);
+        quaternionToEulerGI(&sensorValue.un.gyroIntegratedRV, &ypr, true);
         break;
     }
   }
@@ -130,9 +130,9 @@ void Gyro::quaternionToEuler(float qr, float qi, float qj, float qk, euler_t* yp
 void Drone::setup() {
   Serial.println("Starting drone...");
 
-  Drone::gyro.setup();
-  Drone::reciver.setup();
-  Drone::setupMotors();
+  gyro.setup();
+  reciver.setup();
+  setupMotors();
   
   Serial.println("Drone started!");
 }
@@ -145,42 +145,34 @@ void Drone::setupMotors() {
   pinMode(7, OUTPUT);
   pinMode(8, OUTPUT);
 
-  Drone::motorLF.attach(5);
-  Drone::motorRF.attach(6);
-  Drone::motorLB.attach(7);
-  Drone::motorRB.attach(8);
+  motorLF.attach(5);
+  motorRF.attach(6);
+  motorLB.attach(7);
+  motorRB.attach(8);
 
-  Drone::motorLF.writeMicroseconds(1000);
-  Drone::motorRF.writeMicroseconds(1000);
-  Drone::motorLB.writeMicroseconds(1000);
-  Drone::motorRB.writeMicroseconds(1000);
+  motorLF.writeMicroseconds(1000);
+  motorRF.writeMicroseconds(1000);
+  motorLB.writeMicroseconds(1000);
+  motorRB.writeMicroseconds(1000);
   
   Serial.println("Motors setup!");
 }
 
 void Drone::regulateInputsPID() {
-  if (Drone::reciver.reciverData.yawDesiredAngle > 360) {
-    Drone::reciver.reciverData.yawDesiredAngle = 0;
-  } else if (Drone::reciver.reciverData.yawDesiredAngle < 0) {
-    Drone::reciver.reciverData.yawDesiredAngle = 360;
-  }
+  // Constrain yawDesiredAngle within the range [0, 360]
+  reciver.reciverData.yawDesiredAngle = constrain(reciver.reciverData.yawDesiredAngle, 0, 360);
 
-  if (Drone::reciver.reciverData.inputThrottle > 1600) {
-    Drone::reciver.reciverData.inputThrottle = 1600;
-  } else if (Drone::reciver.reciverData.inputThrottle < 1000) {
-    Drone::reciver.reciverData.inputThrottle = 1000;
-  }
+  // Constrain inputThrottle within the range [1000, 1600]
+  reciver.reciverData.inputThrottle = constrain(reciver.reciverData.inputThrottle, 1000, 1600);
 
-  if (millis() >= 15000) {
-    Drone::launchMode = false;
-  }
+  if (millis() >= 15000) launchMode = false;
 }
 
 void Drone::setZero() {
-  if(Drone::setZeroBool) {
-    Drone::pid.pitchOffset = Drone::gyro.ypr.pitch;
-    Drone::pid.rollOffset = Drone::gyro.ypr.roll;
-    Drone::setZeroBool = false;
+  if(setZeroBool) {
+    pid.pitchOffset = Drone::gyro.ypr.pitch;
+    pid.rollOffset = Drone::gyro.ypr.roll;
+    setZeroBool = false;
   }
 }
 
@@ -199,139 +191,114 @@ void Drone::runMotors() {
 }
 
 void Drone::calculatePID() {
-  Drone::pid.calculate(Drone::reciver.reciverData.inputThrottle, Drone::launchMode, Drone::gyro.ypr.roll, Drone::gyro.ypr.pitch, Drone::gyro.ypr.yaw);
+  pid.calculate(Drone::reciver.reciverData.inputThrottle, launchMode, gyro.ypr.roll, gyro.ypr.pitch, gyro.ypr.yaw);
 }
 
 bool Drone::lostConnection() {
-  return millis() - Drone::reciver.reciverData.lastRecivedMessageMillis >= 400;
+  return millis() - reciver.reciverData.lastRecivedMessageMillis >= 400;
 }
 
 void PID::regulateThrottle() {
-  /* Regulate throttle for ESCs */
-    //Right front
-    if (pid_throttle_R_F < 1100) {
-      pid_throttle_R_F = 1100;
-    }
-    if (pid_throttle_R_F > 2000) {
-      pid_throttle_R_F = 2000;
-    }
-
-    //Left front
-    if (pid_throttle_L_F < 1100) {
-      pid_throttle_L_F = 1100;
-    }
-    if (pid_throttle_L_F > 2000) {
-      pid_throttle_L_F = 2000;
-    }
-
-    //Right back
-    if (pid_throttle_R_B < 1100) {
-      pid_throttle_R_B = 1100;
-    }
-    if (pid_throttle_R_B > 2000) {
-      pid_throttle_R_B = 2000;
-    }
-
-    //Left back
-    if (pid_throttle_L_B < 1100) {
-      pid_throttle_L_B = 1100;
-    }
-    if (pid_throttle_L_B > 2000) {
-      pid_throttle_L_B = 2000;
-    }
+  pid_throttle_R_F = constrain(pid_throttle_R_F, 1100, 2000);
+  pid_throttle_L_F = constrain(pid_throttle_L_F, 1100, 2000);
+  pid_throttle_R_B = constrain(pid_throttle_R_B, 1100, 2000);
+  pid_throttle_L_B = constrain(pid_throttle_L_B, 1100, 2000);
 }
 
+
 void PID::reset() {
-  PID::pid_throttle_L_F = 1000;
-  PID::pid_throttle_L_B = 1000;
-  PID::pid_throttle_R_F = 1000;
-  PID::pid_throttle_R_B = 1000;
+  pid_throttle_L_F = 1000;
+  pid_throttle_L_B = 1000;
+  pid_throttle_R_F = 1000;
+  pid_throttle_R_B = 1000;
 
-  PID::pitch_PID = 0, PID::roll_PID = 0, PID::yaw_PID = 0;
-  PID::roll_error = 0, PID::pitch_error = 0, PID::yaw_error = 0;
-  PID::roll_previous_error = 0, PID::pitch_previous_error = 0, PID::yaw_previous_error = 0;
+  pitch_PID = 0, roll_PID = 0, yaw_PID = 0;
+  roll_error = 0, pitch_error = 0, yaw_error = 0;
+  roll_previous_error = 0, pitch_previous_error = 0, yaw_previous_error = 0;
 
-  PID::yaw_pid_p = 0, PID::roll_pid_p = 0, PID::pitch_pid_p = 0;
-  PID::yaw_pid_i = 0, PID::roll_pid_i = 0, PID::pitch_pid_i = 0;
-  PID::yaw_pid_d = 0, PID::roll_pid_d = 0, PID::pitch_pid_d = 0;
+  yaw_pid_p = 0, roll_pid_p = 0, pitch_pid_p = 0;
+  yaw_pid_i = 0, roll_pid_i = 0, pitch_pid_i = 0;
+  yaw_pid_d = 0, roll_pid_d = 0, pitch_pid_d = 0;
 }
 
 void PID::calculate(float throttle, bool launchMode, float x, float y, float z) {
-  if (throttle > 1050) {
-    /* PID */
+    if (throttle <= PID_THROTTLE_THRESHOLD) {
+        reset();
+        return;
+    }
+
     roll_error = roll_desired_angle - y;
     pitch_error = pitch_desired_angle - z;
     yaw_error = yaw_desired_angle - x;
 
-    //Proportional dowsn't need any delay any change can be used instantly
     roll_pid_p = roll_kp * roll_error;
     pitch_pid_p = pitch_kp * pitch_error;
     yaw_pid_p = yaw_kp * yaw_error;
 
-    //Integral and Derivative need a delay 10 ms should be enough. We will use an exact delay to speed up the process
-    // if you dont use a delay integral will wind up fast
-    // Derivitive will not see any substantial change to be usefull
+    unsigned long currentTimer = millis();
+    if (currentTimer - previousTimer >= PID_UPDATE_INTERVAL) {
+        previousTimer = currentTimer;
 
-    static unsigned long _ExactTimer;
-    if (( millis() - _ExactTimer) >= (10)) {
-      _ExactTimer += (10);
-      if (( millis() - _ExactTimer) >= (1))_ExactTimer = millis(); // prevents timer windup
-      // Integral
-      if (launchMode) {
-        roll_pid_i = 0;
-        pitch_pid_i = 0;
-        yaw_pid_i = 0;
-      } else {
-        roll_pid_i = roll_pid_i + (roll_ki * roll_error);
-        if (roll_pid_i > pid_max) roll_pid_i = pid_max;
-        if (roll_pid_i < (pid_max * -1)) roll_pid_i = pid_max * -1;
+        if (launchMode) {
+            resetIntegral();
+        } else {
+            updateIntegral();
+        }
 
-        pitch_pid_i += pitch_ki * pitch_error;
-        if (pitch_pid_i > pid_max) pitch_pid_i = pid_max;
-        if (pitch_pid_i < pid_max * -1) pitch_pid_i = pid_max * -1;
+        roll_pid_d = roll_kd * (roll_error - roll_previous_error);
+        pitch_pid_d = pitch_kd * (pitch_error - pitch_previous_error);
+        yaw_pid_d = yaw_kd * (yaw_error - yaw_previous_error);
 
-        yaw_pid_i += yaw_ki * yaw_error;
-        if (yaw_pid_i > yaw_pid_max) yaw_pid_i = yaw_pid_max;
-        if (yaw_pid_i < yaw_pid_max * -1) yaw_pid_i = yaw_pid_max * -1;
-      }
+        roll_previous_error = roll_error;
+        pitch_previous_error = pitch_error;
+        yaw_previous_error = yaw_error;
 
-      // Derivate
-      roll_pid_d = roll_kd * (roll_error - roll_previous_error);
-      pitch_pid_d = pitch_kd * (pitch_error - pitch_previous_error);
-      yaw_pid_d = yaw_kd * (yaw_error - yaw_previous_error);
-      
-      /* Save Previous Error */
-      roll_previous_error = roll_error;
-      pitch_previous_error = pitch_error;
-      yaw_previous_error = yaw_error;
+        roll_PID = roll_pid_p + roll_pid_i + roll_pid_d;
+        pitch_PID = pitch_pid_p + pitch_pid_i + pitch_pid_d;
+        yaw_PID = yaw_pid_p + yaw_pid_i + yaw_pid_d;
+
+        constrainPID(roll_PID);
+        constrainPID(pitch_PID);
+        constrainYawPID(yaw_PID);
+
+        pid_throttle_L_F = throttle + roll_PID + pitch_PID - yaw_PID;
+        pid_throttle_R_F = throttle - roll_PID + pitch_PID + yaw_PID;
+        pid_throttle_L_B = throttle + roll_PID - pitch_PID + yaw_PID;
+        pid_throttle_R_B = throttle - roll_PID - pitch_PID - yaw_PID;
+
+        regulateThrottle();
     }
-
-    // ROLL
-    roll_PID = roll_pid_p + roll_pid_i + roll_pid_d;
-    if (roll_PID > pid_max) roll_PID = pid_max;
-    else if (roll_PID < pid_max * -1)
-      roll_PID = pid_max * -1;
-
-    // PITCH
-    pitch_PID = pitch_pid_p + pitch_pid_i + pitch_pid_d;
-    if (pitch_PID > pid_max) pitch_PID = pid_max;
-    else if (pitch_PID < pid_max * -1)
-      pitch_PID = pid_max * -1;
-
-    // YAW
-    yaw_PID = yaw_pid_p + yaw_pid_i + yaw_pid_d;
-    if (yaw_PID > yaw_pid_max) yaw_PID = yaw_pid_max;
-    else if (yaw_PID < yaw_pid_max * -1)
-      yaw_PID = yaw_pid_max * -1;
-
-    /* Set the throttle PID for each motor */
-    pid_throttle_L_F = throttle + roll_PID + pitch_PID - yaw_PID;
-    pid_throttle_R_F = throttle - roll_PID + pitch_PID + yaw_PID;
-    pid_throttle_L_B = throttle + roll_PID - pitch_PID + yaw_PID;
-    pid_throttle_R_B = throttle - roll_PID - pitch_PID - yaw_PID;
-
-    regulateThrottle();
-  } else {
-    reset();
-  }
 }
+
+void PID::updateIntegral() {
+    roll_pid_i += roll_ki * roll_error;
+    pitch_pid_i += pitch_ki * pitch_error;
+    yaw_pid_i += yaw_ki * yaw_error;
+
+    roll_pid_i = constrain(roll_pid_i, -pid_max, pid_max);
+    pitch_pid_i = constrain(pitch_pid_i, -pid_max, pid_max);
+    yaw_pid_i = constrain(yaw_pid_i, -yaw_pid_max, yaw_pid_max);
+}
+
+void PID::resetIntegral() {
+    roll_pid_i = 0;
+    pitch_pid_i = 0;
+    yaw_pid_i = 0;
+}
+
+void PID::constrainPID(float &pid_value) {
+    if (pid_value > pid_max) {
+        pid_value = pid_max;
+    } else if (pid_value < -pid_max) {
+        pid_value = -pid_max;
+    }
+}
+
+void PID::constrainYawPID(float &yaw_PID) {
+    if (yaw_PID > yaw_pid_max) {
+        yaw_PID = yaw_pid_max;
+    } else if (yaw_PID < -yaw_pid_max) {
+        yaw_PID = -yaw_pid_max;
+    }
+}
+
