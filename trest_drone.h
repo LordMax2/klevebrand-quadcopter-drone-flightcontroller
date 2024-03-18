@@ -19,9 +19,15 @@
 #define PID_UPDATE_INTERVAL 1050
 
 enum FlightMode {
-    acro = 1,
-    autoLevel = 2,
-    holdPosition = 3
+  acro = 1,
+  autoLevel = 2,
+  holdPosition = 3
+};
+
+struct euler_t {
+  float yaw;
+  float pitch;
+  float roll;
 };
 
 class PID {
@@ -78,12 +84,8 @@ class Gyro {
   public:
     void setup();
     void setReports();
-    void get();
-    struct euler_t {
-      float yaw;
-      float pitch;
-      float roll;
-    } ypr;
+    void update();
+    euler_t ypr;
     Adafruit_BNO08x bno08x = Adafruit_BNO08x(BNO_RESET_PIN);
     sh2_SensorValue_t sensorValue;
     sh2_SensorId_t reportType = SH2_ARVR_STABILIZED_RV;
@@ -134,14 +136,20 @@ class Drone {
     void stopMotors();
     void calculatePID();
     bool lostConnection();
-    Reciver reciver;
-    Gyro gyro;
+    void updateGyro();
+    euler_t getGyroYpr();
+    void reciverRecive();
+    void resetPID();
+    void regulateThrottlePID();
     bool launchMode = true;
     bool setZeroBool = true;
     Servo motorLF;
     Servo motorRF;
     Servo motorLB;
     Servo motorRB;
+  private:
+    Reciver reciver;
+    Gyro gyro;
     PID pid;
 };
 

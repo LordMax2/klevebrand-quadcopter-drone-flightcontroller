@@ -14,19 +14,19 @@ void setup() {
 }
 
 void loop() {
-  drone.gyro.get();
+  drone.updateGyro();
 
-  drone.reciver.recive();
+  drone.reciverRecive();
 
   if(drone.lostConnection()) {
-    drone.pid.reset();
+    drone.resetPID();
     drone.stopMotors();
 
     Serial.println("LOST CONNECTION");
     
     delay(100);
   } else {
-    drone.pid.regulateThrottle();
+    drone.regulateThrottlePID();
     drone.setZero();
     drone.calculatePID();
     drone.runMotors();

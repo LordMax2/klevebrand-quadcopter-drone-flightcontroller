@@ -88,7 +88,7 @@ void Gyro::setup() {
   delay(5000);
 }
 
-void Gyro::get() {
+void Gyro::update() {
   if (bno08x.getSensorEvent(&sensorValue)) {
     // in this demo only one report type will be received depending on FAST_MODE define (above)
     switch (sensorValue.sensorId) {
@@ -196,6 +196,26 @@ void Drone::calculatePID() {
 
 bool Drone::lostConnection() {
   return millis() - reciver.reciverData.lastRecivedMessageMillis >= 400;
+}
+
+void Drone::updateGyro() {
+  gyro.update();
+}
+
+euler_t Drone::getGyroYpr() {
+  return gyro.ypr;
+}
+
+void Drone::reciverRecive() {
+  reciver.recive();
+}
+
+void Drone::resetPID() {
+  pid.reset();
+}
+
+void Drone::regulateThrottlePID() {
+  pid.regulateThrottle();
 }
 
 void PID::regulateThrottle() {
