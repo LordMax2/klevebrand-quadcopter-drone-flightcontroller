@@ -36,8 +36,16 @@ class PID {
     void regulateThrottle();
     void reset();
     long previousTimer;
+    float pid_throttle_L_F, pid_throttle_L_B, pid_throttle_R_F, pid_throttle_R_B;
+    float pitchOffset = 0, rollOffset = 0;
+  private:
+    void updateIntegral();
+    void resetIntegral();
+    void constrainPID(float &pid_value);
+    void constrainYawPID(float &yaw_PID);
+    
     /* Roll PID */
-    float roll_PID, pid_throttle_L_F, pid_throttle_L_B, pid_throttle_R_F, pid_throttle_R_B, roll_error, roll_previous_error;
+    float roll_PID, roll_error, roll_previous_error;
     float roll_pid_p = 0;
     float roll_pid_i = 0;
     float roll_pid_d = 0;
@@ -71,13 +79,6 @@ class PID {
 
     int yaw_pid_max = 200;
     int pid_max = 400;
-
-    float pitchOffset = 0, rollOffset = 0;
-  private:
-    void updateIntegral();
-    void resetIntegral();
-    void constrainPID(float &pid_value);
-    void constrainYawPID(float &yaw_PID);
 };
 
 class Gyro {
@@ -87,13 +88,13 @@ class Gyro {
     void update();
     euler_t ypr;
     Adafruit_BNO08x bno08x = Adafruit_BNO08x(BNO_RESET_PIN);
-    sh2_SensorValue_t sensorValue;
-    sh2_SensorId_t reportType = SH2_ARVR_STABILIZED_RV;
-    long reportIntervalUs = BNO_REPORT_INTERVAL;
   private:
     void quaternionToEuler(float qr, float qi, float qj, float qk, euler_t* ypr, bool degrees = false);
     void quaternionToEulerRV(sh2_RotationVectorWAcc_t* rotational_vector, euler_t* ypr, bool degrees = false);
     void quaternionToEulerGI(sh2_GyroIntegratedRV_t* rotational_vector, euler_t* ypr, bool degrees = false);
+    sh2_SensorValue_t sensorValue;
+    sh2_SensorId_t reportType = SH2_ARVR_STABILIZED_RV;
+    long reportIntervalUs = BNO_REPORT_INTERVAL;
 };
 
 class ReciverData {
@@ -120,10 +121,11 @@ class Reciver {
     void recive();
     void transmit(float roll, float pitch, float yaw, FlightMode flightMode);
     RF24 radio = RF24(RADIO_CE_PIN, RADIO_CSN_PIN);
-    const uint64_t pAddress = 0xB00B1E5000LL;
-    const uint64_t fAddress = 0xC3C3C3C3C3LL;
     ReciverData reciverData;
     FeedbackData feedbackData;
+  private:
+    const uint64_t pAddress = 0xB00B1E5000LL;
+    const uint64_t fAddress = 0xC3C3C3C3C3LL;
 };
 
 class Drone {
@@ -141,16 +143,16 @@ class Drone {
     void reciverRecive();
     void resetPID();
     void regulateThrottlePID();
-    bool launchMode = true;
-    bool setZeroBool = true;
-    Servo motorLF;
-    Servo motorRF;
-    Servo motorLB;
-    Servo motorRB;
   private:
     Reciver reciver;
     Gyro gyro;
     PID pid;
+    Servo motorLF;
+    Servo motorRF;
+    Servo motorLB;
+    Servo motorRB;
+    bool launchMode = true;
+    bool setZeroBool = true;
 };
 
 #endif
