@@ -135,6 +135,13 @@ void Drone::setup() {
   setupMotors();
   
   Serial.println("Drone started!");
+
+  // Fake reciver response for testing
+  //reciver.reciverData.flightMode = 1;
+  //reciver.reciverData.inputThrottle = 1200;
+  //reciver.reciverData.yawDesiredAngle = 0;
+  //reciver.reciverData.pitchDesiredAngle = 0;
+  //reciver.reciverData.rollDesiredAngle = 0;
 }
 
 void Drone::setupMotors() {
@@ -218,6 +225,16 @@ void Drone::regulateThrottlePID() {
   pid.regulateThrottle();
 }
 
+void Drone::printThrottle() {
+  Serial.print(pid.pid_throttle_L_F);
+  Serial.print("    ");
+  Serial.println(pid.pid_throttle_R_F);
+  Serial.print(pid.pid_throttle_L_B);
+  Serial.print("    ");
+  Serial.println(pid.pid_throttle_R_B);
+  Serial.println("-----------------------------------------");
+}
+
 void PID::regulateThrottle() {
   pid_throttle_R_F = constrain(pid_throttle_R_F, 1100, 2000);
   pid_throttle_L_F = constrain(pid_throttle_L_F, 1100, 2000);
@@ -281,10 +298,10 @@ void PID::calculate(float throttle, bool launchMode, float x, float y, float z) 
         constrainPID(pitch_PID);
         constrainYawPID(yaw_PID);
 
-        pid_throttle_L_F = throttle + roll_PID + pitch_PID - yaw_PID;
-        pid_throttle_R_F = throttle - roll_PID + pitch_PID + yaw_PID;
-        pid_throttle_L_B = throttle + roll_PID - pitch_PID + yaw_PID;
-        pid_throttle_R_B = throttle - roll_PID - pitch_PID - yaw_PID;
+        pid_throttle_L_F = throttle + roll_PID - pitch_PID - yaw_PID;
+        pid_throttle_R_F = throttle - roll_PID - pitch_PID + yaw_PID;
+        pid_throttle_L_B = throttle + roll_PID + pitch_PID + yaw_PID;
+        pid_throttle_R_B = throttle - roll_PID + pitch_PID - yaw_PID;
 
         regulateThrottle();
     }

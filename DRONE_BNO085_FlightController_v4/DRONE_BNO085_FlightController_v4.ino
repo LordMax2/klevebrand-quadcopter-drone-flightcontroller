@@ -28,8 +28,6 @@ void loop() {
     drone.stopMotors();
 
     Serial.println("LOST CONNECTION");
-    
-    delay(100);
   } else {
     // If connection is good, check if we should set the PID zero offset
     drone.setZero();
@@ -39,6 +37,9 @@ void loop() {
 
     // regulate the result of the PID calculation to not go over accepted limits of the ESCs
     drone.regulateThrottlePID();
+
+    // To debug throttle response
+    //drone.printThrottle();
 
     // Run the motors with the calculated PID throttle
     drone.runMotors();

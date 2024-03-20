@@ -10,13 +10,13 @@
 #include <Adafruit_BNO08x.h>
 
 #define BNO_RESET_PIN -1
-#define BNO_REPORT_INTERVAL 5000
+#define BNO_REPORT_INTERVAL 2000
 
 #define RADIO_CE_PIN   9
 #define RADIO_CSN_PIN 10
 
 #define PID_THROTTLE_THRESHOLD 1050
-#define PID_UPDATE_INTERVAL 1050
+#define PID_UPDATE_INTERVAL 10
 
 enum FlightMode {
   acro = 1,
@@ -143,6 +143,7 @@ class Drone {
     void reciverRecive();
     void resetPID();
     void regulateThrottlePID();
+    void printThrottle();
   private:
     Reciver reciver;
     Gyro gyro;
