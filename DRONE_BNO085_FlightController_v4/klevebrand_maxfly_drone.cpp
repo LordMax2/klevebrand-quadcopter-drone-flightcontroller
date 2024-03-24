@@ -236,10 +236,10 @@ void Drone::printThrottle() {
 }
 
 void PID::regulateThrottle() {
-  pid_throttle_R_F = constrain(pid_throttle_R_F, 1100, 2000);
-  pid_throttle_L_F = constrain(pid_throttle_L_F, 1100, 2000);
-  pid_throttle_R_B = constrain(pid_throttle_R_B, 1100, 2000);
-  pid_throttle_L_B = constrain(pid_throttle_L_B, 1100, 2000);
+  pid_throttle_R_F = constrain(pid_throttle_R_F, 1000, 2000);
+  pid_throttle_L_F = constrain(pid_throttle_L_F, 1000, 2000);
+  pid_throttle_R_B = constrain(pid_throttle_R_B, 1000, 2000);
+  pid_throttle_L_B = constrain(pid_throttle_L_B, 1000, 2000);
 }
 
 

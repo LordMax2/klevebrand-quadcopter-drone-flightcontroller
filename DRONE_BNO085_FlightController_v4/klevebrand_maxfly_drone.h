@@ -52,7 +52,7 @@ class PID {
     /* Roll PID Constants */
     double roll_kp = 1;
     double roll_ki = 0.01;
-    double roll_kd = 40;
+    double roll_kd = 10;
     float roll_desired_angle = 0;
 
     /* Pitch PID */
