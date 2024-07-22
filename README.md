@@ -1,4 +1,4 @@
-# Drone
+# Drone Flight Controller
 This repository contains the code and resources for an open-source drone flight controller project built with C++ and optimized for AVR processors such as the ATmega2560. It utilizes the onboard IMU (Gyroscope) BNO085 and an NRF24L01 radio for communication.
 
 # Overview
