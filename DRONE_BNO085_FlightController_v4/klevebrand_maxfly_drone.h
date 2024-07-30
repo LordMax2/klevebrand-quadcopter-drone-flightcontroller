@@ -1,5 +1,5 @@
-#ifndef TREST_DRONE_H
-#define TREST_DRONE_H
+#ifndef KLEVEBRAND_MAXFLY_DRONE_H
+#define KLEVEBRAND_MAXFLY_DRONE_H
 
 #include <Arduino.h>
 #include <Adafruit_Sensor.h>
