@@ -10,7 +10,7 @@ The aim of this project is to create a simple yet effective flight controller fo
 * BNO085 Sensor Integration: Accurate orientation and motion tracking.
 * NRF24L01 Radio: Reliable communication module.
 # Vision
-My vision is to create simple solutions because things don’t need to be harder than they need to be.
+My vision is to create simple solutions, things don’t need to be harder than they need to be.
 
 # License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
