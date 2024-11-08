@@ -24,13 +24,13 @@
 #define THROTTLE_MINIMUM 1000
 #define THROTTLE_MAXIMUM 2000
 
-enum FlightMode {
+enum FlightMode_t {
   acro = 1,
   autoLevel = 2,
   holdPosition = 3
 };
 
-struct euler_t {
+struct YawPitchRoll_t {
   float yaw;
   float pitch;
   float roll;
@@ -38,7 +38,7 @@ struct euler_t {
 
 class PID {
   public:
-    void calculate(float throttle, bool launchMode, float x, float y, float z);
+    void calculate(float throttle, bool launchMode, float gyroRoll, float gyroPitch, float gyroYaw);
     void reset();
     long previousTimer;
     [[nodiscard]] float pid_throttle_L_F(float throttle) const {
@@ -118,12 +118,12 @@ class Gyro {
     void setup();
     void setReports();
     void update();
-    euler_t ypr;
+    YawPitchRoll_t yawPitchRoll;
     Adafruit_BNO08x bno08x = Adafruit_BNO08x(BNO_RESET_PIN);
   private:
-    void quaternionToEuler(float qr, float qi, float qj, float qk, euler_t* ypr, bool degrees = false);
-    void quaternionToEulerRV(sh2_RotationVectorWAcc_t* rotational_vector, euler_t* ypr, bool degrees = false);
-    void quaternionToEulerGI(sh2_GyroIntegratedRV_t* rotational_vector, euler_t* ypr, bool degrees = false);
+    void quaternionToEuler(float qr, float qi, float qj, float qk, YawPitchRoll_t* ypr, bool degrees = false);
+    void quaternionToEulerRV(sh2_RotationVectorWAcc_t* rotational_vector, YawPitchRoll_t* ypr, bool degrees = false);
+    void quaternionToEulerGI(sh2_GyroIntegratedRV_t* rotational_vector, YawPitchRoll_t* ypr, bool degrees = false);
     sh2_SensorValue_t sensorValue;
     sh2_SensorId_t reportType = SH2_ARVR_STABILIZED_RV;
     long reportIntervalUs = BNO_REPORT_INTERVAL;
@@ -135,7 +135,7 @@ class ReciverData {
     int yawDesiredAngle;
     int rollDesiredAngle;
     int pitchDesiredAngle;
-    FlightMode flightMode;
+    FlightMode_t flightMode;
     float lastRecivedMessageMillis = millis();
 };
 
@@ -144,14 +144,14 @@ class FeedbackData {
     float yaw;
     float pitch;
     float roll;
-    FlightMode flightMode;
+    FlightMode_t flightMode;
 };
 
 class Reciver {
   public:
     void setup();
     void recive();
-    void transmit(float roll, float pitch, float yaw, FlightMode flightMode);
+    void transmit(float roll, float pitch, float yaw, FlightMode_t flightMode);
     RF24 radio = RF24(RADIO_CE_PIN, RADIO_CSN_PIN);
     ReciverData reciverData;
     FeedbackData feedbackData;
@@ -163,31 +163,31 @@ class Reciver {
 class Drone {
   public:
     void setup();
-    void setupMotors();
-    void constrainReciverInputs();
-    void setZero();
+    void setPitchAndRollGyroOffsetAndDefineCurrentAngleAsZero();
     void runMotors();
     void stopMotors();
-    void calculatePID();
-    bool lostConnection();
     void updateGyro();
-    euler_t getGyroYpr();
     void reciverRecive();
-    void resetPID();
     void printThrottle();
+    void resetPID();
+    bool lostConnection();
+    void calculatePID();
   private:
     Reciver reciver;
     Gyro gyro;
     PID pid;
-    Servo motorLF;
-    Servo motorRF;
-    Servo motorLB;
-    Servo motorRB;
+    Servo motorLeftFront;
+    Servo motorRightFront;
+    Servo motorLeftBack;
+    Servo motorRightBack;
     bool launchMode = true;
     bool setZeroBool = true;
     [[nodiscard]] float getInputThrottle() const {
       return reciver.reciverData.inputThrottle;
     }
+    void constrainReciverInputs();
+    void setupMotors();
+    YawPitchRoll_t getGyroYawPitchRoll();
 };
 
 #endif

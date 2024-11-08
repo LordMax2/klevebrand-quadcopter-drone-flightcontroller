@@ -45,7 +45,7 @@ void Reciver::recive() {
   }
 }
 
-void Reciver::transmit(float roll, float pitch, float yaw, FlightMode flightMode) {  
+void Reciver::transmit(float roll, float pitch, float yaw, FlightMode_t flightMode) {  
   float feedbackArray[5];
 
   feedbackArray[0] = roll;
@@ -64,20 +64,20 @@ void Reciver::transmit(float roll, float pitch, float yaw, FlightMode flightMode
   }
 
   radio.stopListening();
-  radio.write( &feedbackArray, sizeof(feedbackArray));
+  radio.write(&feedbackArray, sizeof(feedbackArray));
   radio.startListening();
 }
 
 void Gyro::setReports() {
   if (!bno08x.enableReport(reportType, reportIntervalUs)) {
-    Serial.println("Could not enable stabilized remote vector");
+    Serial.println("Could not enable stabilized remote vector...");
   }
 }
 
 void Gyro::setup() {
   Serial.println("Setting up gyroscope");
   if (!bno08x.begin_I2C()) {
-    Serial.println("Failed to find BNO08x chip");
+    Serial.println("Failed to connect to BNO085...");
     while (1) { delay(10); }
   }
 
@@ -93,37 +93,37 @@ void Gyro::update() {
     // in this demo only one report type will be received depending on FAST_MODE define (above)
     switch (sensorValue.sensorId) {
       case SH2_ARVR_STABILIZED_RV:
-        quaternionToEulerRV(&sensorValue.un.arvrStabilizedRV, &ypr, true);
+        quaternionToEulerRV(&sensorValue.un.arvrStabilizedRV, &yawPitchRoll, true);
         break;
       case SH2_GYRO_INTEGRATED_RV:
-        quaternionToEulerGI(&sensorValue.un.gyroIntegratedRV, &ypr, true);
+        quaternionToEulerGI(&sensorValue.un.gyroIntegratedRV, &yawPitchRoll, true);
         break;
     }
   }
 }
 
-void Gyro::quaternionToEulerRV(sh2_RotationVectorWAcc_t* rotational_vector, euler_t* ypr, bool degrees = false) {
-    quaternionToEuler(rotational_vector->real, rotational_vector->i, rotational_vector->j, rotational_vector->k, ypr, degrees);
+void Gyro::quaternionToEulerRV(sh2_RotationVectorWAcc_t* rotational_vector, YawPitchRoll_t* yawPitchRoll, bool degrees = false) {
+    quaternionToEuler(rotational_vector->real, rotational_vector->i, rotational_vector->j, rotational_vector->k, yawPitchRoll, degrees);
 }
 
-void Gyro::quaternionToEulerGI(sh2_GyroIntegratedRV_t* rotational_vector, euler_t* ypr, bool degrees = false) {
-    quaternionToEuler(rotational_vector->real, rotational_vector->i, rotational_vector->j, rotational_vector->k, ypr, degrees);
+void Gyro::quaternionToEulerGI(sh2_GyroIntegratedRV_t* rotational_vector, YawPitchRoll_t* yawPitchRoll, bool degrees = false) {
+    quaternionToEuler(rotational_vector->real, rotational_vector->i, rotational_vector->j, rotational_vector->k, yawPitchRoll, degrees);
 }
 
-void Gyro::quaternionToEuler(float qr, float qi, float qj, float qk, euler_t* ypr, bool degrees = false) {
+void Gyro::quaternionToEuler(float qr, float qi, float qj, float qk, YawPitchRoll_t* yawPitchRoll, bool degrees = false) {
     float sqr = sq(qr);
     float sqi = sq(qi);
     float sqj = sq(qj);
     float sqk = sq(qk);
 
-    ypr->yaw = atan2(2.0 * (qi * qj + qk * qr), (sqi - sqj - sqk + sqr));
-    ypr->pitch = asin(-2.0 * (qi * qk - qj * qr) / (sqi + sqj + sqk + sqr));
-    ypr->roll = atan2(2.0 * (qj * qk + qi * qr), (-sqi - sqj + sqk + sqr));
+    yawPitchRoll->yaw = atan2(2.0 * (qi * qj + qk * qr), (sqi - sqj - sqk + sqr));
+    yawPitchRoll->pitch = asin(-2.0 * (qi * qk - qj * qr) / (sqi + sqj + sqk + sqr));
+    yawPitchRoll->roll = atan2(2.0 * (qj * qk + qi * qr), (-sqi - sqj + sqk + sqr));
 
     if (degrees) {
-      ypr->yaw *= RAD_TO_DEG;
-      ypr->pitch *= RAD_TO_DEG;
-      ypr->roll *= RAD_TO_DEG;
+      yawPitchRoll->yaw *= RAD_TO_DEG;
+      yawPitchRoll->pitch *= RAD_TO_DEG;
+      yawPitchRoll->roll *= RAD_TO_DEG;
     }
 }
 
@@ -152,15 +152,15 @@ void Drone::setupMotors() {
   pinMode(7, OUTPUT);
   pinMode(8, OUTPUT);
 
-  motorLF.attach(5);
-  motorRF.attach(6);
-  motorLB.attach(7);
-  motorRB.attach(8);
+  motorLeftFront.attach(5);
+  motorRightFront.attach(6);
+  motorLeftBack.attach(7);
+  motorRightBack.attach(8);
 
-  motorLF.writeMicroseconds(THROTTLE_MINIMUM);
-  motorRF.writeMicroseconds(THROTTLE_MINIMUM);
-  motorLB.writeMicroseconds(THROTTLE_MINIMUM);
-  motorRB.writeMicroseconds(THROTTLE_MINIMUM);
+  motorLeftFront.writeMicroseconds(THROTTLE_MINIMUM);
+  motorRightFront.writeMicroseconds(THROTTLE_MINIMUM);
+  motorLeftBack.writeMicroseconds(THROTTLE_MINIMUM);
+  motorRightBack.writeMicroseconds(THROTTLE_MINIMUM);
   
   Serial.println("Motors setup!");
 }
@@ -169,36 +169,36 @@ void Drone::constrainReciverInputs() {
   // Constrain yawDesiredAngle within the range [0, 360]
   reciver.reciverData.yawDesiredAngle = constrain(reciver.reciverData.yawDesiredAngle, 0, 360);
 
-  // Constrain inputThrottle within the range [1000, 1600]
+  // Constrain inputThrottle within the range [1000, 2000]
   reciver.reciverData.inputThrottle = constrain(reciver.reciverData.inputThrottle, THROTTLE_MINIMUM, THROTTLE_MINIMUM);
 
   if (millis() >= 15000) launchMode = false;
 }
 
-void Drone::setZero() {
+void Drone::setPitchAndRollGyroOffsetAndDefineCurrentAngleAsZero() {
   if(setZeroBool) {
-    pid.pitchOffset = Drone::gyro.ypr.pitch;
-    pid.rollOffset = Drone::gyro.ypr.roll;
+    pid.pitchOffset = Drone::gyro.yawPitchRoll.pitch;
+    pid.rollOffset = Drone::gyro.yawPitchRoll.roll;
     setZeroBool = false;
   }
 }
 
 void Drone::stopMotors() {
-    motorLF.writeMicroseconds(1000);
-    motorRF.writeMicroseconds(1000);
-    motorLB.writeMicroseconds(1000);
-    motorRB.writeMicroseconds(1000);
+    motorLeftFront.writeMicroseconds(THROTTLE_MINIMUM);
+    motorRightFront.writeMicroseconds(THROTTLE_MINIMUM);
+    motorLeftBack.writeMicroseconds(THROTTLE_MINIMUM);
+    motorRightBack.writeMicroseconds(THROTTLE_MINIMUM);
 }
 
 void Drone::runMotors() {
-    motorLF.writeMicroseconds(pid.pid_throttle_L_F(getInputThrottle()));
-    motorRF.writeMicroseconds(pid.pid_throttle_R_F(getInputThrottle()));
-    motorLB.writeMicroseconds(pid.pid_throttle_L_B(getInputThrottle()));
-    motorRB.writeMicroseconds(pid.pid_throttle_R_B(getInputThrottle()));
+    motorLeftFront.writeMicroseconds(pid.pid_throttle_L_F(getInputThrottle()));
+    motorRightFront.writeMicroseconds(pid.pid_throttle_R_F(getInputThrottle()));
+    motorLeftBack.writeMicroseconds(pid.pid_throttle_L_B(getInputThrottle()));
+    motorRightBack.writeMicroseconds(pid.pid_throttle_R_B(getInputThrottle()));
 }
 
 void Drone::calculatePID() {
-  pid.calculate(getThrottle(), launchMode, gyro.ypr.roll, gyro.ypr.pitch, gyro.ypr.yaw);
+  pid.calculate(getInputThrottle(), launchMode, gyro.yawPitchRoll.roll, gyro.yawPitchRoll.pitch, gyro.yawPitchRoll.yaw);
 }
 
 bool Drone::lostConnection() {
@@ -209,8 +209,8 @@ void Drone::updateGyro() {
   gyro.update();
 }
 
-euler_t Drone::getGyroYpr() {
-  return gyro.ypr;
+YawPitchRoll_t Drone::getGyroYawPitchRoll() {
+  return gyro.yawPitchRoll;
 }
 
 void Drone::reciverRecive() {
@@ -231,23 +231,21 @@ void Drone::printThrottle() {
   Serial.println("-----------------------------------------");
 }
 
-
-
 void PID::reset() {
   roll_error = 0, pitch_error = 0, yaw_error = 0;
   roll_previous_error = 0, pitch_previous_error = 0, yaw_previous_error = 0;
   yaw_pid_i = 0, roll_pid_i = 0, pitch_pid_i = 0;
 }
 
-void PID::calculate(float throttle, bool launchMode, float x, float y, float z) {
+void PID::calculate(float throttle, bool launchMode, float gyroRoll, float gyroPitch, float gyroYaw) {
     if (throttle <= PID_THROTTLE_THRESHOLD) {
         reset();
         return;
     }
 
-    roll_error = roll_desired_angle - x;
-    pitch_error = pitch_desired_angle - y;
-    yaw_error = yaw_desired_angle - z;
+    roll_error = roll_desired_angle - gyroRoll;
+    pitch_error = pitch_desired_angle - gyroPitch;
+    yaw_error = yaw_desired_angle - gyroYaw;
 
     unsigned long currentTimer = millis();
     if (currentTimer - previousTimer >= PID_UPDATE_INTERVAL) {

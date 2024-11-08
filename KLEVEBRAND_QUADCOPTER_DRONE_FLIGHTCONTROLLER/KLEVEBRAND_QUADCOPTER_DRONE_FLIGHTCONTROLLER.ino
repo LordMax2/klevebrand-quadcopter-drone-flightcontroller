@@ -30,7 +30,7 @@ void loop() {
     Serial.println("LOST CONNECTION");
   } else {
     // If connection is good, check if we should set the PID zero offset
-    drone.setZero();
+    drone.setPitchAndRollGyroOffsetAndDefineCurrentAngleAsZero();
 
     // Then calculate the PID stabilization
     drone.calculatePID();
