@@ -164,7 +164,7 @@ class Drone {
   public:
     void setup();
     void setupMotors();
-    void regulateInputsPID();
+    void constrainReciverInputs();
     void setZero();
     void runMotors();
     void stopMotors();
@@ -185,7 +185,7 @@ class Drone {
     Servo motorRB;
     bool launchMode = true;
     bool setZeroBool = true;
-    [[nodiscard]] float getThrottle() const {
+    [[nodiscard]] float getInputThrottle() const {
       return reciver.reciverData.inputThrottle;
     }
 };

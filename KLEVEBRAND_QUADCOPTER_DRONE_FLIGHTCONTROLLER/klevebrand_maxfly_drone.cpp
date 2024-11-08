@@ -157,20 +157,20 @@ void Drone::setupMotors() {
   motorLB.attach(7);
   motorRB.attach(8);
 
-  motorLF.writeMicroseconds(1000);
-  motorRF.writeMicroseconds(1000);
-  motorLB.writeMicroseconds(1000);
-  motorRB.writeMicroseconds(1000);
+  motorLF.writeMicroseconds(THROTTLE_MINIMUM);
+  motorRF.writeMicroseconds(THROTTLE_MINIMUM);
+  motorLB.writeMicroseconds(THROTTLE_MINIMUM);
+  motorRB.writeMicroseconds(THROTTLE_MINIMUM);
   
   Serial.println("Motors setup!");
 }
 
-void Drone::regulateInputsPID() {
+void Drone::constrainReciverInputs() {
   // Constrain yawDesiredAngle within the range [0, 360]
   reciver.reciverData.yawDesiredAngle = constrain(reciver.reciverData.yawDesiredAngle, 0, 360);
 
   // Constrain inputThrottle within the range [1000, 1600]
-  reciver.reciverData.inputThrottle = constrain(reciver.reciverData.inputThrottle, 1000, 1600);
+  reciver.reciverData.inputThrottle = constrain(reciver.reciverData.inputThrottle, THROTTLE_MINIMUM, THROTTLE_MINIMUM);
 
   if (millis() >= 15000) launchMode = false;
 }
@@ -191,10 +191,10 @@ void Drone::stopMotors() {
 }
 
 void Drone::runMotors() {
-    motorLF.writeMicroseconds(pid.pid_throttle_L_F(getThrottle()));
-    motorRF.writeMicroseconds(pid.pid_throttle_R_F(getThrottle()));
-    motorLB.writeMicroseconds(pid.pid_throttle_L_B(getThrottle()));
-    motorRB.writeMicroseconds(pid.pid_throttle_R_B(getThrottle()));
+    motorLF.writeMicroseconds(pid.pid_throttle_L_F(getInputThrottle()));
+    motorRF.writeMicroseconds(pid.pid_throttle_R_F(getInputThrottle()));
+    motorLB.writeMicroseconds(pid.pid_throttle_L_B(getInputThrottle()));
+    motorRB.writeMicroseconds(pid.pid_throttle_R_B(getInputThrottle()));
 }
 
 void Drone::calculatePID() {
@@ -222,14 +222,15 @@ void Drone::resetPID() {
 }
 
 void Drone::printThrottle() {
-  Serial.print(pid.pid_throttle_L_F(getThrottle()));
+  Serial.print(pid.pid_throttle_L_F(getInputThrottle()));
   Serial.print("    ");
-  Serial.println(pid.pid_throttle_R_F(getThrottle()));
-  Serial.print(pid.pid_throttle_L_B(getThrottle()));
+  Serial.println(pid.pid_throttle_R_F(getInputThrottle()));
+  Serial.print(pid.pid_throttle_L_B(getInputThrottle()));
   Serial.print("    ");
-  Serial.println(pid.pid_throttle_R_B(getThrottle()));
+  Serial.println(pid.pid_throttle_R_B(getInputThrottle()));
   Serial.println("-----------------------------------------");
 }
+
 
 
 void PID::reset() {
