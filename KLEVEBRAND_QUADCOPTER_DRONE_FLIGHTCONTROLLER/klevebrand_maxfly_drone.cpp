@@ -191,18 +191,18 @@ void Drone::stopMotors() {
 }
 
 void Drone::runMotors() {
-    motorLF.writeMicroseconds(pid.pid_throttle_L_F);
-    motorRF.writeMicroseconds(pid.pid_throttle_R_F);
-    motorLB.writeMicroseconds(pid.pid_throttle_L_B);
-    motorRB.writeMicroseconds(pid.pid_throttle_R_B);
+    motorLF.writeMicroseconds(pid.pid_throttle_L_F(getThrottle()));
+    motorRF.writeMicroseconds(pid.pid_throttle_R_F(getThrottle()));
+    motorLB.writeMicroseconds(pid.pid_throttle_L_B(getThrottle()));
+    motorRB.writeMicroseconds(pid.pid_throttle_R_B(getThrottle()));
 }
 
 void Drone::calculatePID() {
-  pid.calculate(Drone::reciver.reciverData.inputThrottle, launchMode, gyro.ypr.roll, gyro.ypr.pitch, gyro.ypr.yaw);
+  pid.calculate(getThrottle(), launchMode, gyro.ypr.roll, gyro.ypr.pitch, gyro.ypr.yaw);
 }
 
 bool Drone::lostConnection() {
-  return millis() - reciver.reciverData.lastRecivedMessageMillis >= 400;
+  return millis() - reciver.reciverData.lastRecivedMessageMillis >= RADIO_TIMEOUT_DEFINITION_MILLISECONDS;
 }
 
 void Drone::updateGyro() {
@@ -221,41 +221,21 @@ void Drone::resetPID() {
   pid.reset();
 }
 
-void Drone::regulateThrottlePID() {
-  pid.regulateThrottle();
-}
-
 void Drone::printThrottle() {
-  Serial.print(pid.pid_throttle_L_F);
+  Serial.print(pid.pid_throttle_L_F(getThrottle()));
   Serial.print("    ");
-  Serial.println(pid.pid_throttle_R_F);
-  Serial.print(pid.pid_throttle_L_B);
+  Serial.println(pid.pid_throttle_R_F(getThrottle()));
+  Serial.print(pid.pid_throttle_L_B(getThrottle()));
   Serial.print("    ");
-  Serial.println(pid.pid_throttle_R_B);
+  Serial.println(pid.pid_throttle_R_B(getThrottle()));
   Serial.println("-----------------------------------------");
-}
-
-void PID::regulateThrottle() {
-  pid_throttle_R_F = constrain(pid_throttle_R_F, 1000, 2000);
-  pid_throttle_L_F = constrain(pid_throttle_L_F, 1000, 2000);
-  pid_throttle_R_B = constrain(pid_throttle_R_B, 1000, 2000);
-  pid_throttle_L_B = constrain(pid_throttle_L_B, 1000, 2000);
 }
 
 
 void PID::reset() {
-  pid_throttle_L_F = 1000;
-  pid_throttle_L_B = 1000;
-  pid_throttle_R_F = 1000;
-  pid_throttle_R_B = 1000;
-
-  pitch_PID = 0, roll_PID = 0, yaw_PID = 0;
   roll_error = 0, pitch_error = 0, yaw_error = 0;
   roll_previous_error = 0, pitch_previous_error = 0, yaw_previous_error = 0;
-
-  yaw_pid_p = 0, roll_pid_p = 0, pitch_pid_p = 0;
   yaw_pid_i = 0, roll_pid_i = 0, pitch_pid_i = 0;
-  yaw_pid_d = 0, roll_pid_d = 0, pitch_pid_d = 0;
 }
 
 void PID::calculate(float throttle, bool launchMode, float x, float y, float z) {
@@ -268,10 +248,6 @@ void PID::calculate(float throttle, bool launchMode, float x, float y, float z) 
     pitch_error = pitch_desired_angle - y;
     yaw_error = yaw_desired_angle - z;
 
-    roll_pid_p = roll_kp * roll_error;
-    pitch_pid_p = pitch_kp * pitch_error;
-    yaw_pid_p = yaw_kp * yaw_error;
-
     unsigned long currentTimer = millis();
     if (currentTimer - previousTimer >= PID_UPDATE_INTERVAL) {
         previousTimer = currentTimer;
@@ -282,39 +258,16 @@ void PID::calculate(float throttle, bool launchMode, float x, float y, float z) 
             updateIntegral();
         }
 
-        roll_pid_d = roll_kd * (roll_error - roll_previous_error);
-        pitch_pid_d = pitch_kd * (pitch_error - pitch_previous_error);
-        yaw_pid_d = yaw_kd * (yaw_error - yaw_previous_error);
-
         roll_previous_error = roll_error;
         pitch_previous_error = pitch_error;
         yaw_previous_error = yaw_error;
-
-        roll_PID = roll_pid_p + roll_pid_i + roll_pid_d;
-        pitch_PID = pitch_pid_p + pitch_pid_i + pitch_pid_d;
-        yaw_PID = yaw_pid_p + yaw_pid_i + yaw_pid_d;
-
-        constrainPID(roll_PID);
-        constrainPID(pitch_PID);
-        constrainYawPID(yaw_PID);
-
-        pid_throttle_L_F = throttle + roll_PID - pitch_PID - yaw_PID;
-        pid_throttle_R_F = throttle - roll_PID - pitch_PID + yaw_PID;
-        pid_throttle_L_B = throttle + roll_PID + pitch_PID + yaw_PID;
-        pid_throttle_R_B = throttle - roll_PID + pitch_PID - yaw_PID;
-
-        regulateThrottle();
     }
 }
 
 void PID::updateIntegral() {
-    roll_pid_i += roll_ki * roll_error;
-    pitch_pid_i += pitch_ki * pitch_error;
-    yaw_pid_i += yaw_ki * yaw_error;
-
-    roll_pid_i = constrain(roll_pid_i, -pid_max, pid_max);
-    pitch_pid_i = constrain(pitch_pid_i, -pid_max, pid_max);
-    yaw_pid_i = constrain(yaw_pid_i, -yaw_pid_max, yaw_pid_max);
+    roll_pid_i += constrain(roll_ki * roll_error, -PID_MAX, PID_MAX);
+    pitch_pid_i += constrain(pitch_ki * pitch_error, -PID_MAX, PID_MAX);
+    yaw_pid_i += constrain(yaw_ki * yaw_error, -PID_MAX, PID_MAX);
 }
 
 void PID::resetIntegral() {
@@ -322,20 +275,3 @@ void PID::resetIntegral() {
     pitch_pid_i = 0;
     yaw_pid_i = 0;
 }
-
-void PID::constrainPID(float &pid_value) {
-    if (pid_value > pid_max) {
-        pid_value = pid_max;
-    } else if (pid_value < -pid_max) {
-        pid_value = -pid_max;
-    }
-}
-
-void PID::constrainYawPID(float &yaw_PID) {
-    if (yaw_PID > yaw_pid_max) {
-        yaw_PID = yaw_pid_max;
-    } else if (yaw_PID < -yaw_pid_max) {
-        yaw_PID = -yaw_pid_max;
-    }
-}
-

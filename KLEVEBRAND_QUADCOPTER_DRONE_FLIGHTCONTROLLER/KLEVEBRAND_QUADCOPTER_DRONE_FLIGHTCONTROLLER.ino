@@ -35,9 +35,6 @@ void loop() {
     // Then calculate the PID stabilization
     drone.calculatePID();
 
-    // regulate the result of the PID calculation to not go over accepted limits of the ESCs
-    drone.regulateThrottlePID();
-
     // To debug throttle response
     //drone.printThrottle();
 
