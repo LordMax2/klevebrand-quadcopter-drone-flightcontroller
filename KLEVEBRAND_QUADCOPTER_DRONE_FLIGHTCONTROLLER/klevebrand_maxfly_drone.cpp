@@ -16,7 +16,7 @@ void Reciver::setup() {
   //radio.printDetails();
   radio.startListening();
 
-  delay(5000);
+  delay(RADIO_STARTUP_DELAY);
   Serial.println("Radio is set up!");
 }
 

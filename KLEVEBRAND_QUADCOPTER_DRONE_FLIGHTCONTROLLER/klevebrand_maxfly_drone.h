@@ -17,6 +17,8 @@
 
 #define RADIO_TIMEOUT_DEFINITION_MILLISECONDS 400
 
+#define RADIO_STARTUP_DELAY 5000
+
 #define PID_THROTTLE_THRESHOLD 1050
 #define PID_UPDATE_INTERVAL 10
 #define PID_MAX 400
@@ -41,16 +43,16 @@ class PID {
     void calculate(float throttle, bool launchMode, float gyroRoll, float gyroPitch, float gyroYaw);
     void reset();
     long previousTimer;
-    [[nodiscard]] float pid_throttle_L_F(float throttle) const {
+    float pid_throttle_L_F(float throttle) const {
       return constrain(throttle + roll_PID() - pitch_PID() - yaw_PID(), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
-    [[nodiscard]] float pid_throttle_L_B(float throttle) const {
+    float pid_throttle_L_B(float throttle) const {
       return constrain(throttle + roll_PID() + pitch_PID() + yaw_PID(), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
-    [[nodiscard]] float pid_throttle_R_F(float throttle) const {
+    float pid_throttle_R_F(float throttle) const {
       return constrain(throttle - roll_PID() - pitch_PID() + yaw_PID(), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
-    [[nodiscard]] float pid_throttle_R_B(float throttle) const {
+    float pid_throttle_R_B(float throttle) const {
       return constrain(throttle - roll_PID() + pitch_PID() - yaw_PID(), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
     float pitchOffset = 0, rollOffset = 0;
@@ -59,15 +61,15 @@ class PID {
     void resetIntegral();
     
     /* Roll PID */
-    [[nodiscard]] float roll_PID() const {
+    float roll_PID() const {
       return constrain(roll_pid_p() + roll_pid_i + roll_pid_d(), -PID_MAX, PID_MAX);
     }
     float roll_error, roll_previous_error;
-    [[nodiscard]] float roll_pid_p() const {
+    float roll_pid_p() const {
       return roll_kp * roll_error;
     }
     float roll_pid_i = 0;
-    [[nodiscard]] float roll_pid_d() const {
+    float roll_pid_d() const {
       return roll_kd * (roll_error - roll_previous_error);
     }
     /* Roll PID Constants */
@@ -77,15 +79,15 @@ class PID {
     float roll_desired_angle = 0;
 
     /* Pitch PID */
-    [[nodiscard]] float pitch_PID() const {
+    float pitch_PID() const {
       return constrain(pitch_pid_p() + pitch_pid_i + pitch_pid_d(), -PID_MAX, PID_MAX);
     }
     float pitch_error, pitch_previous_error;
-    [[nodiscard]] float pitch_pid_p() const {
+    float pitch_pid_p() const {
       return pitch_kp * pitch_error;
     }
     float pitch_pid_i = 0;
-    [[nodiscard]] float pitch_pid_d() const {
+    float pitch_pid_d() const {
       return pitch_kd * (pitch_error - pitch_previous_error);
     }
     /* Pitch PID Constants */
@@ -95,15 +97,15 @@ class PID {
     float pitch_desired_angle = 0;
 
     /* Yaw PID */
-    [[nodiscard]] float yaw_PID() const {
+    float yaw_PID() const {
       return constrain(yaw_pid_p() + yaw_pid_i + yaw_pid_d(), -PID_MAX, PID_MAX);
     }
     float yaw_error, yaw_previous_error;
-    [[nodiscard]] float yaw_pid_p() const {
+    float yaw_pid_p() const {
       return yaw_kp * yaw_error;
     }
     float yaw_pid_i = 0;
-    [[nodiscard]] float yaw_pid_d() const {
+    float yaw_pid_d() const {
       return yaw_kd * (yaw_error - yaw_previous_error);
     }
     /* Pitch PID Constants */
@@ -182,7 +184,7 @@ class Drone {
     Servo motorRightBack;
     bool launchMode = true;
     bool setZeroBool = true;
-    [[nodiscard]] float getInputThrottle() const {
+    float getInputThrottle() const {
       return reciver.reciverData.inputThrottle;
     }
     void constrainReciverInputs();
