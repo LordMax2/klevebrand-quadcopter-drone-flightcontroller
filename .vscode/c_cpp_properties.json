@@ -1,17 +1,69 @@
+//
+// !!! WARNING !!! AUTO-GENERATED FILE!
+// PLEASE DO NOT MODIFY IT AND USE "platformio.ini":
+// https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags
+//
 {
     "configurations": [
         {
-            "name": "Win32",
+            "name": "PlatformIO",
             "includePath": [
-                "${workspaceFolder}/**"
+                "C:/Users/maxkl/source/repos/klevebrand-quadcopter-drone-flightcontroller/include",
+                "C:/Users/maxkl/source/repos/klevebrand-quadcopter-drone-flightcontroller/src",
+                "C:/Users/maxkl/.platformio/packages/framework-arduino-avr-megacore/libraries/Servo/src",
+                "C:/Users/maxkl/source/repos/klevebrand-quadcopter-drone-flightcontroller/.pio/libdeps/ATmega2560/Adafruit BNO08x/src",
+                "C:/Users/maxkl/source/repos/klevebrand-quadcopter-drone-flightcontroller/.pio/libdeps/ATmega2560/Adafruit BusIO",
+                "C:/Users/maxkl/.platformio/packages/framework-arduino-avr-megacore/libraries/SPI/src",
+                "C:/Users/maxkl/.platformio/packages/framework-arduino-avr-megacore/libraries/Wire/src",
+                "C:/Users/maxkl/source/repos/klevebrand-quadcopter-drone-flightcontroller/.pio/libdeps/ATmega2560/Adafruit Unified Sensor",
+                "C:/Users/maxkl/.platformio/packages/framework-arduino-avr-megacore/cores/MegaCore",
+                "C:/Users/maxkl/.platformio/packages/framework-arduino-avr-megacore/variants/100-pin-arduino-mega",
+                "C:/Users/maxkl/.platformio/packages/framework-arduino-avr-megacore/libraries/AVR_examples/src",
+                "C:/Users/maxkl/.platformio/packages/framework-arduino-avr-megacore/libraries/EEPROM/src",
+                "C:/Users/maxkl/.platformio/packages/framework-arduino-avr-megacore/libraries/Flash/src",
+                "C:/Users/maxkl/.platformio/packages/framework-arduino-avr-megacore/libraries/SD/src",
+                "C:/Users/maxkl/.platformio/packages/framework-arduino-avr-megacore/libraries/SoftwareSerial/src",
+                "C:/Users/maxkl/.platformio/packages/framework-arduino-avr-megacore/libraries/Timer/src",
+                ""
             ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "C:/Users/maxkl/source/repos/klevebrand-quadcopter-drone-flightcontroller/include",
+                    "C:/Users/maxkl/source/repos/klevebrand-quadcopter-drone-flightcontroller/src",
+                    "C:/Users/maxkl/.platformio/packages/framework-arduino-avr-megacore/libraries/Servo/src",
+                    "C:/Users/maxkl/source/repos/klevebrand-quadcopter-drone-flightcontroller/.pio/libdeps/ATmega2560/Adafruit BNO08x/src",
+                    "C:/Users/maxkl/source/repos/klevebrand-quadcopter-drone-flightcontroller/.pio/libdeps/ATmega2560/Adafruit BusIO",
+                    "C:/Users/maxkl/.platformio/packages/framework-arduino-avr-megacore/libraries/SPI/src",
+                    "C:/Users/maxkl/.platformio/packages/framework-arduino-avr-megacore/libraries/Wire/src",
+                    "C:/Users/maxkl/source/repos/klevebrand-quadcopter-drone-flightcontroller/.pio/libdeps/ATmega2560/Adafruit Unified Sensor",
+                    "C:/Users/maxkl/.platformio/packages/framework-arduino-avr-megacore/cores/MegaCore",
+                    "C:/Users/maxkl/.platformio/packages/framework-arduino-avr-megacore/variants/100-pin-arduino-mega",
+                    "C:/Users/maxkl/.platformio/packages/framework-arduino-avr-megacore/libraries/AVR_examples/src",
+                    "C:/Users/maxkl/.platformio/packages/framework-arduino-avr-megacore/libraries/EEPROM/src",
+                    "C:/Users/maxkl/.platformio/packages/framework-arduino-avr-megacore/libraries/Flash/src",
+                    "C:/Users/maxkl/.platformio/packages/framework-arduino-avr-megacore/libraries/SD/src",
+                    "C:/Users/maxkl/.platformio/packages/framework-arduino-avr-megacore/libraries/SoftwareSerial/src",
+                    "C:/Users/maxkl/.platformio/packages/framework-arduino-avr-megacore/libraries/Timer/src",
+                    ""
+                ]
+            },
             "defines": [
-                "_DEBUG",
-                "UNICODE",
-                "_UNICODE"
+                "PLATFORMIO=60116",
+                "ARDUINO_AVR_ATmega2560",
+                "F_CPU=16000000L",
+                "ARDUINO_ARCH_AVR",
+                "ARDUINO=10808",
+                "__AVR_ATmega2560__",
+                ""
             ],
-            "compilerPath": "cl.exe",
-            "intelliSenseMode": "windows-msvc-x64"
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++17",
+            "compilerPath": "C:/Users/maxkl/.platformio/packages/toolchain-atmelavr/bin/avr-gcc.exe",
+            "compilerArgs": [
+                "-mmcu=atmega2560",
+                ""
+            ]
         }
     ],
     "version": 4
