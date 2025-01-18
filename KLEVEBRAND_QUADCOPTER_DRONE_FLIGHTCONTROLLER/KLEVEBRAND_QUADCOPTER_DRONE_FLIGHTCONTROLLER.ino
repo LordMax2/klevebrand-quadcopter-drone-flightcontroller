@@ -18,13 +18,10 @@ void loop() {
   // Get the latest data from the gyroscope
   drone.updateGyro();
 
-  // Recive data from the reciver
-  drone.reciverRecive();
-
   // Check if connection is alive
   if(drone.lostConnection()) {
     // If connection is dead, stop the drone
-    drone.resetPID();
+    drone.resetPid();
     drone.stopMotors();
 
     Serial.println("LOST CONNECTION");
@@ -33,7 +30,7 @@ void loop() {
     drone.setPitchAndRollGyroOffsetAndDefineCurrentAngleAsZero();
 
     // Then calculate the PID stabilization
-    drone.calculatePID();
+    drone.calculatePid();
 
     // To debug throttle response
     //drone.printThrottle();
