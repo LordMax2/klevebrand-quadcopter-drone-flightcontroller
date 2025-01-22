@@ -39,8 +39,8 @@ public:
 private:
     sh2_SensorValue_t sensorValue;
     sh2_SensorId_t reportType = SH2_ARVR_STABILIZED_RV;
-    long reportIntervalUs = BNO_REPORT_INTERVAL;
     YawPitchRoll_t yawPitchRoll;
+    long reportIntervalUs = BNO_REPORT_INTERVAL;
 
     void quaternionToEuler(float qr, float qi, float qj, float qk, YawPitchRoll_t *ypr, bool degrees = false);
     void quaternionToEulerRv(sh2_RotationVectorWAcc_t *rotational_vector, YawPitchRoll_t *ypr, bool degrees = false);
