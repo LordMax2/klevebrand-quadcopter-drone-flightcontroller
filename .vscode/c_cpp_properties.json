@@ -1,17 +1,65 @@
+//
+// !!! WARNING !!! AUTO-GENERATED FILE!
+// PLEASE DO NOT MODIFY IT AND USE "platformio.ini":
+// https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags
+//
 {
     "configurations": [
         {
-            "name": "Win32",
+            "name": "PlatformIO",
             "includePath": [
-                "${workspaceFolder}/**"
+                "C:/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller-1/include",
+                "C:/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller-1/src",
+                "C:/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller-1/lib/klevebrand_maxfly_drone",
+                "C:/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller-1/.pio/libdeps/ATmega2560/Servo/src",
+                "C:/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller-1/.pio/libdeps/ATmega2560/Adafruit BNO08x/src",
+                "C:/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller-1/.pio/libdeps/ATmega2560/Adafruit BusIO",
+                "C:/Users/max.klevebrand/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                "C:/Users/max.klevebrand/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                "C:/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller-1/.pio/libdeps/ATmega2560/Adafruit Unified Sensor",
+                "C:/Users/max.klevebrand/.platformio/packages/framework-arduino-avr/cores/arduino",
+                "C:/Users/max.klevebrand/.platformio/packages/framework-arduino-avr/variants/mega",
+                "C:/Users/max.klevebrand/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                "C:/Users/max.klevebrand/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                "C:/Users/max.klevebrand/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                ""
             ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "C:/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller-1/include",
+                    "C:/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller-1/src",
+                    "C:/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller-1/lib/klevebrand_maxfly_drone",
+                    "C:/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller-1/.pio/libdeps/ATmega2560/Servo/src",
+                    "C:/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller-1/.pio/libdeps/ATmega2560/Adafruit BNO08x/src",
+                    "C:/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller-1/.pio/libdeps/ATmega2560/Adafruit BusIO",
+                    "C:/Users/max.klevebrand/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                    "C:/Users/max.klevebrand/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                    "C:/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller-1/.pio/libdeps/ATmega2560/Adafruit Unified Sensor",
+                    "C:/Users/max.klevebrand/.platformio/packages/framework-arduino-avr/cores/arduino",
+                    "C:/Users/max.klevebrand/.platformio/packages/framework-arduino-avr/variants/mega",
+                    "C:/Users/max.klevebrand/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                    "C:/Users/max.klevebrand/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                    "C:/Users/max.klevebrand/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                    ""
+                ]
+            },
             "defines": [
-                "_DEBUG",
-                "UNICODE",
-                "_UNICODE"
+                "PLATFORMIO=60116",
+                "ARDUINO_AVR_MEGA2560",
+                "F_CPU=16000000L",
+                "ARDUINO_ARCH_AVR",
+                "ARDUINO=10808",
+                "__AVR_ATmega2560__",
+                ""
             ],
-            "compilerPath": "cl.exe",
-            "intelliSenseMode": "windows-msvc-x64"
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++11",
+            "compilerPath": "C:/Users/max.klevebrand/.platformio/packages/toolchain-atmelavr/bin/avr-gcc.exe",
+            "compilerArgs": [
+                "-mmcu=atmega2560",
+                ""
+            ]
         }
     ],
     "version": 4

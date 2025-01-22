@@ -13,9 +13,11 @@
 class Pid
 {
 public:
+    long previousTimer;
+    float pitchOffset = 0, rollOffset = 0;
+    
     void calculate(float throttle, bool launchMode, float gyroRoll, float gyroPitch, float gyroYaw);
     void reset();
-    long previousTimer;
     float pid_throttle_L_F(float throttle) const
     {
         return constrain(throttle + roll_pid() - pitch_pid() - yaw_pid(), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
@@ -32,7 +34,6 @@ public:
     {
         return constrain(throttle - roll_pid() + pitch_pid() - yaw_pid(), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
-    float pitchOffset = 0, rollOffset = 0;
 
 private:
     void updateIntegral();
@@ -95,7 +96,7 @@ private:
     {
         return yaw_kd * (yaw_error - yaw_previous_error);
     }
-    /* Pitch PID Constants */
+    /* Yaw PID Constants */
     double yaw_kp = 0; // 0.5
     double yaw_ki = 0;
     double yaw_kd = 0; // 5

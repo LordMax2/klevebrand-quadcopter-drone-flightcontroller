@@ -1,7 +1,9 @@
-#include <Arduino.h>
-#include "klevebrand_maxfly_drone.h"
+#include "../lib/klevebrand_maxfly_drone/klevebrand_maxfly_drone.h"
 
-// Define the drone
+// Declare setup() and loop() functions
+void setup();
+void loop();
+
 Drone drone;
 
 void setup() {

@@ -3,8 +3,8 @@
 
 #include <Arduino.h>
 #include <Servo.h>
-#include "pid.h"
-#include "gyro.h"
+#include "./components/pid/pid.h"
+#include "./components/gyro/gyro.h"
 
 #define TRANSMITION_TIMEOUT_DEFINITION_MILLISECONDS 500
 
