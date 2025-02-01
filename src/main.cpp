@@ -1,10 +1,12 @@
 #include "../lib/klevebrand_maxfly_drone/klevebrand_maxfly_drone.h"
+#include "../lib/klevebrand_maxfly_drone/components/receiver/receiver.h"
 
 // Declare setup() and loop() functions
 void setup();
 void loop();
 
 Drone drone;
+Receiver receiver;
 
 void setup() {
   Serial.begin(115200);
@@ -14,9 +16,16 @@ void setup() {
 
   // Startup the gyro, radio and motors
   drone.setup();
+
+  // Setup the reciever
+  receiver.begin();
 }
 
 void loop() {
+  // Debug print reciever channel value
+  Serial.println(receiver.getChannelValue(1));
+
+
   // Get the latest data from the gyroscope
   drone.updateGyro();
 

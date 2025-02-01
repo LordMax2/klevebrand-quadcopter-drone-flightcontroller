@@ -1,40 +1,37 @@
 #include "receiver.h"
 
-int Receiver::getChannelValue(int channelNumber)
-{
-    if (channelNumber < 1 || channelNumber > CHANNEL_COUNT)
-    {
-        return -1;
-    }
-    int index = channelNumber - 1;
-
-    return channelValuesArray[index];
-}
+volatile int Receiver::channelNumberToGpioMapArray[CHANNEL_COUNT] = {8, 61, 62, 63, 64, 65, 66, 78};
+volatile unsigned long Receiver::pulseStartMicros[CHANNEL_COUNT] = {1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500};
+volatile int Receiver::pulseWidths[CHANNEL_COUNT] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 void Receiver::begin()
 {
-    for (int i = 0; i < CHANNEL_COUNT; ++i)
-    {
+    for (int i = 0; i < CHANNEL_COUNT; i++) {
         pinMode(channelNumberToGpioMapArray[i], INPUT);
+        delay(1000);
+        attachPCINT(digitalPinToPCINT(channelNumberToGpioMapArray[i]), handlePinChange, CHANGE);
     }
 }
 
-void Receiver::pollChannels()
+void Receiver::handlePinChange()
 {
-    for (int i = 0; i < CHANNEL_COUNT; ++i)
-    {
+    for (int i = 0; i < CHANNEL_COUNT; i++) {
         int pinState = digitalRead(channelNumberToGpioMapArray[i]);
-
-        if (pinState == HIGH && latestSignalStartTimestampInMillisecondsArray[i] == 0)
-        {
-            // A new signal has started
-            latestSignalStartTimestampInMillisecondsArray[i] = micros();
-        }
-        else if (pinState == LOW && latestSignalStartTimestampInMillisecondsArray[i] != 0)
-        {
-            // The signal has ended
-            channelValuesArray[i] = (int)(micros() - latestSignalStartTimestampInMillisecondsArray[i]);
-            latestSignalStartTimestampInMillisecondsArray[i] = 0;
+        if (pinState == HIGH) {
+            pulseStartMicros[i] = micros();
+        } else {
+            if (pulseStartMicros[i] != 0) {
+                pulseWidths[i] = (int)(micros() - pulseStartMicros[i]);
+                pulseStartMicros[i] = 0;
+            }
         }
     }
+}
+
+int Receiver::getChannelValue(int channelNumber)
+{
+    if (channelNumber < 1 || channelNumber > CHANNEL_COUNT) {
+        return -1;
+    }
+    return pulseWidths[channelNumber - 1];
 }
