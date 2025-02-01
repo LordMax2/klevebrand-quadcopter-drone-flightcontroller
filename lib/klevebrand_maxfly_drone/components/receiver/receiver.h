@@ -12,7 +12,7 @@ public:
     void begin();
     int getChannelValue(int channelNumber);
 private:
-    static void handlePinChange();
+    static void recordPinChangePulseWidth();
     static volatile int channelNumberToGpioMapArray[CHANNEL_COUNT];
     static volatile unsigned long pulseStartMicros[CHANNEL_COUNT];
     static volatile int pulseWidths[CHANNEL_COUNT];
