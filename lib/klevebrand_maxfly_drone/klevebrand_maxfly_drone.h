@@ -5,6 +5,7 @@
 #include <Servo.h>
 #include "./components/pid/pid.h"
 #include "./components/gyro/gyro.h"
+#include "./components/pwm_receiver/pwm_receiver.h"
 
 #define TRANSMITION_TIMEOUT_DEFINITION_MILLISECONDS 500
 
@@ -27,6 +28,7 @@ public:
   void resetPid();
   bool lostConnection();
   void calculatePid();
+  void setThrottleYawPitchRollFromReceiver(PwmReceiver receiver);
   void setThrottle(float value);
   void setDesiredYawAngle(float value);
   void setDesiredPitchAngle(float value);

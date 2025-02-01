@@ -1,16 +1,17 @@
-#ifndef RECEIVER_H
-#define RECEIVER_H
+#ifndef PWM_RECEIVER_H
+#define PWM_RECEIVER_H
 
 #include <Arduino.h>
 #include <PinChangeInterrupt.h>
 
 #define CHANNEL_COUNT 8
 
-class Receiver
+class PwmReceiver
 {
 public:
     void begin();
     int getChannelValue(int channelNumber);
+
 private:
     static void recordPinChangePulseWidth();
     static volatile int channelNumberToGpioMapArray[CHANNEL_COUNT];

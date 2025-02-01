@@ -78,6 +78,14 @@ void Drone::resetPid()
   pid.reset();
 }
 
+void Drone::setThrottleYawPitchRollFromReceiver(PwmReceiver receiver)
+{
+  setThrottle(receiver.getChannelValue(1));
+  setDesiredYawAngle(receiver.getChannelValue(2));
+  setDesiredPitchAngle(receiver.getChannelValue(3));
+  setDesiredRollAngle(receiver.getChannelValue(4));
+}
+
 void Drone::setThrottle(float value)
 {
   throttle = value;

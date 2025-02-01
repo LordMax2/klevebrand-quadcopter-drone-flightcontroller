@@ -1,12 +1,12 @@
 #include "../lib/klevebrand_maxfly_drone/klevebrand_maxfly_drone.h"
-#include "../lib/klevebrand_maxfly_drone/components/receiver/receiver.h"
+#include "../lib/klevebrand_maxfly_drone/components/pwm_receiver/pwm_receiver.h"
 
 // Declare setup() and loop() functions
 void setup();
 void loop();
 
 Drone drone;
-Receiver receiver;
+PwmReceiver receiver;
 
 void setup() {
   Serial.begin(115200);
@@ -22,9 +22,8 @@ void setup() {
 }
 
 void loop() {
-  // Debug print reciever channel value
-  Serial.println(receiver.getChannelValue(1));
-
+  // Set drone flight values from the receiver
+  drone.setThrottleYawPitchRollFromReceiver(receiver);
 
   // Get the latest data from the gyroscope
   drone.updateGyro();
