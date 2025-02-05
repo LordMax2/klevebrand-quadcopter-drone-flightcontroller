@@ -12,6 +12,9 @@ void setup() {
   Serial.begin(115200);
   Wire.begin();
 
+  if(!Serial) {
+    Serial.println("Failed to start serial...");
+  }
   while (!Serial);
 
   // Startup the gyro, radio and motors
@@ -25,6 +28,8 @@ void loop() {
   // Set drone flight values from the receiver
   drone.setThrottleYawPitchRollFromReceiver(receiver);
 
+  Serial.println(receiver.getChannelValue(1));
+  
   // Get the latest data from the gyroscope
   drone.updateGyro();
 
