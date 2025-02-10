@@ -2,6 +2,14 @@
 
 void Drone::setup()
 {
+  Serial.begin(SERIAL_BAUD_RATE);
+
+  if (!Serial)
+  {
+    Serial.println("Failed to start serial...");
+  }
+  while (!Serial);
+
   Serial.println("Starting drone...");
 
   gyro.setup();
@@ -10,19 +18,49 @@ void Drone::setup()
   Serial.println("Drone started!");
 }
 
+void Drone::run()
+{
+  // Get the latest data from the gyroscope
+  updateGyro();
+
+  // Check if connection is alive
+  if (hasLostConnection())
+  {
+    // If connection is dead, stop the drone
+    resetPid();
+    stopMotors();
+
+    Serial.println("LOST CONNECTION");
+  }
+  else
+  {
+    // If connection is good, check if we should set the PID zero offset
+    setPitchAndRollGyroOffsetAndDefineCurrentAngleAsZero();
+
+    // Then calculate the PID stabilization
+    calculatePid();
+
+    // To debug throttle response
+    // drone.printThrottle();
+
+    // Run the motors with the calculated PID throttle
+    runMotors();
+  }
+}
+
 void Drone::setupMotors()
 {
   Serial.println("Setting up motors...");
 
-  pinMode(5, OUTPUT);
-  pinMode(6, OUTPUT);
-  pinMode(7, OUTPUT);
-  pinMode(8, OUTPUT);
+  pinMode(motorLeftFrontPinNumber, OUTPUT);
+  pinMode(motorRightFrontPinNumber, OUTPUT);
+  pinMode(motorLeftBackPinNumber, OUTPUT);
+  pinMode(motorRightBackPinNumber, OUTPUT);
 
-  motorLeftFront.attach(5);
-  motorRightFront.attach(6);
-  motorLeftBack.attach(7);
-  motorRightBack.attach(8);
+  motorLeftFront.attach(motorLeftFrontPinNumber);
+  motorRightFront.attach(motorRightFrontPinNumber);
+  motorLeftBack.attach(motorLeftBackPinNumber);
+  motorRightBack.attach(motorRightBackPinNumber);
 
   motorLeftFront.writeMicroseconds(THROTTLE_MINIMUM);
   motorRightFront.writeMicroseconds(THROTTLE_MINIMUM);
@@ -63,7 +101,7 @@ void Drone::calculatePid()
   pid.calculate(throttle, launchMode, gyro.roll(), gyro.pitch(), gyro.yaw());
 }
 
-bool Drone::lostConnection()
+bool Drone::hasLostConnection()
 {
   return millis() - throttleSetTimestamp >= TRANSMITION_TIMEOUT_DEFINITION_MILLISECONDS;
 }
@@ -80,10 +118,10 @@ void Drone::resetPid()
 
 void Drone::setThrottleYawPitchRollFromReceiver(PwmReceiver receiver)
 {
-  setThrottle(receiver.getChannelValue(1));
-  setDesiredYawAngle(receiver.getChannelValue(2));
-  setDesiredPitchAngle(receiver.getChannelValue(3));
-  setDesiredRollAngle(receiver.getChannelValue(4));
+  setThrottle(receiver.getChannelValue(throttleReceiverChannelNumber));
+  setDesiredYawAngle(receiver.getChannelValue(yawReceiverChannelNumber));
+  setDesiredPitchAngle(receiver.getChannelValue(pitchReceiverChannelNumber));
+  setDesiredRollAngle(receiver.getChannelValue(rollReceiverChannelNumber));
 }
 
 void Drone::setThrottle(float value)

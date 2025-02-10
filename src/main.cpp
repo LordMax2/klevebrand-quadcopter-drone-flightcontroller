@@ -1,56 +1,26 @@
 #include "../lib/klevebrand_maxfly_drone/klevebrand_maxfly_drone.h"
 #include "../lib/klevebrand_maxfly_drone/components/pwm_receiver/pwm_receiver.h"
 
-// Declare setup() and loop() functions
-void setup();
-void loop();
-
-Drone drone;
+Drone drone = Drone(5, 6, 7, 8, 1, 2, 3, 4);
 PwmReceiver receiver;
 
-void setup() {
-  Serial.begin(115200);
-  Wire.begin();
-
-  if(!Serial) {
-    Serial.println("Failed to start serial...");
-  }
-  while (!Serial);
-
-  // Startup the gyro, radio and motors
+void setup()
+{
+  // Startup the gyroscope and motors
   drone.setup();
 
-  // Setup the reciever
-  receiver.begin();
+  // Startup the reciever
+  receiver.setup();
 }
 
-void loop() {
+void loop()
+{
   // Set drone flight values from the receiver
   drone.setThrottleYawPitchRollFromReceiver(receiver);
 
+  // Temp debug print receiver channel one value
   Serial.println(receiver.getChannelValue(1));
-  
-  // Get the latest data from the gyroscope
-  drone.updateGyro();
 
-  // Check if connection is alive
-  if(drone.lostConnection()) {
-    // If connection is dead, stop the drone
-    drone.resetPid();
-    drone.stopMotors();
-
-    Serial.println("LOST CONNECTION");
-  } else {
-    // If connection is good, check if we should set the PID zero offset
-    drone.setPitchAndRollGyroOffsetAndDefineCurrentAngleAsZero();
-
-    // Then calculate the PID stabilization
-    drone.calculatePid();
-
-    // To debug throttle response
-    //drone.printThrottle();
-
-    // Run the motors with the calculated PID throttle
-    drone.runMotors();
-  }
+  // Run the drone feedback-loop
+  drone.run();
 }

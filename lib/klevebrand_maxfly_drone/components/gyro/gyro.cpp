@@ -10,6 +10,8 @@ void Gyro::setReports()
 
 void Gyro::setup()
 {
+  Wire.begin();
+  
   Serial.println("Setting up gyroscope");
   if (!bno08x.begin_I2C())
   {

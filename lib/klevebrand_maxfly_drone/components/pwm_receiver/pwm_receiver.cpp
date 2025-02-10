@@ -4,7 +4,7 @@ volatile int PwmReceiver::channelNumberToGpioMapArray[CHANNEL_COUNT] = {8, 9, -1
 volatile unsigned long PwmReceiver::pulseStartMicros[CHANNEL_COUNT] = {0, 0, 0, 0, 0, 0, 0, 0};
 volatile int PwmReceiver::pulseWidths[CHANNEL_COUNT] = {0, 0, 0, 0, 0, 0, 0, 0};
 
-void PwmReceiver::begin()
+void PwmReceiver::setup()
 {
     if (channelNumberToGpioMapArray[0] != -1)
     {

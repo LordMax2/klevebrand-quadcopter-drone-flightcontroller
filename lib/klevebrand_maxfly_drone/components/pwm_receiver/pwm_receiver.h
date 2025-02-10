@@ -9,7 +9,7 @@
 class PwmReceiver
 {
 public:
-    void begin();
+    void setup();
     int getChannelValue(int channelNumber);
 
 private:
