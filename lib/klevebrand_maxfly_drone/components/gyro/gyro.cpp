@@ -29,6 +29,14 @@ void Gyro::setup()
   delay(5000);
 }
 
+void Gyro::printYawPitchRoll() {
+  Serial.print(yawPitchRoll.yaw);
+  Serial.print(",");
+  Serial.print(yawPitchRoll.pitch);
+  Serial.print(",");
+  Serial.println(yawPitchRoll.roll);
+}
+
 void Gyro::update()
 {
   if (bno08x.getSensorEvent(&sensorValue))

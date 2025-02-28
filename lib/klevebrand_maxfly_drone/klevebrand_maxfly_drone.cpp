@@ -41,7 +41,8 @@ void Drone::run()
     calculatePid();
 
     // To debug throttle response
-    // drone.printThrottle();
+    // printThrottle();
+    // printGyro();
 
     // Run the motors with the calculated PID throttle
     runMotors();
@@ -109,6 +110,10 @@ bool Drone::hasLostConnection()
 void Drone::updateGyro()
 {
   gyro.update();
+}
+
+void Drone::printGyro() {
+  gyro.printYawPitchRoll();
 }
 
 void Drone::resetPid()

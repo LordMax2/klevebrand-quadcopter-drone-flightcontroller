@@ -56,6 +56,7 @@ public:
   void runMotors();
   void stopMotors();
   void updateGyro();
+  void printGyro();
   void printThrottle();
   void resetPid();
   bool hasLostConnection();

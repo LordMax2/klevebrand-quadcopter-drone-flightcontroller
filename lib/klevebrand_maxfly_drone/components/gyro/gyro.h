@@ -35,6 +35,7 @@ public:
     void setup();
     void setReports();
     void update();
+    void printYawPitchRoll();
 
 private:
     sh2_SensorValue_t sensorValue;

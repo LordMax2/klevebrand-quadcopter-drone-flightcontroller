@@ -56,7 +56,7 @@ private:
     }
     /* Roll PID Constants */
     double roll_kp = 1;
-    double roll_ki = 0.01;
+    double roll_ki = 0;
     double roll_kd = 10;
     float roll_desired_angle = 0;
 

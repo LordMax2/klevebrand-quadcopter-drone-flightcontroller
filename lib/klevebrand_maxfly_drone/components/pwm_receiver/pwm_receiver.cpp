@@ -1,6 +1,6 @@
 #include "pwm_receiver.h"
 
-volatile int PwmReceiver::channelNumberToGpioMapArray[CHANNEL_COUNT] = {8, 9, -1, -1, -1, -1, -1, -1};
+volatile int PwmReceiver::channelNumberToGpioMapArray[CHANNEL_COUNT] = {A8, A9, A10, A11, A12, A13, A14, A15};
 volatile unsigned long PwmReceiver::pulseStartMicros[CHANNEL_COUNT] = {0, 0, 0, 0, 0, 0, 0, 0};
 volatile int PwmReceiver::pulseWidths[CHANNEL_COUNT] = {0, 0, 0, 0, 0, 0, 0, 0};
 
@@ -11,7 +11,7 @@ void PwmReceiver::setup()
         pinMode(channelNumberToGpioMapArray[0], INPUT);
         attachPCINT(digitalPinToPCINT(channelNumberToGpioMapArray[0]), recordPinChangePulseWidthChannel1, CHANGE);
     }
-
+    /*
     if (channelNumberToGpioMapArray[1] != -1)
     {
         pinMode(channelNumberToGpioMapArray[1], INPUT);
@@ -53,6 +53,7 @@ void PwmReceiver::setup()
         pinMode(channelNumberToGpioMapArray[7], INPUT);
         attachPCINT(digitalPinToPCINT(channelNumberToGpioMapArray[7]), recordPinChangePulseWidthChannel8, CHANGE);
     }
+    */
 }
 
 void PwmReceiver::recordPinChangePulseWidth(int channelNumber)

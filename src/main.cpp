@@ -1,7 +1,7 @@
 #include "../lib/klevebrand_maxfly_drone/klevebrand_maxfly_drone.h"
 #include "../lib/klevebrand_maxfly_drone/components/pwm_receiver/pwm_receiver.h"
 
-Drone drone = Drone(5, 6, 7, 8, 1, 2, 3, 4);
+Drone drone = Drone(7, 3, 6, 2, 1, 2, 3, 4);
 PwmReceiver receiver;
 
 void setup()
@@ -19,7 +19,7 @@ void loop()
   drone.setThrottleYawPitchRollFromReceiver(receiver);
 
   // Temp debug print receiver channel one value
-  Serial.println(receiver.getChannelValue(1));
+  //Serial.println(receiver.getChannelValue(1));
 
   // Run the drone feedback-loop
   drone.run();
