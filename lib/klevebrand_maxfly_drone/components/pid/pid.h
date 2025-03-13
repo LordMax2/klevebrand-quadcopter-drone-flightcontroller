@@ -34,6 +34,11 @@ public:
     {
         return constrain(throttle - roll_pid() + pitch_pid() - yaw_pid(), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
+    // TEMPORARY PUBLIC FOR DEBUGGING
+    /* Roll PID Constants */
+    double roll_kp = 0;
+    double roll_ki = 0;
+    double roll_kd = 0;
 
 private:
     void updateIntegral();
@@ -54,10 +59,6 @@ private:
     {
         return roll_kd * (roll_error - roll_previous_error);
     }
-    /* Roll PID Constants */
-    double roll_kp = 3;
-    double roll_ki = 0;
-    double roll_kd = 5;
     float roll_desired_angle = 0;   
 
     /* Pitch PID */

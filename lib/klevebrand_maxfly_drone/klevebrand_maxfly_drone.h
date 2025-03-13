@@ -32,7 +32,10 @@ public:
       int throttleReceiverChannelNumber,
       int yawReceiverChannelNumber,
       int pitchReceiverChannelNumber,
-      int rollReceiverChannelNumber)
+      int rollReceiverChannelNumber,
+      int pidPConstantChannelNumber,
+      int pidIConstantChannelNumber,
+      int pidDConstantChannelNumber)
   {
     /*
     * Map the motor pin numbers
@@ -41,6 +44,13 @@ public:
     this->motorRightFrontPinNumber = motorRightFrontPinNumber;
     this->motorLeftBackPinNumber = motorLeftBackPinNumber;
     this->motorRightBackPinNumber = motorRightBackPinNumber;
+    
+    /*
+    * Map the reciever PID channel numbers
+    */
+    this->pidPConstantChannelNumber = pidPConstantChannelNumber;
+    this->pidIConstantChannelNumber = pidIConstantChannelNumber;
+    this->pidDConstantChannelNumber = pidDConstantChannelNumber;
 
     /*
     * Map the receiver channel numbers
@@ -62,10 +72,14 @@ public:
   bool hasLostConnection();
   void calculatePid();
   void setThrottleYawPitchRollFromReceiver(PwmReceiver receiver);
+  void setPIDFromReceiver(PwmReceiver receiver);
   void setThrottle(float value);
   void setDesiredYawAngle(float value);
   void setDesiredPitchAngle(float value);
   void setDesiredRollAngle(float value);
+  void setPidPConstant(float pwmValue);
+  void setPidIConstant(float pwmValue);
+  void setPidDConstant(float pwmValue);
 
 private:
   Gyro gyro;
@@ -92,6 +106,9 @@ private:
   int yawReceiverChannelNumber;
   int pitchReceiverChannelNumber;
   int rollReceiverChannelNumber;
+  int pidPConstantChannelNumber;
+  int pidIConstantChannelNumber;
+  int pidDConstantChannelNumber;
   void setupMotors();
 };
 

@@ -8,7 +8,8 @@ void Drone::setup()
   {
     Serial.println("Failed to start serial...");
   }
-  while (!Serial);
+  while (!Serial)
+    ;
 
   Serial.println("Starting drone...");
 
@@ -132,9 +133,32 @@ void Drone::setThrottleYawPitchRollFromReceiver(PwmReceiver receiver)
   setDesiredRollAngle(receiver.getChannelValue(rollReceiverChannelNumber));
 }
 
+void Drone::setPIDFromReceiver(PwmReceiver receiver)
+{
+  setPidPConstant(receiver.getChannelValue(pidPConstantChannelNumber));
+  setPidIConstant(receiver.getChannelValue(pidIConstantChannelNumber));
+  setPidDConstant(receiver.getChannelValue(pidDConstantChannelNumber));
+}
+
+void Drone::setPidPConstant(float pwmValue)
+{
+  pid.roll_kp = map(pwmValue, 1000, 2000, 0, 100);
+}
+
+void Drone::setPidIConstant(float pwmValue)
+{
+  pid.roll_ki = map(pwmValue, 1000, 2000, 0, 10);
+}
+
+void Drone::setPidDConstant(float pwmValue)
+{
+  pid.roll_kd = map(pwmValue, 1000, 2000, 0, 100);
+}
+
 void Drone::setThrottle(float value)
 {
-  if(value > 1800) {
+  if (value > 1800)
+  {
     value = 2000;
   }
 
