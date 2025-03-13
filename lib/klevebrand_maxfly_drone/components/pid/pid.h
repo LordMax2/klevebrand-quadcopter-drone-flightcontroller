@@ -55,10 +55,10 @@ private:
         return roll_kd * (roll_error - roll_previous_error);
     }
     /* Roll PID Constants */
-    double roll_kp = 1;
+    double roll_kp = 3;
     double roll_ki = 0;
-    double roll_kd = 10;
-    float roll_desired_angle = 0;
+    double roll_kd = 5;
+    float roll_desired_angle = 0;   
 
     /* Pitch PID */
     float pitch_pid() const
@@ -84,7 +84,8 @@ private:
     /* Yaw PID */
     float yaw_pid() const
     {
-        return constrain(yaw_pid_p() + yaw_pid_i + yaw_pid_d(), -PID_MAX, PID_MAX);
+        return 0;
+        //return constrain(yaw_pid_p() + yaw_pid_i + yaw_pid_d(), -PID_MAX, PID_MAX);
     }
     float yaw_error, yaw_previous_error;
     float yaw_pid_p() const

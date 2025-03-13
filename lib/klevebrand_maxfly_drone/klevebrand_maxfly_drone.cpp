@@ -46,6 +46,8 @@ void Drone::run()
 
     // Run the motors with the calculated PID throttle
     runMotors();
+
+    delay(50);
   }
 }
 
@@ -112,7 +114,8 @@ void Drone::updateGyro()
   gyro.update();
 }
 
-void Drone::printGyro() {
+void Drone::printGyro()
+{
   gyro.printYawPitchRoll();
 }
 
@@ -131,6 +134,10 @@ void Drone::setThrottleYawPitchRollFromReceiver(PwmReceiver receiver)
 
 void Drone::setThrottle(float value)
 {
+  if(value > 1800) {
+    value = 2000;
+  }
+
   throttle = value;
   throttleSetTimestamp = millis();
 }
