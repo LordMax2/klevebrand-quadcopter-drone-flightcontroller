@@ -136,14 +136,14 @@ void Drone::setThrottleYawPitchRollFromReceiver(PwmReceiver receiver)
 void Drone::setPIDFromReceiver(PwmReceiver receiver)
 {
   setPidPConstant(receiver.getChannelValue(pidPConstantChannelNumber));
-  //setPidIConstant(receiver.getChannelValue(pidIConstantChannelNumber));
+  setPidIConstant(receiver.getChannelValue(pidIConstantChannelNumber));
   setPidDConstant(receiver.getChannelValue(pidDConstantChannelNumber));
 
-  Serial.print(pid.roll_kp);
-  Serial.print(",");
-  Serial.print(pid.roll_ki);
-  Serial.print(",");
-  Serial.println(pid.roll_kd);
+  //Serial.print(pid.roll_kp);
+  //Serial.print(",");
+  //Serial.print(pid.roll_ki);
+  //Serial.print(",");
+  //Serial.println(pid.roll_kd);
 }
 
 void Drone::setPidPConstant(float pwmValue)

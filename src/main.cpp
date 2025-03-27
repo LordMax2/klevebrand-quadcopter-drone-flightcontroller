@@ -1,7 +1,7 @@
 #include "../lib/klevebrand_maxfly_drone/klevebrand_maxfly_drone.h"
 #include "../lib/klevebrand_maxfly_drone/components/pwm_receiver/pwm_receiver.h"
 
-Drone drone = Drone(6, 7, 2, 3, 1, 2, 3, 4, 7, 6, 8);
+Drone drone = Drone(6, 7, 2, 3, 1, 2, 3, 4, 5, 7, 8);
 PwmReceiver receiver;
 
 void setup()
@@ -22,7 +22,7 @@ void loop()
   drone.setPIDFromReceiver(receiver);
 
   // Temp debug print receiver channel one value
-  //Serial.print(receiver.getChannelValue(1));
+  //Serial.print(receiver.getChannelValue(5));
   //Serial.print(",");
   //Serial.print(receiver.getChannelValue(7));
   //Serial.print(",");
