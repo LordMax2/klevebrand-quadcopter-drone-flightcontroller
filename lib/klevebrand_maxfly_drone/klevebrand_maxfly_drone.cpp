@@ -128,31 +128,43 @@ void Drone::resetPid()
 void Drone::setThrottleYawPitchRollFromReceiver(PwmReceiver receiver)
 {
   setThrottle(receiver.getChannelValue(throttleReceiverChannelNumber));
-  setDesiredYawAngle(receiver.getChannelValue(yawReceiverChannelNumber));
-  setDesiredPitchAngle(receiver.getChannelValue(pitchReceiverChannelNumber));
-  setDesiredRollAngle(receiver.getChannelValue(rollReceiverChannelNumber));
+  //setDesiredYawAngle(receiver.getChannelValue(yawReceiverChannelNumber));
+  //setDesiredPitchAngle(receiver.getChannelValue(pitchReceiverChannelNumber));
+  //setDesiredRollAngle(receiver.getChannelValue(rollReceiverChannelNumber));
 }
 
 void Drone::setPIDFromReceiver(PwmReceiver receiver)
 {
   setPidPConstant(receiver.getChannelValue(pidPConstantChannelNumber));
-  setPidIConstant(receiver.getChannelValue(pidIConstantChannelNumber));
+  //setPidIConstant(receiver.getChannelValue(pidIConstantChannelNumber));
   setPidDConstant(receiver.getChannelValue(pidDConstantChannelNumber));
+
+  Serial.print(pid.roll_kp);
+  Serial.print(",");
+  Serial.print(pid.roll_ki);
+  Serial.print(",");
+  Serial.println(pid.roll_kd);
 }
 
 void Drone::setPidPConstant(float pwmValue)
 {
-  pid.roll_kp = map(pwmValue, 1000, 2000, 0, 100);
+  pid.roll_kp = map(pwmValue, 1100, 1500, 0, 100);
+
+  if(pid.roll_kp < 0) pid.roll_kp = 0;
 }
 
 void Drone::setPidIConstant(float pwmValue)
 {
-  pid.roll_ki = map(pwmValue, 1000, 2000, 0, 10);
+  pid.roll_ki = map(pwmValue, 1100, 1500, 0, 10);
+  
+  if(pid.roll_ki < 0) pid.roll_ki = 0;
 }
 
 void Drone::setPidDConstant(float pwmValue)
 {
-  pid.roll_kd = map(pwmValue, 1000, 2000, 0, 100);
+  pid.roll_kd = map(pwmValue, 1100, 1500, 0, 100);
+  
+  if(pid.roll_kd < 0) pid.roll_kd = 0;
 }
 
 void Drone::setThrottle(float value)

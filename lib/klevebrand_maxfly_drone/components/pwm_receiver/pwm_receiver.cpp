@@ -11,7 +11,7 @@ void PwmReceiver::setup()
         pinMode(channelNumberToGpioMapArray[0], INPUT);
         attachPCINT(digitalPinToPCINT(channelNumberToGpioMapArray[0]), recordPinChangePulseWidthChannel1, CHANGE);
     }
-    /*
+    
     if (channelNumberToGpioMapArray[1] != -1)
     {
         pinMode(channelNumberToGpioMapArray[1], INPUT);
@@ -53,7 +53,6 @@ void PwmReceiver::setup()
         pinMode(channelNumberToGpioMapArray[7], INPUT);
         attachPCINT(digitalPinToPCINT(channelNumberToGpioMapArray[7]), recordPinChangePulseWidthChannel8, CHANGE);
     }
-    */
 }
 
 void PwmReceiver::recordPinChangePulseWidth(int channelNumber)
