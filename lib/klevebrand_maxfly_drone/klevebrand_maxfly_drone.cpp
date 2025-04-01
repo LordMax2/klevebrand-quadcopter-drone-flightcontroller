@@ -146,23 +146,28 @@ void Drone::setPIDFromReceiver(PwmReceiver receiver)
   //Serial.println(pid.roll_kd);
 }
 
+float mapfloat(float x, float in_min, float in_max, float out_min, float out_max)
+{
+  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
 void Drone::setPidPConstant(float pwmValue)
 {
-  pid.roll_kp = map(pwmValue, 1100, 1500, 0, 100);
+  pid.roll_kp = mapfloat(pwmValue, 1100, 1800, 0, 10);
 
   if(pid.roll_kp < 0) pid.roll_kp = 0;
 }
 
 void Drone::setPidIConstant(float pwmValue)
 {
-  pid.roll_ki = map(pwmValue, 1100, 1500, 0, 10);
+  pid.roll_ki = mapfloat(pwmValue, 1100, 1800, 0, 5);
   
   if(pid.roll_ki < 0) pid.roll_ki = 0;
 }
 
 void Drone::setPidDConstant(float pwmValue)
 {
-  pid.roll_kd = map(pwmValue, 1100, 1500, 0, 100);
+  pid.roll_kd = mapfloat(pwmValue, 1100, 1800, 0, 10);
   
   if(pid.roll_kd < 0) pid.roll_kd = 0;
 }
