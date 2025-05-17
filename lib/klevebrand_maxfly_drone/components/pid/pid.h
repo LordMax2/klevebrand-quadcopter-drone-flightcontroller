@@ -20,35 +20,46 @@ public:
     void reset();
     float pid_throttle_L_F(float throttle) const
     {
-        return constrain(throttle + roll_pid() - pitch_pid() - yaw_pid(), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
+        return constrain(throttle + roll_pid() - pitch_pid(), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
     float pid_throttle_L_B(float throttle) const
     {
-        return constrain(throttle + roll_pid() + pitch_pid() + yaw_pid(), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
+        return constrain(throttle + roll_pid() + pitch_pid(), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
     float pid_throttle_R_F(float throttle) const
     {
-        return constrain(throttle - roll_pid() - pitch_pid() + yaw_pid(), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
+        return constrain(throttle - roll_pid() - pitch_pid(), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
     float pid_throttle_R_B(float throttle) const
     {
-        return constrain(throttle - roll_pid() + pitch_pid() - yaw_pid(), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
+        return constrain(throttle - roll_pid() + pitch_pid(), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
     // TEMPORARY PUBLIC FOR DEBUGGING
     /* Roll PID Constants */
     double roll_kp = 0;
     double roll_ki = 0;
     double roll_kd = 0;
+    
+    // TEMPORARY PUBLIC FOR DEBUGGING
+    /* Pitch PID Constants */
+    double pitch_kp = roll_kp;
+    double pitch_ki = roll_ki;
+    double pitch_kd = roll_kd;
 
+    // TEMPORARY PUBLIC FOR DEBUGGING
+    float pitch_pid() const
+    {
+        return constrain(pitch_pid_p() + pitch_pid_d(), -PID_MAX, PID_MAX);
+    }
+    float roll_pid() const
+    {
+        return constrain(roll_pid_p() + roll_pid_d(), -PID_MAX, PID_MAX);
+    }
 private:
     void updateIntegral();
     void resetIntegral();
 
     /* Roll PID */
-    float roll_pid() const
-    {
-        return constrain(roll_pid_p() + roll_pid_i + roll_pid_d(), -PID_MAX, PID_MAX);
-    }
     float roll_error, roll_previous_error;
     float roll_pid_p() const
     {
@@ -62,10 +73,6 @@ private:
     float roll_desired_angle = 0;   
 
     /* Pitch PID */
-    float pitch_pid() const
-    {
-        return constrain(pitch_pid_p() + pitch_pid_i + pitch_pid_d(), -PID_MAX, PID_MAX);
-    }
     float pitch_error, pitch_previous_error;
     float pitch_pid_p() const
     {
@@ -76,10 +83,6 @@ private:
     {
         return pitch_kd * (pitch_error - pitch_previous_error);
     }
-    /* Pitch PID Constants */
-    double pitch_kp = roll_kp;
-    double pitch_ki = roll_ki;
-    double pitch_kd = roll_kd;
     float pitch_desired_angle = 0;
 
     /* Yaw PID */

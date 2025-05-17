@@ -42,6 +42,7 @@ void Drone::run()
     calculatePid();
 
     // To debug throttle response
+    // printPid();
     // printThrottle();
     // printGyro();
 
@@ -154,22 +155,28 @@ float mapfloat(float x, float in_min, float in_max, float out_min, float out_max
 void Drone::setPidPConstant(float pwmValue)
 {
   pid.roll_kp = mapfloat(pwmValue, 1100, 1800, 0, 10);
+  pid.pitch_kp = mapfloat(pwmValue, 1100, 1800, 0, 10);
 
   if(pid.roll_kp < 0) pid.roll_kp = 0;
+  if(pid.pitch_kp < 0) pid.pitch_kp = 0;
 }
 
 void Drone::setPidIConstant(float pwmValue)
 {
   pid.roll_ki = mapfloat(pwmValue, 1100, 1800, 0, 5);
+  pid.pitch_ki = mapfloat(pwmValue, 1100, 1800, 0, 5);
   
   if(pid.roll_ki < 0) pid.roll_ki = 0;
+  if(pid.pitch_ki < 0) pid.pitch_ki = 0;
 }
 
 void Drone::setPidDConstant(float pwmValue)
 {
   pid.roll_kd = mapfloat(pwmValue, 1100, 1800, 0, 10);
+  pid.pitch_kd = mapfloat(pwmValue, 1100, 1800, 0, 10);
   
   if(pid.roll_kd < 0) pid.roll_kd = 0;
+  if(pid.pitch_kd < 0) pid.pitch_kd = 0;
 }
 
 void Drone::setThrottle(float value)
@@ -209,5 +216,13 @@ void Drone::printThrottle()
   Serial.print(pid.pid_throttle_L_B(throttle));
   Serial.print("    ");
   Serial.println(pid.pid_throttle_R_B(throttle));
+  Serial.println("-----------------------------------------");
+}
+
+void Drone::printPid()
+{
+  Serial.print(pid.pitch_pid());
+  Serial.print(",");
+  Serial.println(pid.roll_pid());
   Serial.println("-----------------------------------------");
 }

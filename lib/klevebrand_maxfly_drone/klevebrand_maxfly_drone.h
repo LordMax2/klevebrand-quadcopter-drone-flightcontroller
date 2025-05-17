@@ -68,6 +68,7 @@ public:
   void updateGyro();
   void printGyro();
   void printThrottle();
+  void printPid();
   void resetPid();
   bool hasLostConnection();
   void calculatePid();

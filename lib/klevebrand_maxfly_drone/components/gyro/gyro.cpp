@@ -31,9 +31,9 @@ void Gyro::setup()
 
 void Gyro::printYawPitchRoll() {
   Serial.print(yawPitchRoll.yaw);
-  Serial.print(",");
+  Serial.print("\t");
   Serial.print(yawPitchRoll.pitch);
-  Serial.print(",");
+  Serial.print("\t");
   Serial.println(yawPitchRoll.roll);
 }
 
