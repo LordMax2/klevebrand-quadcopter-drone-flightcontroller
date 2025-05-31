@@ -4,7 +4,7 @@
 #include <Arduino.h>
 
 #define PID_THROTTLE_THRESHOLD 1050
-#define PID_UPDATE_INTERVAL 10
+#define PID_UPDATE_INTERVAL 10000
 #define PID_MAX 400
 
 #define THROTTLE_MINIMUM 1000

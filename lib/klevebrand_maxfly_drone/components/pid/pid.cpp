@@ -19,7 +19,7 @@ void Pid::calculate(float throttle, bool launch_mode, float gyroRoll, float gyro
   pitch_error = pitch_desired_angle - gyroPitch;
   yaw_error = yaw_desired_angle - gyroYaw;
 
-  unsigned long currentTimer = millis();
+  unsigned long currentTimer = micros();
   if (currentTimer - previous_timer >= PID_UPDATE_INTERVAL)
   {
     previous_timer = currentTimer;

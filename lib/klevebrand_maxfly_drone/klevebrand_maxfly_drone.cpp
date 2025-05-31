@@ -21,6 +21,8 @@ void Drone::setup()
 
 void Drone::run()
 {
+  long start_micros_timestamp = micros();
+
   // Get the latest data from the gyroscope
   updateGyro();
 
@@ -49,7 +51,16 @@ void Drone::run()
     // Run the motors with the calculated PID throttle
     runMotors();
 
-    delay(50);
+    long current_micros_timestamp = micros();
+
+    long microseconds_feedback_loop_should_take = 1000000 / FEEDBACK_LOOP_HZ;
+
+    long microseconds_left_for_loop = microseconds_feedback_loop_should_take - (current_micros_timestamp - start_micros_timestamp);
+
+    if (microseconds_left_for_loop > 0 && microseconds_left_for_loop < microseconds_feedback_loop_should_take)
+    {
+      delayMicroseconds(microseconds_left_for_loop);
+    }
   }
 }
 
@@ -131,9 +142,9 @@ void Drone::setThrottleYawPitchRollFromReceiver(PwmReceiver receiver)
   setThrottle(receiver.getChannelValue(throttle_receiver_channel_number));
 
   // Currently disabled unitl successful hover flight
-  //setDesiredYawAngle(receiver.getChannelValue(yawReceiverChannelNumber));
-  //setDesiredPitchAngle(receiver.getChannelValue(pitchReceiverChannelNumber));
-  //setDesiredRollAngle(receiver.getChannelValue(rollReceiverChannelNumber));
+  // setDesiredYawAngle(receiver.getChannelValue(yawReceiverChannelNumber));
+  // setDesiredPitchAngle(receiver.getChannelValue(pitchReceiverChannelNumber));
+  // setDesiredRollAngle(receiver.getChannelValue(rollReceiverChannelNumber));
 }
 
 void Drone::setPIDFromReceiver(PwmReceiver receiver)
@@ -153,26 +164,32 @@ void Drone::setPidPConstant(float pwm_value)
   pid.roll_kp = mapfloat(pwm_value, 1100, 1800, 0, 10);
   pid.pitch_kp = mapfloat(pwm_value, 1100, 1800, 0, 10);
 
-  if(pid.roll_kp < 0) pid.roll_kp = 0;
-  if(pid.pitch_kp < 0) pid.pitch_kp = 0;
+  if (pid.roll_kp < 0)
+    pid.roll_kp = 0;
+  if (pid.pitch_kp < 0)
+    pid.pitch_kp = 0;
 }
 
 void Drone::setPidIConstant(float pwm_value)
 {
   pid.roll_ki = mapfloat(pwm_value, 1100, 1800, 0, 5);
   pid.pitch_ki = mapfloat(pwm_value, 1100, 1800, 0, 5);
-  
-  if(pid.roll_ki < 0) pid.roll_ki = 0;
-  if(pid.pitch_ki < 0) pid.pitch_ki = 0;
+
+  if (pid.roll_ki < 0)
+    pid.roll_ki = 0;
+  if (pid.pitch_ki < 0)
+    pid.pitch_ki = 0;
 }
 
 void Drone::setPidDConstant(float pwm_value)
 {
   pid.roll_kd = mapfloat(pwm_value, 1100, 1800, 0, 10);
   pid.pitch_kd = mapfloat(pwm_value, 1100, 1800, 0, 10);
-  
-  if(pid.roll_kd < 0) pid.roll_kd = 0;
-  if(pid.pitch_kd < 0) pid.pitch_kd = 0;
+
+  if (pid.roll_kd < 0)
+    pid.roll_kd = 0;
+  if (pid.pitch_kd < 0)
+    pid.pitch_kd = 0;
 }
 
 void Drone::setThrottle(float value)

@@ -11,6 +11,8 @@
 
 #define SERIAL_BAUD_RATE 115200
 
+#define FEEDBACK_LOOP_HZ 200
+
 enum FlightMode_t
 {
   acro = 1,
@@ -76,7 +78,6 @@ public:
   void setPidPConstant(float pwm_value);
   void setPidIConstant(float pwm_value);
   void setPidDConstant(float pwm_value);
-
 private:
   Gyro gyro;
   Pid pid;
