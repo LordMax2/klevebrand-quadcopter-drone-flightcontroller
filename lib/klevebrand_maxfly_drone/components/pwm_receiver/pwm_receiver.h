@@ -10,10 +10,10 @@ class PwmReceiver
 {
 public:
     void setup();
-    int getChannelValue(int channelNumber);
+    int getChannelValue(int channel_number);
 
 private:
-    static void recordPinChangePulseWidth(int channelNumber);
+    static void recordPinChangePulseWidth(int channel_number);
     static void recordPinChangePulseWidthChannel1() { recordPinChangePulseWidth(1); };
     static void recordPinChangePulseWidthChannel2() { recordPinChangePulseWidth(2); };
     static void recordPinChangePulseWidthChannel3() { recordPinChangePulseWidth(3); };
@@ -22,9 +22,9 @@ private:
     static void recordPinChangePulseWidthChannel6() { recordPinChangePulseWidth(6); };
     static void recordPinChangePulseWidthChannel7() { recordPinChangePulseWidth(7); };
     static void recordPinChangePulseWidthChannel8() { recordPinChangePulseWidth(8); };
-    static volatile int channelNumberToGpioMapArray[CHANNEL_COUNT];
-    static volatile unsigned long pulseStartMicros[CHANNEL_COUNT];
-    static volatile int pulseWidths[CHANNEL_COUNT];
+    static volatile int channel_number_to_gpio_map_array[CHANNEL_COUNT];
+    static volatile unsigned long pulse_start_micros[CHANNEL_COUNT];
+    static volatile int pulse_widths[CHANNEL_COUNT];
 };
 
 #endif

@@ -1,57 +1,57 @@
 #include "pwm_receiver.h"
 
-volatile int PwmReceiver::channelNumberToGpioMapArray[CHANNEL_COUNT] = {A8, A9, A10, A11, A12, A13, A14, A15};
-volatile unsigned long PwmReceiver::pulseStartMicros[CHANNEL_COUNT] = {0, 0, 0, 0, 0, 0, 0, 0};
-volatile int PwmReceiver::pulseWidths[CHANNEL_COUNT] = {0, 0, 0, 0, 0, 0, 0, 0};
+volatile int PwmReceiver::channel_number_to_gpio_map_array[CHANNEL_COUNT] = {A8, A9, A10, A11, A12, A13, A14, A15};
+volatile unsigned long PwmReceiver::pulse_start_micros[CHANNEL_COUNT] = {0, 0, 0, 0, 0, 0, 0, 0};
+volatile int PwmReceiver::pulse_widths[CHANNEL_COUNT] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 void PwmReceiver::setup()
 {
-    if (channelNumberToGpioMapArray[0] != -1)
+    if (channel_number_to_gpio_map_array[0] != -1)
     {
-        pinMode(channelNumberToGpioMapArray[0], INPUT);
-        attachPCINT(digitalPinToPCINT(channelNumberToGpioMapArray[0]), recordPinChangePulseWidthChannel1, CHANGE);
+        pinMode(channel_number_to_gpio_map_array[0], INPUT);
+        attachPCINT(digitalPinToPCINT(channel_number_to_gpio_map_array[0]), recordPinChangePulseWidthChannel1, CHANGE);
     }
     
-    if (channelNumberToGpioMapArray[1] != -1)
+    if (channel_number_to_gpio_map_array[1] != -1)
     {
-        pinMode(channelNumberToGpioMapArray[1], INPUT);
-        attachPCINT(digitalPinToPCINT(channelNumberToGpioMapArray[1]), recordPinChangePulseWidthChannel2, CHANGE);
+        pinMode(channel_number_to_gpio_map_array[1], INPUT);
+        attachPCINT(digitalPinToPCINT(channel_number_to_gpio_map_array[1]), recordPinChangePulseWidthChannel2, CHANGE);
     }
 
-    if (channelNumberToGpioMapArray[2] != -1)
+    if (channel_number_to_gpio_map_array[2] != -1)
     {
-        pinMode(channelNumberToGpioMapArray[2], INPUT);
-        attachPCINT(digitalPinToPCINT(channelNumberToGpioMapArray[2]), recordPinChangePulseWidthChannel3, CHANGE);
+        pinMode(channel_number_to_gpio_map_array[2], INPUT);
+        attachPCINT(digitalPinToPCINT(channel_number_to_gpio_map_array[2]), recordPinChangePulseWidthChannel3, CHANGE);
     }
 
-    if (channelNumberToGpioMapArray[3] != -1)
+    if (channel_number_to_gpio_map_array[3] != -1)
     {
-        pinMode(channelNumberToGpioMapArray[3], INPUT);
-        attachPCINT(digitalPinToPCINT(channelNumberToGpioMapArray[3]), recordPinChangePulseWidthChannel4, CHANGE);
+        pinMode(channel_number_to_gpio_map_array[3], INPUT);
+        attachPCINT(digitalPinToPCINT(channel_number_to_gpio_map_array[3]), recordPinChangePulseWidthChannel4, CHANGE);
     }
 
-    if (channelNumberToGpioMapArray[4] != -1)
+    if (channel_number_to_gpio_map_array[4] != -1)
     {
-        pinMode(channelNumberToGpioMapArray[4], INPUT);
-        attachPCINT(digitalPinToPCINT(channelNumberToGpioMapArray[4]), recordPinChangePulseWidthChannel5, CHANGE);
+        pinMode(channel_number_to_gpio_map_array[4], INPUT);
+        attachPCINT(digitalPinToPCINT(channel_number_to_gpio_map_array[4]), recordPinChangePulseWidthChannel5, CHANGE);
     }
 
-    if (channelNumberToGpioMapArray[5] != -1)
+    if (channel_number_to_gpio_map_array[5] != -1)
     {
-        pinMode(channelNumberToGpioMapArray[5], INPUT);
-        attachPCINT(digitalPinToPCINT(channelNumberToGpioMapArray[5]), recordPinChangePulseWidthChannel6, CHANGE);
+        pinMode(channel_number_to_gpio_map_array[5], INPUT);
+        attachPCINT(digitalPinToPCINT(channel_number_to_gpio_map_array[5]), recordPinChangePulseWidthChannel6, CHANGE);
     }
 
-    if (channelNumberToGpioMapArray[6] != -1)
+    if (channel_number_to_gpio_map_array[6] != -1)
     {
-        pinMode(channelNumberToGpioMapArray[6], INPUT);
-        attachPCINT(digitalPinToPCINT(channelNumberToGpioMapArray[6]), recordPinChangePulseWidthChannel7, CHANGE);
+        pinMode(channel_number_to_gpio_map_array[6], INPUT);
+        attachPCINT(digitalPinToPCINT(channel_number_to_gpio_map_array[6]), recordPinChangePulseWidthChannel7, CHANGE);
     }
 
-    if (channelNumberToGpioMapArray[7] != -1)
+    if (channel_number_to_gpio_map_array[7] != -1)
     {
-        pinMode(channelNumberToGpioMapArray[7], INPUT);
-        attachPCINT(digitalPinToPCINT(channelNumberToGpioMapArray[7]), recordPinChangePulseWidthChannel8, CHANGE);
+        pinMode(channel_number_to_gpio_map_array[7], INPUT);
+        attachPCINT(digitalPinToPCINT(channel_number_to_gpio_map_array[7]), recordPinChangePulseWidthChannel8, CHANGE);
     }
 }
 
@@ -59,14 +59,14 @@ void PwmReceiver::recordPinChangePulseWidth(int channelNumber)
 {
     int channelNumberIndex = channelNumber - 1;
 
-    int pinState = digitalRead(channelNumberToGpioMapArray[channelNumberIndex]);
+    int pinState = digitalRead(channel_number_to_gpio_map_array[channelNumberIndex]);
 
     /*
      * If pin-state is high, stamp down the millis for that pin.
      */
     if (pinState == HIGH)
     {
-        pulseStartMicros[channelNumberIndex] = micros();
+        pulse_start_micros[channelNumberIndex] = micros();
         return;
     }
 
@@ -78,10 +78,10 @@ void PwmReceiver::recordPinChangePulseWidth(int channelNumber)
      *
      * Then we reset the pulse-start for this pin.
      */
-    if (pulseStartMicros[channelNumberIndex] != 0)
+    if (pulse_start_micros[channelNumberIndex] != 0)
     {
-        pulseWidths[channelNumberIndex] = (int)(micros() - pulseStartMicros[channelNumberIndex]);
-        pulseStartMicros[channelNumberIndex] = 0;
+        pulse_widths[channelNumberIndex] = (int)(micros() - pulse_start_micros[channelNumberIndex]);
+        pulse_start_micros[channelNumberIndex] = 0;
         return;
     }
 }
@@ -93,5 +93,5 @@ int PwmReceiver::getChannelValue(int channelNumber)
     {
         return -1;
     }
-    return pulseWidths[channelNumber - 1];
+    return pulse_widths[channelNumber - 1];
 }

@@ -57,63 +57,63 @@ void Drone::setupMotors()
 {
   Serial.println("Setting up motors...");
 
-  pinMode(motorLeftFrontPinNumber, OUTPUT);
-  pinMode(motorRightFrontPinNumber, OUTPUT);
-  pinMode(motorLeftBackPinNumber, OUTPUT);
-  pinMode(motorRightBackPinNumber, OUTPUT);
+  pinMode(motor_left_front_pin_number, OUTPUT);
+  pinMode(motor_right_front_pin_number, OUTPUT);
+  pinMode(motor_left_back_pin_number, OUTPUT);
+  pinMode(motor_right_back_pin_number, OUTPUT);
 
-  motorLeftFront.attach(motorLeftFrontPinNumber);
-  motorRightFront.attach(motorRightFrontPinNumber);
-  motorLeftBack.attach(motorLeftBackPinNumber);
-  motorRightBack.attach(motorRightBackPinNumber);
+  motor_left_front.attach(motor_left_front_pin_number);
+  motor_right_front.attach(motor_right_front_pin_number);
+  motor_left_back.attach(motor_left_back_pin_number);
+  motor_right_back.attach(motor_right_back_pin_number);
 
-  motorLeftFront.writeMicroseconds(THROTTLE_MINIMUM);
-  motorRightFront.writeMicroseconds(THROTTLE_MINIMUM);
-  motorLeftBack.writeMicroseconds(THROTTLE_MINIMUM);
-  motorRightBack.writeMicroseconds(THROTTLE_MINIMUM);
+  motor_left_front.writeMicroseconds(THROTTLE_MINIMUM);
+  motor_right_front.writeMicroseconds(THROTTLE_MINIMUM);
+  motor_left_back.writeMicroseconds(THROTTLE_MINIMUM);
+  motor_right_back.writeMicroseconds(THROTTLE_MINIMUM);
 
   Serial.println("Motors setup!");
 }
 
 void Drone::setPitchAndRollGyroOffsetAndDefineCurrentAngleAsZero()
 {
-  if (setZeroBool)
+  if (set_zero_bool)
   {
-    pid.pitchOffset = Drone::gyro.pitch();
-    pid.rollOffset = Drone::gyro.roll();
-    setZeroBool = false;
+    pid.setPitchOffset(Drone::gyro.pitch());
+    pid.setRollOffset(Drone::gyro.roll());
+    set_zero_bool = false;
   }
 }
 
 void Drone::stopMotors()
 {
-  motorLeftFront.writeMicroseconds(THROTTLE_MINIMUM);
-  motorRightFront.writeMicroseconds(THROTTLE_MINIMUM);
-  motorLeftBack.writeMicroseconds(THROTTLE_MINIMUM);
-  motorRightBack.writeMicroseconds(THROTTLE_MINIMUM);
+  motor_left_front.writeMicroseconds(THROTTLE_MINIMUM);
+  motor_right_front.writeMicroseconds(THROTTLE_MINIMUM);
+  motor_left_back.writeMicroseconds(THROTTLE_MINIMUM);
+  motor_right_back.writeMicroseconds(THROTTLE_MINIMUM);
 }
 
 void Drone::runMotors()
 {
-  motorLeftFront.writeMicroseconds(pid.pid_throttle_L_F(throttle));
-  motorRightFront.writeMicroseconds(pid.pid_throttle_R_F(throttle));
-  motorLeftBack.writeMicroseconds(pid.pid_throttle_L_B(throttle));
-  motorRightBack.writeMicroseconds(pid.pid_throttle_R_B(throttle));
+  motor_left_front.writeMicroseconds(pid.pid_throttle_L_F(throttle));
+  motor_right_front.writeMicroseconds(pid.pid_throttle_R_F(throttle));
+  motor_left_back.writeMicroseconds(pid.pid_throttle_L_B(throttle));
+  motor_right_back.writeMicroseconds(pid.pid_throttle_R_B(throttle));
 }
 
 void Drone::calculatePid()
 {
-  pid.calculate(throttle, launchMode, gyro.roll(), gyro.pitch(), gyro.yaw());
+  pid.calculate(throttle, launch_mode, gyro.roll(), gyro.pitch(), gyro.yaw());
 }
 
 bool Drone::hasLostConnection()
 {
-  return millis() - throttleSetTimestamp >= TRANSMITION_TIMEOUT_DEFINITION_MILLISECONDS;
+  return millis() - throttle_set_timestamp >= TRANSMITION_TIMEOUT_DEFINITION_MILLISECONDS;
 }
 
 void Drone::updateGyro()
 {
-  gyro.update();
+  gyro.reload();
 }
 
 void Drone::printGyro()
@@ -128,7 +128,9 @@ void Drone::resetPid()
 
 void Drone::setThrottleYawPitchRollFromReceiver(PwmReceiver receiver)
 {
-  setThrottle(receiver.getChannelValue(throttleReceiverChannelNumber));
+  setThrottle(receiver.getChannelValue(throttle_receiver_channel_number));
+
+  // Currently disabled unitl successful hover flight
   //setDesiredYawAngle(receiver.getChannelValue(yawReceiverChannelNumber));
   //setDesiredPitchAngle(receiver.getChannelValue(pitchReceiverChannelNumber));
   //setDesiredRollAngle(receiver.getChannelValue(rollReceiverChannelNumber));
@@ -136,15 +138,9 @@ void Drone::setThrottleYawPitchRollFromReceiver(PwmReceiver receiver)
 
 void Drone::setPIDFromReceiver(PwmReceiver receiver)
 {
-  setPidPConstant(receiver.getChannelValue(pidPConstantChannelNumber));
-  setPidIConstant(receiver.getChannelValue(pidIConstantChannelNumber));
-  setPidDConstant(receiver.getChannelValue(pidDConstantChannelNumber));
-
-  //Serial.print(pid.roll_kp);
-  //Serial.print(",");
-  //Serial.print(pid.roll_ki);
-  //Serial.print(",");
-  //Serial.println(pid.roll_kd);
+  setPidPConstant(receiver.getChannelValue(pid_p_constant_channel_number));
+  setPidIConstant(receiver.getChannelValue(pid_i_constant_channel_number));
+  setPidDConstant(receiver.getChannelValue(pid_d_constant_channel_number));
 }
 
 float mapfloat(float x, float in_min, float in_max, float out_min, float out_max)
@@ -152,28 +148,28 @@ float mapfloat(float x, float in_min, float in_max, float out_min, float out_max
   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-void Drone::setPidPConstant(float pwmValue)
+void Drone::setPidPConstant(float pwm_value)
 {
-  pid.roll_kp = mapfloat(pwmValue, 1100, 1800, 0, 10);
-  pid.pitch_kp = mapfloat(pwmValue, 1100, 1800, 0, 10);
+  pid.roll_kp = mapfloat(pwm_value, 1100, 1800, 0, 10);
+  pid.pitch_kp = mapfloat(pwm_value, 1100, 1800, 0, 10);
 
   if(pid.roll_kp < 0) pid.roll_kp = 0;
   if(pid.pitch_kp < 0) pid.pitch_kp = 0;
 }
 
-void Drone::setPidIConstant(float pwmValue)
+void Drone::setPidIConstant(float pwm_value)
 {
-  pid.roll_ki = mapfloat(pwmValue, 1100, 1800, 0, 5);
-  pid.pitch_ki = mapfloat(pwmValue, 1100, 1800, 0, 5);
+  pid.roll_ki = mapfloat(pwm_value, 1100, 1800, 0, 5);
+  pid.pitch_ki = mapfloat(pwm_value, 1100, 1800, 0, 5);
   
   if(pid.roll_ki < 0) pid.roll_ki = 0;
   if(pid.pitch_ki < 0) pid.pitch_ki = 0;
 }
 
-void Drone::setPidDConstant(float pwmValue)
+void Drone::setPidDConstant(float pwm_value)
 {
-  pid.roll_kd = mapfloat(pwmValue, 1100, 1800, 0, 10);
-  pid.pitch_kd = mapfloat(pwmValue, 1100, 1800, 0, 10);
+  pid.roll_kd = mapfloat(pwm_value, 1100, 1800, 0, 10);
+  pid.pitch_kd = mapfloat(pwm_value, 1100, 1800, 0, 10);
   
   if(pid.roll_kd < 0) pid.roll_kd = 0;
   if(pid.pitch_kd < 0) pid.pitch_kd = 0;
@@ -187,25 +183,25 @@ void Drone::setThrottle(float value)
   }
 
   throttle = value;
-  throttleSetTimestamp = millis();
+  throttle_set_timestamp = millis();
 }
 
 void Drone::setDesiredYawAngle(float value)
 {
-  desiredYawAngle = value;
-  desiredYawAngleSetTimestamp = millis();
+  desired_yaw_angle = value;
+  desired_yaw_angle_set_timestamp = millis();
 }
 
 void Drone::setDesiredPitchAngle(float value)
 {
-  desiredPitchAngle = value;
-  desiredPitchAngleSetTimestamp = millis();
+  desired_pitch_angle = value;
+  desired_pitch_angle_set_timestamp = millis();
 }
 
 void Drone::setDesiredRollAngle(float value)
 {
-  desiredRollAngle = value;
-  desiredRollAngleSetTimestamp = millis();
+  desired_roll_angle = value;
+  desired_roll_angle_set_timestamp = millis();
 }
 
 void Drone::printThrottle()
@@ -216,13 +212,5 @@ void Drone::printThrottle()
   Serial.print(pid.pid_throttle_L_B(throttle));
   Serial.print("    ");
   Serial.println(pid.pid_throttle_R_B(throttle));
-  Serial.println("-----------------------------------------");
-}
-
-void Drone::printPid()
-{
-  Serial.print(pid.pitch_pid());
-  Serial.print(",");
-  Serial.println(pid.roll_pid());
   Serial.println("-----------------------------------------");
 }

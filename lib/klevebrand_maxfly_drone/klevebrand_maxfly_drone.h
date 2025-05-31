@@ -14,103 +14,102 @@
 enum FlightMode_t
 {
   acro = 1,
-  autoLevel = 2,
-  holdPosition = 3
+  auto_level = 2,
+  hold_position = 3
 };
 
 class Drone
 {
 public:
   /*
-  * This constructor is here to force the user to configure the drone properly
-  */
+   * This constructor is here to force the user to configure the drone properly
+   */
   Drone(
-      uint8_t motorLeftFrontPinNumber,
-      uint8_t motorRightFrontPinNumber,
-      uint8_t motorLeftBackPinNumber,
-      uint8_t motorRightBackPinNumber,
-      int throttleReceiverChannelNumber,
-      int yawReceiverChannelNumber,
-      int pitchReceiverChannelNumber,
-      int rollReceiverChannelNumber,
-      int pidPConstantChannelNumber,
-      int pidIConstantChannelNumber,
-      int pidDConstantChannelNumber)
+      uint8_t motor_left_front_pin_number,
+      uint8_t motor_right_front_pin_number,
+      uint8_t motor_left_back_pin_number,
+      uint8_t motor_right_back_pin_number,
+      int throttle_receiver_channel_number,
+      int yaw_receiver_channel_number,
+      int pitch_receiver_channel_number,
+      int roll_receiver_channel_number,
+      int pid_p_constant_channel_number,
+      int pid_i_constant_channel_number,
+      int pid_d_constant_channel_number)
   {
     /*
-    * Map the motor pin numbers
-    */
-    this->motorLeftFrontPinNumber = motorLeftFrontPinNumber;
-    this->motorRightFrontPinNumber = motorRightFrontPinNumber;
-    this->motorLeftBackPinNumber = motorLeftBackPinNumber;
-    this->motorRightBackPinNumber = motorRightBackPinNumber;
-    
-    /*
-    * Map the reciever PID channel numbers
-    */
-    this->pidPConstantChannelNumber = pidPConstantChannelNumber;
-    this->pidIConstantChannelNumber = pidIConstantChannelNumber;
-    this->pidDConstantChannelNumber = pidDConstantChannelNumber;
+     * Map the motor pin numbers
+     */
+    this->motor_left_front_pin_number = motor_left_front_pin_number;
+    this->motor_right_front_pin_number = motor_right_front_pin_number;
+    this->motor_left_back_pin_number = motor_left_back_pin_number;
+    this->motor_right_back_pin_number = motor_right_back_pin_number;
 
     /*
-    * Map the receiver channel numbers
-    */
-    this->throttleReceiverChannelNumber = throttleReceiverChannelNumber;
-    this->yawReceiverChannelNumber = yawReceiverChannelNumber;
-    this->pitchReceiverChannelNumber = pitchReceiverChannelNumber;
-    this->rollReceiverChannelNumber = rollReceiverChannelNumber;
+     * Map the reciever PID channel numbers
+     */
+    this->pid_p_constant_channel_number = pid_p_constant_channel_number;
+    this->pid_i_constant_channel_number = pid_i_constant_channel_number;
+    this->pid_d_constant_channel_number = pid_d_constant_channel_number;
+
+    /*
+     * Map the receiver channel numbers
+     */
+    this->throttle_receiver_channel_number = throttle_receiver_channel_number;
+    this->yaw_receiver_channel_number = yaw_receiver_channel_number;
+    this->pitch_receiver_channel_number = pitch_receiver_channel_number;
+    this->roll_receiver_channel_number = roll_receiver_channel_number;
   };
   void setup();
   void run();
   void setPitchAndRollGyroOffsetAndDefineCurrentAngleAsZero();
-  void runMotors();
-  void stopMotors();
-  void updateGyro();
   void printGyro();
   void printThrottle();
-  void printPid();
   void resetPid();
   bool hasLostConnection();
-  void calculatePid();
   void setThrottleYawPitchRollFromReceiver(PwmReceiver receiver);
   void setPIDFromReceiver(PwmReceiver receiver);
   void setThrottle(float value);
   void setDesiredYawAngle(float value);
   void setDesiredPitchAngle(float value);
   void setDesiredRollAngle(float value);
-  void setPidPConstant(float pwmValue);
-  void setPidIConstant(float pwmValue);
-  void setPidDConstant(float pwmValue);
+  void setPidPConstant(float pwm_value);
+  void setPidIConstant(float pwm_value);
+  void setPidDConstant(float pwm_value);
 
 private:
   Gyro gyro;
   Pid pid;
-  Servo motorLeftFront;
-  Servo motorRightFront;
-  Servo motorLeftBack;
-  Servo motorRightBack;
-  bool launchMode = true;
-  bool setZeroBool = true;
+  Servo motor_left_front;
+  Servo motor_right_front;
+  Servo motor_left_back;
+  Servo motor_right_back;
+  bool launch_mode = true;
+  bool set_zero_bool = true;
   float throttle = 0;
-  float throttleSetTimestamp = 0;
-  float desiredYawAngle = 0;
-  float desiredYawAngleSetTimestamp = 0;
-  float desiredPitchAngle = 0;
-  float desiredPitchAngleSetTimestamp = 0;
-  float desiredRollAngle = 0;
-  float desiredRollAngleSetTimestamp = 0;
-  uint8_t motorLeftFrontPinNumber;
-  uint8_t motorRightFrontPinNumber;
-  uint8_t motorLeftBackPinNumber;
-  uint8_t motorRightBackPinNumber;
-  int throttleReceiverChannelNumber;
-  int yawReceiverChannelNumber;
-  int pitchReceiverChannelNumber;
-  int rollReceiverChannelNumber;
-  int pidPConstantChannelNumber;
-  int pidIConstantChannelNumber;
-  int pidDConstantChannelNumber;
+  float throttle_set_timestamp = 0;
+  float desired_yaw_angle = 0;
+  float desired_yaw_angle_set_timestamp = 0;
+  float desired_pitch_angle = 0;
+  float desired_pitch_angle_set_timestamp = 0;
+  float desired_roll_angle = 0;
+  float desired_roll_angle_set_timestamp = 0;
+  uint8_t motor_left_front_pin_number;
+  uint8_t motor_right_front_pin_number;
+  uint8_t motor_left_back_pin_number;
+  uint8_t motor_right_back_pin_number;
+  int throttle_receiver_channel_number;
+  int yaw_receiver_channel_number;
+  int pitch_receiver_channel_number;
+  int roll_receiver_channel_number;
+  int pid_p_constant_channel_number;
+  int pid_i_constant_channel_number;
+  int pid_d_constant_channel_number;
   void setupMotors();
+  void calculatePid();
+  void runMotors();
+  void stopMotors();
+  void updateGyro();
 };
 
 #endif

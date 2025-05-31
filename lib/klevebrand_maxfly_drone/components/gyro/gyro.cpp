@@ -2,7 +2,7 @@
 
 void Gyro::setReports()
 {
-  if (!bno08x.enableReport(reportType, reportIntervalUs))
+  if (!bno08x.enableReport(report_type, report_interval_us))
   {
     Serial.println("Could not enable stabilized remote vector...");
   }
@@ -30,55 +30,55 @@ void Gyro::setup()
 }
 
 void Gyro::printYawPitchRoll() {
-  Serial.print(yawPitchRoll.yaw);
+  Serial.print(yaw_pitch_roll.yaw);
   Serial.print("\t");
-  Serial.print(yawPitchRoll.pitch);
+  Serial.print(yaw_pitch_roll.pitch);
   Serial.print("\t");
-  Serial.println(yawPitchRoll.roll);
+  Serial.println(yaw_pitch_roll.roll);
 }
 
-void Gyro::update()
+void Gyro::reload()
 {
-  if (bno08x.getSensorEvent(&sensorValue))
+  if (bno08x.getSensorEvent(&sensor_value))
   {
     // in this demo only one report type will be received depending on FAST_MODE define (above)
-    switch (sensorValue.sensorId)
+    switch (sensor_value.sensorId)
     {
     case SH2_ARVR_STABILIZED_RV:
-      quaternionToEulerRv(&sensorValue.un.arvrStabilizedRV, &yawPitchRoll, true);
+      quaternionToEulerRv(&sensor_value.un.arvrStabilizedRV, &yaw_pitch_roll, true);
       break;
     case SH2_GYRO_INTEGRATED_RV:
-      quaternionToEulerGi(&sensorValue.un.gyroIntegratedRV, &yawPitchRoll, true);
+      quaternionToEulerGi(&sensor_value.un.gyroIntegratedRV, &yaw_pitch_roll, true);
       break;
     }
   }
 }
 
-void Gyro::quaternionToEulerRv(sh2_RotationVectorWAcc_t *rotational_vector, YawPitchRoll_t *yawPitchRoll, bool degrees = false)
+void Gyro::quaternionToEulerRv(sh2_RotationVectorWAcc_t *rotational_vector, YawPitchRoll_t *yaw_pitch_roll, bool degrees = false)
 {
-  quaternionToEuler(rotational_vector->real, rotational_vector->i, rotational_vector->j, rotational_vector->k, yawPitchRoll, degrees);
+  quaternionToEuler(rotational_vector->real, rotational_vector->i, rotational_vector->j, rotational_vector->k, yaw_pitch_roll, degrees);
 }
 
-void Gyro::quaternionToEulerGi(sh2_GyroIntegratedRV_t *rotational_vector, YawPitchRoll_t *yawPitchRoll, bool degrees = false)
+void Gyro::quaternionToEulerGi(sh2_GyroIntegratedRV_t *rotational_vector, YawPitchRoll_t *yaw_pitch_roll, bool degrees = false)
 {
-  quaternionToEuler(rotational_vector->real, rotational_vector->i, rotational_vector->j, rotational_vector->k, yawPitchRoll, degrees);
+  quaternionToEuler(rotational_vector->real, rotational_vector->i, rotational_vector->j, rotational_vector->k, yaw_pitch_roll, degrees);
 }
 
-void Gyro::quaternionToEuler(float qr, float qi, float qj, float qk, YawPitchRoll_t *yawPitchRoll, bool degrees = false)
+void Gyro::quaternionToEuler(float qr, float qi, float qj, float qk, YawPitchRoll_t *yaw_pitch_roll, bool degrees = false)
 {
   float sqr = sq(qr);
   float sqi = sq(qi);
   float sqj = sq(qj);
   float sqk = sq(qk);
 
-  yawPitchRoll->yaw = atan2(2.0 * (qi * qj + qk * qr), (sqi - sqj - sqk + sqr));
-  yawPitchRoll->pitch = asin(-2.0 * (qi * qk - qj * qr) / (sqi + sqj + sqk + sqr));
-  yawPitchRoll->roll = atan2(2.0 * (qj * qk + qi * qr), (-sqi - sqj + sqk + sqr));
+  yaw_pitch_roll->yaw = atan2(2.0 * (qi * qj + qk * qr), (sqi - sqj - sqk + sqr));
+  yaw_pitch_roll->pitch = asin(-2.0 * (qi * qk - qj * qr) / (sqi + sqj + sqk + sqr));
+  yaw_pitch_roll->roll = atan2(2.0 * (qj * qk + qi * qr), (-sqi - sqj + sqk + sqr));
 
   if (degrees)
   {
-    yawPitchRoll->yaw *= RAD_TO_DEG;
-    yawPitchRoll->pitch *= RAD_TO_DEG;
-    yawPitchRoll->roll *= RAD_TO_DEG;
+    yaw_pitch_roll->yaw *= RAD_TO_DEG;
+    yaw_pitch_roll->pitch *= RAD_TO_DEG;
+    yaw_pitch_roll->roll *= RAD_TO_DEG;
   }
 }

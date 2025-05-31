@@ -13,10 +13,7 @@
 class Pid
 {
 public:
-    long previousTimer;
-    float pitchOffset = 0, rollOffset = 0;
-    
-    void calculate(float throttle, bool launchMode, float gyroRoll, float gyroPitch, float gyroYaw);
+    void calculate(float throttle, bool launch_mode, float gyro_roll, float gyro_pitch, float gyro_yaw);
     void reset();
     float pid_throttle_L_F(float throttle) const
     {
@@ -34,32 +31,35 @@ public:
     {
         return constrain(throttle - roll_pid() + pitch_pid(), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
-    // TEMPORARY PUBLIC FOR DEBUGGING
+    void setPitchOffset(float value) {
+        pitch_offset = value;
+    };
+    void setRollOffset(float value) {
+        roll_offset = value;
+    };
+
     /* Roll PID Constants */
     double roll_kp = 0;
     double roll_ki = 0;
     double roll_kd = 0;
-    
-    // TEMPORARY PUBLIC FOR DEBUGGING
+
     /* Pitch PID Constants */
     double pitch_kp = roll_kp;
     double pitch_ki = roll_ki;
     double pitch_kd = roll_kd;
-
-    // TEMPORARY PUBLIC FOR DEBUGGING
-    float pitch_pid() const
-    {
-        return constrain(pitch_pid_p() + pitch_pid_d(), -PID_MAX, PID_MAX);
-    }
-    float roll_pid() const
-    {
-        return constrain(roll_pid_p() + roll_pid_d(), -PID_MAX, PID_MAX);
-    }
 private:
+    long previous_timer;
+    float pitch_offset = 0, roll_offset = 0;
+    
     void updateIntegral();
     void resetIntegral();
 
     /* Roll PID */
+    float roll_pid() const
+    {
+        return constrain(roll_pid_p() + roll_pid_d(), -PID_MAX, PID_MAX);
+    }
+
     float roll_error, roll_previous_error;
     float roll_pid_p() const
     {
@@ -71,8 +71,13 @@ private:
         return roll_kd * (roll_error - roll_previous_error);
     }
     float roll_desired_angle = 0;   
-
+    
     /* Pitch PID */
+    float pitch_pid() const
+    {
+        return constrain(pitch_pid_p() + pitch_pid_d(), -PID_MAX, PID_MAX);
+    }
+
     float pitch_error, pitch_previous_error;
     float pitch_pid_p() const
     {
@@ -84,6 +89,12 @@ private:
         return pitch_kd * (pitch_error - pitch_previous_error);
     }
     float pitch_desired_angle = 0;
+
+    /* Yaw PID Constants */
+    double yaw_kp = 0; // 0.5
+    double yaw_ki = 0;
+    double yaw_kd = 0; // 5
+    float yaw_desired_angle = 0;
 
     /* Yaw PID */
     float yaw_pid() const
@@ -101,11 +112,6 @@ private:
     {
         return yaw_kd * (yaw_error - yaw_previous_error);
     }
-    /* Yaw PID Constants */
-    double yaw_kp = 0; // 0.5
-    double yaw_ki = 0;
-    double yaw_kd = 0; // 5
-    float yaw_desired_angle = 0;
 };
 
 #endif

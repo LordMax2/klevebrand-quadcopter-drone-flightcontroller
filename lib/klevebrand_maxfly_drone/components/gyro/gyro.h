@@ -18,34 +18,34 @@ struct YawPitchRoll_t
 class Gyro
 {
 public:
-    Adafruit_BNO08x bno08x = Adafruit_BNO08x(BNO_RESET_PIN);
+    void setup();
+    void reload();
+    void printYawPitchRoll();
+
     float yaw() const
     {
-        return yawPitchRoll.yaw;
+        return yaw_pitch_roll.yaw;
     }
     float pitch() const
     {
-        return yawPitchRoll.pitch;
+        return yaw_pitch_roll.pitch;
     }
     float roll() const
     {
-        return yawPitchRoll.roll;
+        return yaw_pitch_roll.roll;
     }
 
-    void setup();
-    void setReports();
-    void update();
-    void printYawPitchRoll();
-
 private:
-    sh2_SensorValue_t sensorValue;
-    sh2_SensorId_t reportType = SH2_ARVR_STABILIZED_RV;
-    YawPitchRoll_t yawPitchRoll;
-    long reportIntervalUs = BNO_REPORT_INTERVAL;
+    Adafruit_BNO08x bno08x = Adafruit_BNO08x(BNO_RESET_PIN);
+    sh2_SensorValue_t sensor_value;
+    sh2_SensorId_t report_type = SH2_ARVR_STABILIZED_RV;
+    YawPitchRoll_t yaw_pitch_roll;
+    long report_interval_us = BNO_REPORT_INTERVAL;
 
     void quaternionToEuler(float qr, float qi, float qj, float qk, YawPitchRoll_t *ypr, bool degrees = false);
     void quaternionToEulerRv(sh2_RotationVectorWAcc_t *rotational_vector, YawPitchRoll_t *ypr, bool degrees = false);
     void quaternionToEulerGi(sh2_GyroIntegratedRV_t *rotational_vector, YawPitchRoll_t *ypr, bool degrees = false);
+    void setReports();
 };
 
 #endif

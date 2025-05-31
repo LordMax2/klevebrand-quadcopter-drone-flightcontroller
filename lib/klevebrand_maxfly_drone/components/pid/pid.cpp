@@ -7,7 +7,7 @@ void Pid::reset()
   yaw_pid_i = 0, roll_pid_i = 0, pitch_pid_i = 0;
 }
 
-void Pid::calculate(float throttle, bool launchMode, float gyroRoll, float gyroPitch, float gyroYaw)
+void Pid::calculate(float throttle, bool launch_mode, float gyroRoll, float gyroPitch, float gyroYaw)
 {
   if (throttle <= PID_THROTTLE_THRESHOLD)
   {
@@ -20,11 +20,11 @@ void Pid::calculate(float throttle, bool launchMode, float gyroRoll, float gyroP
   yaw_error = yaw_desired_angle - gyroYaw;
 
   unsigned long currentTimer = millis();
-  if (currentTimer - previousTimer >= PID_UPDATE_INTERVAL)
+  if (currentTimer - previous_timer >= PID_UPDATE_INTERVAL)
   {
-    previousTimer = currentTimer;
+    previous_timer = currentTimer;
 
-    if (launchMode)
+    if (launch_mode)
     {
       resetIntegral();
     }
