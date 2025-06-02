@@ -23,9 +23,6 @@ enum FlightMode_t
 class Drone
 {
 public:
-  /*
-   * This constructor is here to force the user to configure the drone properly
-   */
   Drone(
       uint8_t motor_left_front_pin_number,
       uint8_t motor_right_front_pin_number,
@@ -34,10 +31,7 @@ public:
       int throttle_receiver_channel_number,
       int yaw_receiver_channel_number,
       int pitch_receiver_channel_number,
-      int roll_receiver_channel_number,
-      int pid_p_constant_channel_number,
-      int pid_i_constant_channel_number,
-      int pid_d_constant_channel_number)
+      int roll_receiver_channel_number)
   {
     /*
      * Map the motor pin numbers
@@ -54,6 +48,31 @@ public:
     this->pid_i_constant_channel_number = pid_i_constant_channel_number;
     this->pid_d_constant_channel_number = pid_d_constant_channel_number;
 
+  }
+  /*
+   * This constructor is here to force the user to configure the drone properly
+   */
+  Drone(
+      uint8_t motor_left_front_pin_number,
+      uint8_t motor_right_front_pin_number,
+      uint8_t motor_left_back_pin_number,
+      uint8_t motor_right_back_pin_number,
+      int throttle_receiver_channel_number,
+      int yaw_receiver_channel_number,
+      int pitch_receiver_channel_number,
+      int roll_receiver_channel_number,
+      int pid_p_constant_channel_number,
+      int pid_i_constant_channel_number,
+      int pid_d_constant_channel_number) : Drone(
+        motor_left_front_pin_number, 
+        motor_right_front_pin_number, 
+        motor_left_back_pin_number, 
+        motor_right_back_pin_number,  
+        throttle_receiver_channel_number, 
+        yaw_receiver_channel_number, 
+        pitch_receiver_channel_number, 
+        roll_receiver_channel_number)
+  {
     /*
      * Map the receiver channel numbers
      */
@@ -78,6 +97,7 @@ public:
   void setPidPConstant(float pwm_value);
   void setPidIConstant(float pwm_value);
   void setPidDConstant(float pwm_value);
+
 private:
   Gyro gyro;
   Pid pid;
@@ -111,7 +131,7 @@ private:
   void runMotors(float gyro_roll, float gyro_pitch);
   void stopMotors();
   void updateGyro();
-  void savePidErrors(float gyro_roll, float gyro_pitch) 
+  void savePidErrors(float gyro_roll, float gyro_pitch)
   {
     pid.save_pitch_error(gyro_pitch);
     pid.save_roll_error(gyro_roll);
