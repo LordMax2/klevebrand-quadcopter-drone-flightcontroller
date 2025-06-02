@@ -6,7 +6,7 @@
 #include <Adafruit_BNO08x.h>
 
 #define BNO_RESET_PIN -1
-#define BNO_REPORT_INTERVAL 2000
+#define BNO_REPORT_INTERVAL 2500 
 
 struct YawPitchRoll_t
 {

@@ -2,12 +2,11 @@
 
 void Pid::reset()
 {
-  roll_error = 0, pitch_error = 0, yaw_error = 0;
   roll_previous_error = 0, pitch_previous_error = 0, yaw_previous_error = 0;
   yaw_pid_i = 0, roll_pid_i = 0, pitch_pid_i = 0;
 }
 
-void Pid::calculate(float throttle, bool launch_mode, float gyroRoll, float gyroPitch, float gyroYaw)
+void Pid::calculate(float throttle, bool launch_mode, float gyro_roll, float gyro_pitch, float gyro_yaw)
 {
   if (throttle <= PID_THROTTLE_THRESHOLD)
   {
@@ -15,11 +14,8 @@ void Pid::calculate(float throttle, bool launch_mode, float gyroRoll, float gyro
     return;
   }
 
-  roll_error = roll_desired_angle - gyroRoll;
-  pitch_error = pitch_desired_angle - gyroPitch;
-  yaw_error = yaw_desired_angle - gyroYaw;
-
   unsigned long currentTimer = micros();
+
   if (currentTimer - previous_timer >= PID_UPDATE_INTERVAL)
   {
     previous_timer = currentTimer;
@@ -30,20 +26,18 @@ void Pid::calculate(float throttle, bool launch_mode, float gyroRoll, float gyro
     }
     else
     {
-      updateIntegral();
+      updateIntegral(gyro_roll, gyro_pitch, gyro_yaw);
     }
-
-    roll_previous_error = roll_error;
-    pitch_previous_error = pitch_error;
-    yaw_previous_error = yaw_error;
   }
 }
 
-void Pid::updateIntegral()
+
+
+void Pid::updateIntegral(float gyro_roll, float gyro_pitch, float gyro_yaw)
 {
-  roll_pid_i += constrain(roll_ki * roll_error, -PID_MAX, PID_MAX);
-  pitch_pid_i += constrain(pitch_ki * pitch_error, -PID_MAX, PID_MAX);
-  yaw_pid_i += constrain(yaw_ki * yaw_error, -PID_MAX, PID_MAX);
+  roll_pid_i += constrain(roll_ki * roll_error(gyro_roll), -PID_MAX, PID_MAX);
+  pitch_pid_i += constrain(pitch_ki * pitch_error(gyro_pitch), -PID_MAX, PID_MAX);
+  yaw_pid_i += constrain(yaw_ki * yaw_error(gyro_yaw), -PID_MAX, PID_MAX);
 }
 
 void Pid::resetIntegral()

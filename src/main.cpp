@@ -19,7 +19,7 @@ void loop()
   drone.setThrottleYawPitchRollFromReceiver(receiver);
 
   // Set the drone PID values from the receiver
-  drone.setPIDFromReceiver(receiver);
+  drone.setPidFromReceiver(receiver);
 
   // Run the drone feedback-loop
   drone.run();

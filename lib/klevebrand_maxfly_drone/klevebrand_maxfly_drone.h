@@ -70,7 +70,7 @@ public:
   void resetPid();
   bool hasLostConnection();
   void setThrottleYawPitchRollFromReceiver(PwmReceiver receiver);
-  void setPIDFromReceiver(PwmReceiver receiver);
+  void setPidFromReceiver(PwmReceiver receiver);
   void setThrottle(float value);
   void setDesiredYawAngle(float value);
   void setDesiredPitchAngle(float value);
@@ -107,10 +107,15 @@ private:
   int pid_i_constant_channel_number;
   int pid_d_constant_channel_number;
   void setupMotors();
-  void calculatePid();
-  void runMotors();
+  void calculatePid(float gyro_roll, float gyro_pitch, float gyro_yaw);
+  void runMotors(float gyro_roll, float gyro_pitch);
   void stopMotors();
   void updateGyro();
+  void savePidErrors(float gyro_roll, float gyro_pitch) 
+  {
+    pid.save_pitch_error(gyro_pitch);
+    pid.save_roll_error(gyro_roll);
+  }
 };
 
 #endif
