@@ -136,9 +136,10 @@ private:
   void updateGyro();
   void savePidErrors(float gyro_roll, float gyro_pitch)
   {
-    pid.save_pitch_error(gyro_pitch);
-    pid.save_roll_error(gyro_roll);
+    pid.savePitchError(gyro_pitch);
+    pid.saveRollError(gyro_roll);
   }
+  void delayToKeepFeedbackLoopHz(long start_micros_timestamp);
 };
 
 #endif

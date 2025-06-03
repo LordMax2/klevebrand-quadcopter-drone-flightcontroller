@@ -53,6 +53,11 @@ void Drone::run()
 
     savePidErrors(gyro.roll(), gyro.pitch());
 
+    delayToKeepFeedbackLoopHz(start_micros_timestamp);
+  }
+}
+
+void Drone::delayToKeepFeedbackLoopHz(long start_micros_timestamp) {
     long current_micros_timestamp = micros();
 
     long microseconds_feedback_loop_should_take = 1000000 / FEEDBACK_LOOP_HZ;
@@ -63,7 +68,6 @@ void Drone::run()
     {
       delayMicroseconds(microseconds_left_for_loop);
     }
-  }
 }
 
 void Drone::setupMotors()
@@ -110,15 +114,15 @@ void Drone::stopMotors()
 
 void Drone::runMotors(float gyro_roll, float gyro_pitch)
 {
-  motor_left_front.writeMicroseconds(pid.pid_throttle_L_F(throttle, gyro_roll, gyro_pitch));
-  motor_right_front.writeMicroseconds(pid.pid_throttle_R_F(throttle, gyro_roll, gyro_pitch));
-  motor_left_back.writeMicroseconds(pid.pid_throttle_L_B(throttle, gyro_roll, gyro_pitch));
-  motor_right_back.writeMicroseconds(pid.pid_throttle_R_B(throttle, gyro_roll, gyro_pitch));
+  motor_left_front.writeMicroseconds(pid.pidThrottleLF(throttle, gyro_roll, gyro_pitch));
+  motor_right_front.writeMicroseconds(pid.pidThrottleRF(throttle, gyro_roll, gyro_pitch));
+  motor_left_back.writeMicroseconds(pid.pidThrottleLB(throttle, gyro_roll, gyro_pitch));
+  motor_right_back.writeMicroseconds(pid.pidThrottleRB(throttle, gyro_roll, gyro_pitch));
 }
 
 void Drone::calculatePid(float gyro_roll, float gyro_pitch, float gyro_yaw)
 {
-  pid.calculate(throttle, launch_mode, gyro_roll, gyro_pitch, gyro_yaw);
+  pid.updateIntegral(gyro_roll, gyro_pitch, gyro_yaw);
 }
 
 bool Drone::hasLostConnection()
@@ -227,11 +231,11 @@ void Drone::setDesiredRollAngle(float value)
 
 void Drone::printThrottle()
 {
-  Serial.print(pid.pid_throttle_L_F(throttle, gyro.roll(), gyro.pitch()));
+  Serial.print(pid.pidThrottleLF(throttle, gyro.roll(), gyro.pitch()));
   Serial.print("    ");
-  Serial.println(pid.pid_throttle_R_F(throttle, gyro.roll(), gyro.pitch()));
-  Serial.print(pid.pid_throttle_L_B(throttle, gyro.roll(), gyro.pitch()));
+  Serial.println(pid.pidThrottleRF(throttle, gyro.roll(), gyro.pitch()));
+  Serial.print(pid.pidThrottleLB(throttle, gyro.roll(), gyro.pitch()));
   Serial.print("    ");
-  Serial.println(pid.pid_throttle_R_B(throttle, gyro.roll(), gyro.pitch()));
+  Serial.println(pid.pidThrottleRB(throttle, gyro.roll(), gyro.pitch()));
   Serial.println("-----------------------------------------");
 }
