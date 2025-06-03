@@ -36,23 +36,10 @@ public:
         return constrain(throttle - rollPid(gyro_roll) + pitchPid(gyro_pitch), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
 
-    void setPitchOffset(float value) {
-        pitch_offset = value;
-    };
-    
-    void savePitchError(float gyro_pitch) 
-    {
-        pitch_previous_error = pitchError(gyro_pitch);
-    }
-
-    void setRollOffset(float value) {
-        roll_offset = value;
-    };
-
-    void saveRollError(float gyro_roll) 
-    {
-        roll_previous_error = rollError(gyro_roll);
-    }
+    void setPitchOffset(float value); 
+    void savePitchError(float gyro_pitch);
+    void setRollOffset(float value);
+    void saveRollError(float gyro_roll);
 
     /* Roll PID Constants */
     double roll_kp = 0;
