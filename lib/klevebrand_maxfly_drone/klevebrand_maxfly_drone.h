@@ -23,6 +23,9 @@ enum FlightMode_t
 class Drone
 {
 public:
+  /*
+  * Create a drone
+  */
   Drone(
       uint8_t motor_left_front_pin_number,
       uint8_t motor_right_front_pin_number,
@@ -50,7 +53,7 @@ public:
 
   }
   /*
-   * This constructor is here to force the user to configure the drone properly
+   * Create a drone with real-time modifiable PID contstans via the receiver 
    */
   Drone(
       uint8_t motor_left_front_pin_number,
