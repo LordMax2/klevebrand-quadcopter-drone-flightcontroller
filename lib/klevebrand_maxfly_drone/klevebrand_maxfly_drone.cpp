@@ -49,25 +49,26 @@ void Drone::run()
     // printGyro();
 
     // Run the motors with the calculated PID throttle
-    runMotors(gyro.roll(), gyro.pitch());
+    runMotors(gyro.roll(), gyro.pitch(), gyro.yaw());
 
-    savePidErrors(gyro.roll(), gyro.pitch());
+    savePidErrors(gyro.roll(), gyro.pitch(), gyro.yaw());
 
     delayToKeepFeedbackLoopHz(start_micros_timestamp);
   }
 }
 
-void Drone::delayToKeepFeedbackLoopHz(long start_micros_timestamp) {
-    long current_micros_timestamp = micros();
+void Drone::delayToKeepFeedbackLoopHz(long start_micros_timestamp)
+{
+  long current_micros_timestamp = micros();
 
-    long microseconds_feedback_loop_should_take = 1000000 / FEEDBACK_LOOP_HZ;
+  long microseconds_feedback_loop_should_take = 1000000 / FEEDBACK_LOOP_HZ;
 
-    long microseconds_left_for_loop = microseconds_feedback_loop_should_take - (current_micros_timestamp - start_micros_timestamp);
+  long microseconds_left_for_loop = microseconds_feedback_loop_should_take - (current_micros_timestamp - start_micros_timestamp);
 
-    if (microseconds_left_for_loop > 0 && microseconds_left_for_loop < microseconds_feedback_loop_should_take)
-    {
-      delayMicroseconds(microseconds_left_for_loop);
-    }
+  if (microseconds_left_for_loop > 0 && microseconds_left_for_loop < microseconds_feedback_loop_should_take)
+  {
+    delayMicroseconds(microseconds_left_for_loop);
+  }
 }
 
 void Drone::setupMotors()
@@ -89,7 +90,7 @@ void Drone::setupMotors()
   motor_left_back.writeMicroseconds(THROTTLE_MINIMUM);
   motor_right_back.writeMicroseconds(THROTTLE_MINIMUM);
 
-  delay(2000);
+  delay(1000);
 
   Serial.println("Motors setup!");
 }
@@ -112,12 +113,12 @@ void Drone::stopMotors()
   motor_right_back.writeMicroseconds(THROTTLE_MINIMUM);
 }
 
-void Drone::runMotors(float gyro_roll, float gyro_pitch)
+void Drone::runMotors(float gyro_roll, float gyro_pitch, float gyro_yaw)
 {
-  motor_left_front.writeMicroseconds(pid.pidThrottleLF(throttle, gyro_roll, gyro_pitch));
-  motor_right_front.writeMicroseconds(pid.pidThrottleRF(throttle, gyro_roll, gyro_pitch));
-  motor_left_back.writeMicroseconds(pid.pidThrottleLB(throttle, gyro_roll, gyro_pitch));
-  motor_right_back.writeMicroseconds(pid.pidThrottleRB(throttle, gyro_roll, gyro_pitch));
+  motor_left_front.writeMicroseconds(pid.pidThrottleLF(throttle, gyro_roll, gyro_pitch, gyro_yaw));
+  motor_right_front.writeMicroseconds(pid.pidThrottleRF(throttle, gyro_roll, gyro_pitch, gyro_yaw));
+  motor_left_back.writeMicroseconds(pid.pidThrottleLB(throttle, gyro_roll, gyro_pitch, gyro_yaw));
+  motor_right_back.writeMicroseconds(pid.pidThrottleRB(throttle, gyro_roll, gyro_pitch, gyro_yaw));
 }
 
 void Drone::calculatePid(float gyro_roll, float gyro_pitch, float gyro_yaw)
@@ -191,8 +192,8 @@ void Drone::setPidIConstant(float pwm_value)
 
 void Drone::setPidDConstant(float pwm_value)
 {
-  pid.roll_kd = mapfloat(pwm_value, 1100, 1800, 0, 10);
-  pid.pitch_kd = mapfloat(pwm_value, 1100, 1800, 0, 10);
+  pid.roll_kd = mapfloat(pwm_value, 1100, 1800, 0, 40);
+  pid.pitch_kd = mapfloat(pwm_value, 1100, 1800, 0, 40);
 
   if (pid.roll_kd < 0)
     pid.roll_kd = 0;
@@ -231,11 +232,11 @@ void Drone::setDesiredRollAngle(float value)
 
 void Drone::printThrottle()
 {
-  Serial.print(pid.pidThrottleLF(throttle, gyro.roll(), gyro.pitch()));
+  Serial.print(pid.pidThrottleLF(throttle, gyro.roll(), gyro.pitch(), gyro.yaw()));
   Serial.print("    ");
-  Serial.println(pid.pidThrottleRF(throttle, gyro.roll(), gyro.pitch()));
-  Serial.print(pid.pidThrottleLB(throttle, gyro.roll(), gyro.pitch()));
+  Serial.println(pid.pidThrottleRF(throttle, gyro.roll(), gyro.pitch(), gyro.yaw()));
+  Serial.print(pid.pidThrottleLB(throttle, gyro.roll(), gyro.pitch(), gyro.yaw()));
   Serial.print("    ");
-  Serial.println(pid.pidThrottleRB(throttle, gyro.roll(), gyro.pitch()));
+  Serial.println(pid.pidThrottleRB(throttle, gyro.roll(), gyro.pitch(), gyro.yaw()));
   Serial.println("-----------------------------------------");
 }

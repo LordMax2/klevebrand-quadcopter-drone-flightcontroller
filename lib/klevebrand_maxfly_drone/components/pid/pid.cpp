@@ -32,3 +32,8 @@ void Pid::saveRollError(float gyro_roll)
 {
   roll_previous_error = rollError(gyro_roll);
 }
+
+void Pid::saveYawError(float gyro_yaw)
+{
+  yaw_previous_error = yawError(gyro_yaw);
+}

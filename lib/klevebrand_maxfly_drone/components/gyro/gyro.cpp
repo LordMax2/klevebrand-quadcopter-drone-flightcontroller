@@ -26,7 +26,7 @@ void Gyro::setup()
 
   setReports();
 
-  delay(5000);
+  delay(2000);
 }
 
 void Gyro::printYawPitchRoll() {

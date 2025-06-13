@@ -24,8 +24,8 @@ class Drone
 {
 public:
   /*
-  * Create a drone
-  */
+   * Create a drone
+   */
   Drone(
       uint8_t motor_left_front_pin_number,
       uint8_t motor_right_front_pin_number,
@@ -45,15 +45,15 @@ public:
     this->motor_right_back_pin_number = motor_right_back_pin_number;
 
     /*
-     * Map the reciever PID channel numbers
+     * Map the receiver channel numbers
      */
-    this->pid_p_constant_channel_number = pid_p_constant_channel_number;
-    this->pid_i_constant_channel_number = pid_i_constant_channel_number;
-    this->pid_d_constant_channel_number = pid_d_constant_channel_number;
-
+    this->throttle_receiver_channel_number = throttle_receiver_channel_number;
+    this->yaw_receiver_channel_number = yaw_receiver_channel_number;
+    this->pitch_receiver_channel_number = pitch_receiver_channel_number;
+    this->roll_receiver_channel_number = roll_receiver_channel_number;
   }
   /*
-   * Create a drone with real-time modifiable PID contstans via the receiver 
+   * Create a drone with real-time modifiable PID contstans via the receiver
    */
   Drone(
       uint8_t motor_left_front_pin_number,
@@ -66,23 +66,21 @@ public:
       int roll_receiver_channel_number,
       int pid_p_constant_channel_number,
       int pid_i_constant_channel_number,
-      int pid_d_constant_channel_number) : Drone(
-        motor_left_front_pin_number, 
-        motor_right_front_pin_number, 
-        motor_left_back_pin_number, 
-        motor_right_back_pin_number,  
-        throttle_receiver_channel_number, 
-        yaw_receiver_channel_number, 
-        pitch_receiver_channel_number, 
-        roll_receiver_channel_number)
+      int pid_d_constant_channel_number) : Drone(motor_left_front_pin_number,
+                                                 motor_right_front_pin_number,
+                                                 motor_left_back_pin_number,
+                                                 motor_right_back_pin_number,
+                                                 throttle_receiver_channel_number,
+                                                 yaw_receiver_channel_number,
+                                                 pitch_receiver_channel_number,
+                                                 roll_receiver_channel_number)
   {
     /*
-     * Map the receiver channel numbers
+     * Map the reciever PID channel numbers
      */
-    this->throttle_receiver_channel_number = throttle_receiver_channel_number;
-    this->yaw_receiver_channel_number = yaw_receiver_channel_number;
-    this->pitch_receiver_channel_number = pitch_receiver_channel_number;
-    this->roll_receiver_channel_number = roll_receiver_channel_number;
+    this->pid_p_constant_channel_number = pid_p_constant_channel_number;
+    this->pid_i_constant_channel_number = pid_i_constant_channel_number;
+    this->pid_d_constant_channel_number = pid_d_constant_channel_number;
   };
   void setup();
   void run();
@@ -131,13 +129,14 @@ private:
   int pid_d_constant_channel_number;
   void setupMotors();
   void calculatePid(float gyro_roll, float gyro_pitch, float gyro_yaw);
-  void runMotors(float gyro_roll, float gyro_pitch);
+  void runMotors(float gyro_roll, float gyro_pitch, float gyro_yaw);
   void stopMotors();
   void updateGyro();
-  void savePidErrors(float gyro_roll, float gyro_pitch)
+  void savePidErrors(float gyro_roll, float gyro_pitch, float gyro_yaw)
   {
     pid.savePitchError(gyro_pitch);
     pid.saveRollError(gyro_roll);
+    pid.saveYawError(gyro_yaw);
   }
   void delayToKeepFeedbackLoopHz(long start_micros_timestamp);
 };
