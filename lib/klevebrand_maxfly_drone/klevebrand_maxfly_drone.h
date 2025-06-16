@@ -112,9 +112,9 @@ private:
   float throttle_set_timestamp = 0;
   float desired_yaw_angle = 0;
   float desired_yaw_angle_set_timestamp = 0;
-  float desired_pitch_angle = 0;
+  float pitch_desired_angle = 0;
   float desired_pitch_angle_set_timestamp = 0;
-  float desired_roll_angle = 0;
+  float roll_desired_angle = 0;
   float desired_roll_angle_set_timestamp = 0;
   uint8_t motor_left_front_pin_number;
   uint8_t motor_right_front_pin_number;
@@ -132,12 +132,7 @@ private:
   void runMotors(float gyro_roll, float gyro_pitch, float gyro_yaw);
   void stopMotors();
   void updateGyro();
-  void savePidErrors(float gyro_roll, float gyro_pitch, float gyro_yaw)
-  {
-    pid.savePitchError(gyro_pitch);
-    pid.saveRollError(gyro_roll);
-    pid.saveYawError(gyro_yaw);
-  }
+  void savePidErrors(float gyro_roll, float gyro_pitch, float gyro_yaw);
   void delayToKeepFeedbackLoopHz(long start_micros_timestamp);
 };
 

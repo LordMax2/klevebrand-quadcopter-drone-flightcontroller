@@ -14,32 +14,32 @@ class Pid
 {
 public:
     void reset();
-    void updateIntegral(float gyro_roll, float gyro_pitch, float gyro_yaw);
+    void updateIntegral(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw);
 
-    float pidThrottleLF(float throttle, float gyro_roll, float gyro_pitch, float gyro_yaw)
+    float pidThrottleLF(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw)
     {
-        return constrain(throttle + rollPid(gyro_roll) - pitchPid(gyro_pitch) - yawPid(gyro_yaw), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
+        return constrain(throttle + rollPid(gyro_roll, roll_desired_angle) - pitchPid(gyro_pitch, pitch_desired_angle) - yawPid(gyro_yaw), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
 
-    float pidThrottleLB(float throttle, float gyro_roll, float gyro_pitch, float gyro_yaw)
+    float pidThrottleLB(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw)
     {
-        return constrain(throttle + rollPid(gyro_roll) + pitchPid(gyro_pitch) + yawPid(gyro_yaw), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
+        return constrain(throttle + rollPid(gyro_roll, roll_desired_angle) + pitchPid(gyro_pitch, pitch_desired_angle) + yawPid(gyro_yaw), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
 
-    float pidThrottleRF(float throttle, float gyro_roll, float gyro_pitch, float gyro_yaw)
+    float pidThrottleRF(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw)
     {
-        return constrain(throttle - rollPid(gyro_roll) - pitchPid(gyro_pitch) + yawPid(gyro_yaw), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
+        return constrain(throttle - rollPid(gyro_roll, roll_desired_angle) - pitchPid(gyro_pitch, pitch_desired_angle) + yawPid(gyro_yaw), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
 
-    float pidThrottleRB(float throttle, float gyro_roll, float gyro_pitch, float gyro_yaw)
+    float pidThrottleRB(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw)
     {
-        return constrain(throttle - rollPid(gyro_roll) + pitchPid(gyro_pitch) - yawPid(gyro_yaw), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
+        return constrain(throttle - rollPid(gyro_roll, roll_desired_angle) + pitchPid(gyro_pitch, pitch_desired_angle) - yawPid(gyro_yaw), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
 
     void setPitchOffset(float value);
-    void savePitchError(float gyro_pitch);
+    void savePitchError(float gyro_pitch, float pitch_desired_angle);
     void setRollOffset(float value);
-    void saveRollError(float gyro_roll);
+    void saveRollError(float gyro_roll, float roll_desired_angle);
     void saveYawError(float gyro_yaw);
 
     /* Roll PID Constants */
@@ -57,57 +57,54 @@ private:
     float pitch_offset = 0, roll_offset = 0;
 
     /* Roll PID */
-    float rollPid(float gyro_roll)
+    float rollPid(float gyro_roll, float roll_desired_angle)
     {
-        return constrain(rollPidP(gyro_roll) + rollPidD(gyro_roll), -PID_MAX, PID_MAX);
+        return constrain(rollPidP(gyro_roll, roll_desired_angle) + roll_pid_i + rollPidD(gyro_roll, roll_desired_angle), -PID_MAX, PID_MAX);
     }
 
-    float rollError(float gyro_roll)
+    float rollError(float gyro_roll, float roll_desired_angle)
     {
         return roll_offset - roll_desired_angle - gyro_roll;
     }
 
     float roll_previous_error = 0;
 
-    float rollPidP(float gyro_roll)
+    float rollPidP(float gyro_roll, float roll_desired_angle)
     {
-        return roll_kp * rollError(gyro_roll);
+        return roll_kp * rollError(gyro_roll, roll_desired_angle);
     }
 
     float roll_pid_i = 0;
 
-    float rollPidD(float gyro_roll)
+    float rollPidD(float gyro_roll, float roll_desired_angle)
     {
-        return roll_kd * (rollError(gyro_roll) - roll_previous_error);
+        return roll_kd * (rollError(gyro_roll, roll_desired_angle) - roll_previous_error);
     }
-    float roll_desired_angle = 0;
 
     /* Pitch PID */
-    float pitchPid(float gyro_pitch)
+    float pitchPid(float gyro_pitch, float pitch_desired_angle)
     {
-        return constrain(pitchPidP(gyro_pitch) + pitchPidD(gyro_pitch), -PID_MAX, PID_MAX);
+        return constrain(pitchPidP(gyro_pitch, pitch_desired_angle) + pitch_pid_i + pitchPidD(gyro_pitch, pitch_desired_angle), -PID_MAX, PID_MAX);
     }
 
-    float pitchError(float gyro_pitch)
+    float pitchError(float gyro_pitch, float pitch_desired_angle)
     {
         return pitch_offset - pitch_desired_angle - gyro_pitch;
     }
 
     float pitch_previous_error = 0;
 
-    float pitchPidP(float gyro_pitch)
+    float pitchPidP(float gyro_pitch, float pitch_desired_angle)
     {
-        return pitch_kp * pitchError(gyro_pitch);
+        return pitch_kp * pitchError(gyro_pitch, pitch_desired_angle);
     }
 
     float pitch_pid_i = 0;
 
-    float pitchPidD(float gyro_pitch)
+    float pitchPidD(float gyro_pitch, float pitch_desired_angle)
     {
-        return pitch_kd * (pitchError(gyro_pitch) - pitch_previous_error);
+        return pitch_kd * (pitchError(gyro_pitch, pitch_desired_angle) - pitch_previous_error);
     }
-
-    float pitch_desired_angle = 0;
 
     /* Yaw PID Constants */
     double yaw_kp = 0.5; // 0.5
