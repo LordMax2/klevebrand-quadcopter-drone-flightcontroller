@@ -12,13 +12,6 @@
 
 #define FEEDBACK_LOOP_HZ 200
 
-enum FlightMode_t
-{
-  acro = 1,
-  auto_level = 2,
-  hold_position = 3
-};
-
 class Drone
 {
 public:
