@@ -87,6 +87,7 @@ public:
   void setPitchAndRollGyroOffsetAndDefineCurrentAngleAsZero();
   void printGyro();
   void printThrottle();
+  void printPid();
   void resetPid();
   bool hasLostConnection();
   void setThrottleYawPitchRollFromReceiver(PwmReceiver receiver);
@@ -128,7 +129,7 @@ private:
   int pid_i_constant_channel_number;
   int pid_d_constant_channel_number;
   void setupMotors();
-  void calculatePid(float gyro_roll, float gyro_pitch, float gyro_yaw);
+  void calculatePidIntegral(float gyro_roll, float gyro_pitch, float gyro_yaw);
   void runMotors(float gyro_roll, float gyro_pitch, float gyro_yaw);
   void stopMotors();
   void updateGyro();

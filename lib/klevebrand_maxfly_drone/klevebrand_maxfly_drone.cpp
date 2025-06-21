@@ -40,8 +40,15 @@ void Drone::run()
     // If connection is good, check if we should set the PID zero offset
     setPitchAndRollGyroOffsetAndDefineCurrentAngleAsZero();
 
-    // Then calculate the PID stabilization
-    calculatePid(gyro.roll(), gyro.pitch(), gyro.yaw());
+    // Increment the integral part of the PID loop
+    if (throttle > PID_THROTTLE_THRESHOLD)
+    {
+      calculatePidIntegral(gyro.roll(), gyro.pitch(), 0);
+    }
+    else
+    {
+      resetPid();
+    }
 
     // To debug throttle response
     // printPid();
@@ -121,7 +128,7 @@ void Drone::runMotors(float gyro_roll, float gyro_pitch, float gyro_yaw)
   motor_right_back.writeMicroseconds(pid.pidThrottleRB(throttle, gyro_roll, roll_desired_angle, gyro_pitch, pitch_desired_angle, gyro_yaw));
 }
 
-void Drone::calculatePid(float gyro_roll, float gyro_pitch, float gyro_yaw)
+void Drone::calculatePidIntegral(float gyro_roll, float gyro_pitch, float gyro_yaw)
 {
   pid.updateIntegral(gyro_roll, roll_desired_angle, gyro_pitch, pitch_desired_angle, gyro_yaw);
 }
@@ -181,8 +188,8 @@ void Drone::setPidPConstant(float pwm_value)
 
 void Drone::setPidIConstant(float pwm_value)
 {
-  pid.roll_ki = mapfloat(pwm_value, 1100, 1800, 0, 2);
-  pid.pitch_ki = mapfloat(pwm_value, 1100, 1800, 0, 2);
+  pid.roll_ki = mapfloat(pwm_value, 1100, 1800, 0, 1) / 10;
+  pid.pitch_ki = mapfloat(pwm_value, 1100, 1800, 0, 1) / 10;
 
   if (pid.roll_ki < 0)
     pid.roll_ki = 0;
@@ -192,8 +199,8 @@ void Drone::setPidIConstant(float pwm_value)
 
 void Drone::setPidDConstant(float pwm_value)
 {
-  pid.roll_kd = mapfloat(pwm_value, 1100, 1800, 0, 40);
-  pid.pitch_kd = mapfloat(pwm_value, 1100, 1800, 0, 40);
+  pid.roll_kd = mapfloat(pwm_value, 1100, 1800, 0, 60);
+  pid.pitch_kd = mapfloat(pwm_value, 1100, 1800, 0, 60);
 
   if (pid.roll_kd < 0)
     pid.roll_kd = 0;
@@ -220,23 +227,23 @@ void Drone::setDesiredYawAngle(float value)
 
 void Drone::setDesiredPitchAngle(float value)
 {
-  pitch_desired_angle = map(value, 1060, 1900, -20, 20);
+  pitch_desired_angle = map(value, 1060, 1900, -40, 40) * -1;
 
   desired_pitch_angle_set_timestamp = millis();
 }
 
 void Drone::setDesiredRollAngle(float value)
 {
-  roll_desired_angle = map(value, 1060, 1900, -20, 20);
+  roll_desired_angle = map(value, 1060, 1900, -40, 40);
 
   desired_roll_angle_set_timestamp = millis();
 }
 
 void Drone::savePidErrors(float gyro_roll, float gyro_pitch, float gyro_yaw)
 {
-    pid.savePitchError(gyro_pitch, pitch_desired_angle);
-    pid.saveRollError(gyro_roll, roll_desired_angle);
-    pid.saveYawError(gyro_yaw);
+  pid.savePitchError(gyro_pitch, pitch_desired_angle);
+  pid.saveRollError(gyro_roll, roll_desired_angle);
+  pid.saveYawError(gyro_yaw);
 }
 
 void Drone::printThrottle()
@@ -248,4 +255,9 @@ void Drone::printThrottle()
   Serial.print("    ");
   Serial.println(pid.pidThrottleRB(throttle, gyro.roll(), roll_desired_angle, gyro.pitch(), pitch_desired_angle, gyro.yaw()));
   Serial.println("-----------------------------------------");
+}
+
+void Drone::printPid()
+{
+  pid.printPid(gyro.roll(), roll_desired_angle, gyro.pitch(), pitch_desired_angle, gyro.yaw());
 }

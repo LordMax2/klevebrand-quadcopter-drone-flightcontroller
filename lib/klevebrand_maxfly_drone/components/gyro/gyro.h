@@ -6,13 +6,13 @@
 #include <Adafruit_BNO08x.h>
 
 #define BNO_RESET_PIN -1
-#define BNO_REPORT_INTERVAL 2500 
+#define BNO_REPORT_INTERVAL 2500
 
 struct YawPitchRoll_t
 {
-  float yaw;
-  float pitch;
-  float roll;
+    float yaw;
+    float pitch;
+    float roll;
 };
 
 class Gyro
@@ -41,11 +41,12 @@ private:
     sh2_SensorId_t report_type = SH2_ARVR_STABILIZED_RV;
     YawPitchRoll_t yaw_pitch_roll;
     long report_interval_us = BNO_REPORT_INTERVAL;
+    YawPitchRoll_t quaternionsToYawPitchRoll(sh2_RotationVectorWAcc_t *rotational_vector, bool degrees = false);
+    YawPitchRoll_t quaternionsToYawPitchRoll(float qr, float qi, float qj, float qk, bool degrees = false);
 
-    void quaternionToEuler(float qr, float qi, float qj, float qk, YawPitchRoll_t *ypr, bool degrees = false);
-    void quaternionToEulerRv(sh2_RotationVectorWAcc_t *rotational_vector, YawPitchRoll_t *ypr, bool degrees = false);
-    void quaternionToEulerGi(sh2_GyroIntegratedRV_t *rotational_vector, YawPitchRoll_t *ypr, bool degrees = false);
     void setReports();
+    bool setReportModeEuler();
+    bool setReportModeAcro();
 };
 
 #endif

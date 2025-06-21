@@ -3,8 +3,7 @@
 
 #include <Arduino.h>
 
-#define PID_THROTTLE_THRESHOLD 1050
-#define PID_UPDATE_INTERVAL 10000
+#define PID_THROTTLE_THRESHOLD 1100
 #define PID_MAX 400
 
 #define THROTTLE_MINIMUM 1000
@@ -15,25 +14,38 @@ class Pid
 public:
     void reset();
     void updateIntegral(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw);
+    void printPid(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw);
 
     float pidThrottleLF(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw)
     {
-        return constrain(throttle + rollPid(gyro_roll, roll_desired_angle) - pitchPid(gyro_pitch, pitch_desired_angle) - yawPid(gyro_yaw), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
+        if (throttle < PID_THROTTLE_THRESHOLD)
+            return THROTTLE_MINIMUM;
+
+        return constrain(throttle - rollPid(gyro_roll, roll_desired_angle) + pitchPid(gyro_pitch, pitch_desired_angle) + yawPid(gyro_yaw), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
 
     float pidThrottleLB(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw)
     {
-        return constrain(throttle + rollPid(gyro_roll, roll_desired_angle) + pitchPid(gyro_pitch, pitch_desired_angle) + yawPid(gyro_yaw), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
+        if (throttle < PID_THROTTLE_THRESHOLD)
+            return THROTTLE_MINIMUM;
+
+        return constrain(throttle - rollPid(gyro_roll, roll_desired_angle) - pitchPid(gyro_pitch, pitch_desired_angle) - yawPid(gyro_yaw), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
 
     float pidThrottleRF(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw)
     {
-        return constrain(throttle - rollPid(gyro_roll, roll_desired_angle) - pitchPid(gyro_pitch, pitch_desired_angle) + yawPid(gyro_yaw), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
+        if (throttle < PID_THROTTLE_THRESHOLD)
+            return THROTTLE_MINIMUM;
+
+        return constrain(throttle + rollPid(gyro_roll, roll_desired_angle) + pitchPid(gyro_pitch, pitch_desired_angle) - yawPid(gyro_yaw), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
 
     float pidThrottleRB(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw)
     {
-        return constrain(throttle - rollPid(gyro_roll, roll_desired_angle) + pitchPid(gyro_pitch, pitch_desired_angle) - yawPid(gyro_yaw), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
+        if (throttle < PID_THROTTLE_THRESHOLD)
+            return THROTTLE_MINIMUM;
+
+        return constrain(throttle + rollPid(gyro_roll, roll_desired_angle) - pitchPid(gyro_pitch, pitch_desired_angle) + yawPid(gyro_yaw), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
 
     void setPitchOffset(float value);
@@ -43,9 +55,9 @@ public:
     void saveYawError(float gyro_yaw);
 
     /* Roll PID Constants */
-    double roll_kp = 0; // Working: 1.25
-    double roll_ki = 0; // Working: 0
-    double roll_kd = 0; // Working 25 
+    double roll_kp = 0; // Working: 1.25    (Autolevel)
+    double roll_ki = 0; // Working: 0.01    (Autolevel)
+    double roll_kd = 0; // Working: 25      (Autolevel)
 
     /* Pitch PID Constants */
     double pitch_kp = roll_kp;
