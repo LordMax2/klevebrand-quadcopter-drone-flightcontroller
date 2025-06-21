@@ -1,8 +1,9 @@
 #include "../lib/klevebrand_maxfly_drone/klevebrand_maxfly_drone.h"
 #include "../lib/klevebrand_maxfly_drone/components/pwm_receiver/pwm_receiver.h"
+#include "../lib/klevebrand_maxfly_drone/components/drone_pwm_receiver/drone_pwm_receiver.h"
 
-Drone drone = Drone(3, 2, 7, 6, 3, 4, 2, 1, 5, 6, 8);
-PwmReceiver receiver;
+Drone drone = Drone(3, 2, 7, 6);
+DronePwmReceiver receiver = DronePwmReceiver(3, 4, 2, 1, 5, 6, 8);
 
 void setup()
 {
@@ -16,10 +17,10 @@ void setup()
 void loop()
 {
   // Set drone flight values from the receiver
-  drone.setThrottleYawPitchRollFromReceiver(receiver);
+  receiver.setThrottleYawPitchRoll(&drone);
 
   // Set the drone PID values from the receiver
-  drone.setPidFromReceiver(receiver);
+  receiver.setPid(&drone);
 
   // Run the drone feedback-loop
   drone.run();
