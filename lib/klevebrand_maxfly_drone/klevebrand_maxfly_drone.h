@@ -5,6 +5,7 @@
 #include <Servo.h>
 #include "./components/pid/pid.h"
 #include "./components/gyro/gyro.h"
+#include "./components/flight_mode/flight_mode.h"
 
 #define TRANSMITION_TIMEOUT_DEFINITION_MILLISECONDS 500
 
@@ -46,8 +47,11 @@ public:
   void setPidPConstant(float value);
   void setPidIConstant(float value);
   void setPidDConstant(float value);
+  void setFlightModeAutoLevel();
+  void setFlightModeAcro();
 
 private:
+  FlightMode flight_mode = auto_level;
   Gyro gyro;
   Pid pid;
   Servo motor_left_front;
@@ -73,6 +77,7 @@ private:
   void updateGyro();
   void savePidErrors(float gyro_roll, float gyro_pitch, float gyro_yaw);
   void delayToKeepFeedbackLoopHz(long start_micros_timestamp);
+  void setFlightMode(FlightMode flight_mode);
 };
 
 #endif

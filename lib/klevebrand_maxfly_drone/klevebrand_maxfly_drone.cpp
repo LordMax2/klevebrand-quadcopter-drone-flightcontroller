@@ -219,3 +219,30 @@ void Drone::printPid()
 {
   pid.printPid(gyro.roll(), roll_desired_angle, gyro.pitch(), pitch_desired_angle, gyro.yaw());
 }
+
+void Drone::setFlightMode(FlightMode flight_mode)
+{
+  Drone::flight_mode = flight_mode;
+}
+
+void Drone::setFlightModeAutoLevel()
+{
+  setPidPConstant(1.25);
+  setPidIConstant(0.01);
+  setPidDConstant(25);
+
+  gyro.setReportModeEuler();
+
+  setFlightMode(auto_level);
+}
+
+void Drone::setFlightModeAcro()
+{
+  setPidPConstant(0);
+  setPidIConstant(0);
+  setPidDConstant(0);
+
+  gyro.setReportModeAcro();
+
+  setFlightMode(acro);
+}
