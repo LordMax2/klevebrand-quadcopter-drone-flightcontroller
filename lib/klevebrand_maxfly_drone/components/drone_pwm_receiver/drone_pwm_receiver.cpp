@@ -20,13 +20,13 @@ void DronePwmReceiver::setThrottleYawPitchRoll(Drone *drone)
 void DronePwmReceiver::setPid(Drone *drone)
 {
     float pid_p_value = mapfloat(receiver.getChannelValue(pid_p_constant_channel_number), 1100, 1800, 0, 10);
-    drone->setPidPConstant(pid_p_value);
+    drone->setPidPConstant(pid_p_value / 5);
 
     float pid_i_value = mapfloat(receiver.getChannelValue(pid_i_constant_channel_number), 1100, 1800, 0, 1) / 10;
-    drone->setPidIConstant(pid_i_value);
+    drone->setPidIConstant(pid_i_value / 5);
 
     float pid_d_value = mapfloat(receiver.getChannelValue(pid_d_constant_channel_number), 1100, 1800, 0, 60);
-    drone->setPidDConstant(pid_d_value);
+    drone->setPidDConstant(pid_d_value / 5);
 }
 
 void DronePwmReceiver::setup()

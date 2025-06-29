@@ -40,7 +40,7 @@ void Drone::run()
     // Increment the integral part of the PID loop
     if (throttle > PID_THROTTLE_THRESHOLD)
     {
-      calculatePidIntegral(gyro.roll(), gyro.pitch(), 0);
+      calculatePidIntegral(gyro.roll(), gyro.pitch(), gyro.yaw());
     }
     else
     {

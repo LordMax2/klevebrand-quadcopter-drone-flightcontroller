@@ -2,12 +2,26 @@
 
 bool Gyro::setReportModeEuler()
 {
-  return bno08x.enableReport(SH2_ARVR_STABILIZED_RV, BNO_REPORT_INTERVAL);
+  bool result = bno08x.enableReport(SH2_ARVR_STABILIZED_RV, BNO_REPORT_INTERVAL);
+
+  if (!result)
+  {
+    Serial.println("Faled to setup Euler mode");
+  }
+
+  return result;
 }
 
 bool Gyro::setReportModeAcro()
 {
-  return bno08x.enableReport(SH2_GYROSCOPE_CALIBRATED, BNO_REPORT_INTERVAL);
+  bool result = bno08x.enableReport(SH2_GYROSCOPE_CALIBRATED, BNO_REPORT_INTERVAL);
+
+  if (!result)
+  {
+    Serial.println("Failed to setup Acro mode.");
+  }
+
+  return result;
 }
 
 void Gyro::setup()
@@ -26,7 +40,8 @@ void Gyro::setup()
 
   Serial.println("BNO085 set up!");
 
-  setReportModeEuler();
+  //setReportModeEuler();
+  setReportModeAcro();
 }
 
 void Gyro::printYawPitchRoll()
@@ -42,16 +57,17 @@ void Gyro::reload()
 {
   if (bno08x.getSensorEvent(&sensor_value))
   {
-    switch (sensor_value.sensorId)
+    if (sensor_value.sensorId == 40)
     {
-    case SH2_ARVR_STABILIZED_RV: // Autolevel mode
       YawPitchRoll_t yaw_pitch_roll = quaternionsToYawPitchRoll(&sensor_value.un.arvrStabilizedRV, true);
 
       Gyro::yaw_pitch_roll.yaw = yaw_pitch_roll.yaw;
       Gyro::yaw_pitch_roll.pitch = yaw_pitch_roll.pitch;
       Gyro::yaw_pitch_roll.roll = yaw_pitch_roll.roll;
-      break;
-    case SH2_GYROSCOPE_CALIBRATED: // Acro mode
+    }
+
+    if (sensor_value.sensorId == 2)
+    {
       float gyro_roll = sensor_value.un.gyroscope.x;
       float gyro_pitch = sensor_value.un.gyroscope.y;
       float gyro_yaw = sensor_value.un.gyroscope.z;
@@ -59,7 +75,6 @@ void Gyro::reload()
       Gyro::yaw_pitch_roll.yaw = gyro_yaw * RAD_TO_DEG;
       Gyro::yaw_pitch_roll.pitch = gyro_pitch * RAD_TO_DEG;
       Gyro::yaw_pitch_roll.roll = gyro_roll * RAD_TO_DEG;
-      break;
     }
   }
 }

@@ -119,9 +119,9 @@ private:
     }
 
     /* Yaw PID Constants */
-    double yaw_kp = 0.5; // 0.5
-    double yaw_ki = 0;
-    double yaw_kd = 5; // 5
+    double yaw_kp = 0.1; // 0.5
+    double yaw_ki = 0.001;
+    double yaw_kd = 1; // 5
     float yaw_desired_angle = 0;
 
     /* Yaw PID */

@@ -10,7 +10,7 @@ void Pid::updateIntegral(float gyro_roll, float roll_desired_angle, float gyro_p
 {
   roll_pid_i = constrain(roll_pid_i + (roll_ki * rollError(gyro_roll, roll_desired_angle)), -PID_MAX, PID_MAX);
   pitch_pid_i = constrain(pitch_pid_i + (pitch_ki * pitchError(gyro_pitch, pitch_desired_angle)), -PID_MAX, PID_MAX);
-  // yaw_pid_i = constrain(yaw_pid_i + (yaw_ki * yawError(gyro_yaw)), -PID_MAX, PID_MAX);
+  yaw_pid_i = constrain(yaw_pid_i + (yaw_ki * yawError(gyro_yaw)), -PID_MAX, PID_MAX);
 }
 
 void Pid::setPitchOffset(float value)
