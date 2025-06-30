@@ -13,8 +13,9 @@ void Drone::setup()
 
   Serial.println("Starting drone...");
 
-  gyro.setup();
   setupMotors();
+
+  gyro.setup();
 
   Serial.println("Drone started!");
 }
@@ -72,7 +73,10 @@ void Drone::delayToKeepFeedbackLoopHz(long start_micros_timestamp)
   if (microseconds_left_for_loop > 0 && microseconds_left_for_loop < microseconds_feedback_loop_should_take)
   {
     delayMicroseconds(microseconds_left_for_loop);
-  }
+  } 
+
+  Serial.println(current_micros_timestamp - start_micros_timestamp);
+  printGyro();
 }
 
 void Drone::setupMotors()

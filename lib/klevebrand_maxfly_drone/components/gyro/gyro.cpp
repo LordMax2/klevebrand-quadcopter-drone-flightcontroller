@@ -2,7 +2,7 @@
 
 bool Gyro::setReportModeEuler()
 {
-  bool result = bno08x.enableReport(SH2_ARVR_STABILIZED_RV, BNO_REPORT_INTERVAL);
+  bool result = bno08x.enableReport(SH2_ARVR_STABILIZED_RV, 4000);
 
   if (!result)
   {
@@ -14,7 +14,7 @@ bool Gyro::setReportModeEuler()
 
 bool Gyro::setReportModeAcro()
 {
-  bool result = bno08x.enableReport(SH2_GYROSCOPE_CALIBRATED, BNO_REPORT_INTERVAL);
+  bool result = bno08x.enableReport(SH2_GYROSCOPE_CALIBRATED, 2000);
 
   if (!result)
   {
@@ -26,8 +26,6 @@ bool Gyro::setReportModeAcro()
 
 void Gyro::setup()
 {
-  Wire.begin();
-
   Serial.println("Setting up gyroscope");
   if (!bno08x.begin_I2C())
   {
@@ -40,7 +38,9 @@ void Gyro::setup()
 
   Serial.println("BNO085 set up!");
 
-  //setReportModeEuler();
+  delay(300);
+
+  // setReportModeEuler();
   setReportModeAcro();
 }
 
