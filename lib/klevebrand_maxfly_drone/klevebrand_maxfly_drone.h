@@ -60,8 +60,8 @@ private:
   Servo motor_right_back;
   float throttle = 0;
   float throttle_set_timestamp = 0;
-  float desired_yaw_angle = 0;
-  float desired_yaw_angle_set_timestamp = 0;
+  float yaw_desired_angle = 0;
+  float yaw_desired_angle_set_timestamp = 0;
   float pitch_desired_angle = 0;
   float desired_pitch_angle_set_timestamp = 0;
   float roll_desired_angle = 0;
