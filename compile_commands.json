@@ -1,0 +1,332 @@
+[
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/FrameworkArduino/CDC.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/CDC.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/CDC.cpp",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/CDC.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/FrameworkArduino/HardwareSerial.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/HardwareSerial.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/HardwareSerial.cpp",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/HardwareSerial.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/FrameworkArduino/HardwareSerial0.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/HardwareSerial0.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/HardwareSerial0.cpp",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/HardwareSerial0.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/FrameworkArduino/HardwareSerial1.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/HardwareSerial1.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/HardwareSerial1.cpp",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/HardwareSerial1.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/FrameworkArduino/HardwareSerial2.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/HardwareSerial2.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/HardwareSerial2.cpp",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/HardwareSerial2.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/FrameworkArduino/HardwareSerial3.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/HardwareSerial3.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/HardwareSerial3.cpp",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/HardwareSerial3.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/FrameworkArduino/IPAddress.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/IPAddress.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/IPAddress.cpp",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/IPAddress.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/FrameworkArduino/PluggableUSB.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/PluggableUSB.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/PluggableUSB.cpp",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/PluggableUSB.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/FrameworkArduino/Print.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/Print.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/Print.cpp",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/Print.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/FrameworkArduino/Stream.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/Stream.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/Stream.cpp",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/Stream.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/FrameworkArduino/Tone.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/Tone.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/Tone.cpp",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/Tone.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/FrameworkArduino/USBCore.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/USBCore.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/USBCore.cpp",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/USBCore.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o .pio/build/ATmega2560/FrameworkArduino/WInterrupts.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/WInterrupts.c",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/WInterrupts.c",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/WInterrupts.c.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/FrameworkArduino/WMath.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/WMath.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/WMath.cpp",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/WMath.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/FrameworkArduino/WString.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/WString.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/WString.cpp",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/WString.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/FrameworkArduino/abi.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/abi.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/abi.cpp",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/abi.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o .pio/build/ATmega2560/FrameworkArduino/hooks.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/hooks.c",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/hooks.c",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/hooks.c.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/FrameworkArduino/main.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/main.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/main.cpp",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/main.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/FrameworkArduino/new.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/new.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/new.cpp",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/new.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o .pio/build/ATmega2560/FrameworkArduino/wiring.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/wiring.c",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/wiring.c",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/wiring.c.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o .pio/build/ATmega2560/FrameworkArduino/wiring_analog.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/wiring_analog.c",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/wiring_analog.c",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/wiring_analog.c.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o .pio/build/ATmega2560/FrameworkArduino/wiring_digital.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/wiring_digital.c",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/wiring_digital.c",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/wiring_digital.c.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -mmcu=atmega2560 -x assembler-with-cpp -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega -c -o .pio/build/ATmega2560/FrameworkArduino/wiring_pulse.S.o /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/wiring_pulse.S",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/wiring_pulse.S",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/wiring_pulse.S.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o .pio/build/ATmega2560/FrameworkArduino/wiring_pulse.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/wiring_pulse.c",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/wiring_pulse.c",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/wiring_pulse.c.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o .pio/build/ATmega2560/FrameworkArduino/wiring_shift.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega /home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/wiring_shift.c",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino/wiring_shift.c",
+        "output": ".pio/build/ATmega2560/FrameworkArduino/wiring_shift.c.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o \".pio/build/ATmega2560/lib03a/Adafruit Unified Sensor/Adafruit_Sensor.cpp.o\" -c \"-I.pio/libdeps/ATmega2560/Adafruit Unified Sensor\" -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include \".pio/libdeps/ATmega2560/Adafruit Unified Sensor/Adafruit_Sensor.cpp\"",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/Adafruit Unified Sensor/Adafruit_Sensor.cpp",
+        "output": ".pio/build/ATmega2560/lib03a/Adafruit Unified Sensor/Adafruit_Sensor.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o \".pio/build/ATmega2560/libec5/Adafruit BusIO/Adafruit_BusIO_Register.cpp.o\" -c \"-I.pio/libdeps/ATmega2560/Adafruit BusIO\" -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include \".pio/libdeps/ATmega2560/Adafruit BusIO/Adafruit_BusIO_Register.cpp\"",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/Adafruit BusIO/Adafruit_BusIO_Register.cpp",
+        "output": ".pio/build/ATmega2560/libec5/Adafruit BusIO/Adafruit_BusIO_Register.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o \".pio/build/ATmega2560/libec5/Adafruit BusIO/Adafruit_GenericDevice.cpp.o\" -c \"-I.pio/libdeps/ATmega2560/Adafruit BusIO\" -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include \".pio/libdeps/ATmega2560/Adafruit BusIO/Adafruit_GenericDevice.cpp\"",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/Adafruit BusIO/Adafruit_GenericDevice.cpp",
+        "output": ".pio/build/ATmega2560/libec5/Adafruit BusIO/Adafruit_GenericDevice.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o \".pio/build/ATmega2560/libec5/Adafruit BusIO/Adafruit_I2CDevice.cpp.o\" -c \"-I.pio/libdeps/ATmega2560/Adafruit BusIO\" -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include \".pio/libdeps/ATmega2560/Adafruit BusIO/Adafruit_I2CDevice.cpp\"",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/Adafruit BusIO/Adafruit_I2CDevice.cpp",
+        "output": ".pio/build/ATmega2560/libec5/Adafruit BusIO/Adafruit_I2CDevice.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o \".pio/build/ATmega2560/libec5/Adafruit BusIO/Adafruit_SPIDevice.cpp.o\" -c \"-I.pio/libdeps/ATmega2560/Adafruit BusIO\" -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include \".pio/libdeps/ATmega2560/Adafruit BusIO/Adafruit_SPIDevice.cpp\"",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/Adafruit BusIO/Adafruit_SPIDevice.cpp",
+        "output": ".pio/build/ATmega2560/libec5/Adafruit BusIO/Adafruit_SPIDevice.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o \".pio/build/ATmega2560/libf2e/Adafruit BNO08x/Adafruit_BNO08x.cpp.o\" -c \"-I.pio/libdeps/ATmega2560/Adafruit BNO08x/src\" \"-I.pio/libdeps/ATmega2560/Adafruit Unified Sensor\" \"-I.pio/libdeps/ATmega2560/Adafruit BusIO\" -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include \".pio/libdeps/ATmega2560/Adafruit BNO08x/src/Adafruit_BNO08x.cpp\"",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/Adafruit BNO08x/src/Adafruit_BNO08x.cpp",
+        "output": ".pio/build/ATmega2560/libf2e/Adafruit BNO08x/Adafruit_BNO08x.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o \".pio/build/ATmega2560/libf2e/Adafruit BNO08x/sh2.c.o\" -c \"-I.pio/libdeps/ATmega2560/Adafruit BNO08x/src\" \"-I.pio/libdeps/ATmega2560/Adafruit Unified Sensor\" \"-I.pio/libdeps/ATmega2560/Adafruit BusIO\" -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include \".pio/libdeps/ATmega2560/Adafruit BNO08x/src/sh2.c\"",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/Adafruit BNO08x/src/sh2.c",
+        "output": ".pio/build/ATmega2560/libf2e/Adafruit BNO08x/sh2.c.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o \".pio/build/ATmega2560/libf2e/Adafruit BNO08x/sh2_SensorValue.c.o\" -c \"-I.pio/libdeps/ATmega2560/Adafruit BNO08x/src\" \"-I.pio/libdeps/ATmega2560/Adafruit Unified Sensor\" \"-I.pio/libdeps/ATmega2560/Adafruit BusIO\" -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include \".pio/libdeps/ATmega2560/Adafruit BNO08x/src/sh2_SensorValue.c\"",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/Adafruit BNO08x/src/sh2_SensorValue.c",
+        "output": ".pio/build/ATmega2560/libf2e/Adafruit BNO08x/sh2_SensorValue.c.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o \".pio/build/ATmega2560/libf2e/Adafruit BNO08x/sh2_util.c.o\" -c \"-I.pio/libdeps/ATmega2560/Adafruit BNO08x/src\" \"-I.pio/libdeps/ATmega2560/Adafruit Unified Sensor\" \"-I.pio/libdeps/ATmega2560/Adafruit BusIO\" -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include \".pio/libdeps/ATmega2560/Adafruit BNO08x/src/sh2_util.c\"",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/Adafruit BNO08x/src/sh2_util.c",
+        "output": ".pio/build/ATmega2560/libf2e/Adafruit BNO08x/sh2_util.c.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o \".pio/build/ATmega2560/libf2e/Adafruit BNO08x/shtp.c.o\" -c \"-I.pio/libdeps/ATmega2560/Adafruit BNO08x/src\" \"-I.pio/libdeps/ATmega2560/Adafruit Unified Sensor\" \"-I.pio/libdeps/ATmega2560/Adafruit BusIO\" -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include \".pio/libdeps/ATmega2560/Adafruit BNO08x/src/shtp.c\"",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/Adafruit BNO08x/src/shtp.c",
+        "output": ".pio/build/ATmega2560/libf2e/Adafruit BNO08x/shtp.c.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/liba1d/Servo/avr/Servo.cpp.o -c -I.pio/libdeps/ATmega2560/Servo/src -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include .pio/libdeps/ATmega2560/Servo/src/avr/Servo.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/Servo/src/avr/Servo.cpp",
+        "output": ".pio/build/ATmega2560/liba1d/Servo/avr/Servo.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/liba1d/Servo/mbed/Servo.cpp.o -c -I.pio/libdeps/ATmega2560/Servo/src -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include .pio/libdeps/ATmega2560/Servo/src/mbed/Servo.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/Servo/src/mbed/Servo.cpp",
+        "output": ".pio/build/ATmega2560/liba1d/Servo/mbed/Servo.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/liba1d/Servo/megaavr/Servo.cpp.o -c -I.pio/libdeps/ATmega2560/Servo/src -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include .pio/libdeps/ATmega2560/Servo/src/megaavr/Servo.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/Servo/src/megaavr/Servo.cpp",
+        "output": ".pio/build/ATmega2560/liba1d/Servo/megaavr/Servo.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/liba1d/Servo/nrf52/Servo.cpp.o -c -I.pio/libdeps/ATmega2560/Servo/src -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include .pio/libdeps/ATmega2560/Servo/src/nrf52/Servo.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/Servo/src/nrf52/Servo.cpp",
+        "output": ".pio/build/ATmega2560/liba1d/Servo/nrf52/Servo.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/liba1d/Servo/renesas/Servo.cpp.o -c -I.pio/libdeps/ATmega2560/Servo/src -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include .pio/libdeps/ATmega2560/Servo/src/renesas/Servo.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/Servo/src/renesas/Servo.cpp",
+        "output": ".pio/build/ATmega2560/liba1d/Servo/renesas/Servo.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/liba1d/Servo/sam/Servo.cpp.o -c -I.pio/libdeps/ATmega2560/Servo/src -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include .pio/libdeps/ATmega2560/Servo/src/sam/Servo.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/Servo/src/sam/Servo.cpp",
+        "output": ".pio/build/ATmega2560/liba1d/Servo/sam/Servo.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/liba1d/Servo/samd/Servo.cpp.o -c -I.pio/libdeps/ATmega2560/Servo/src -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include .pio/libdeps/ATmega2560/Servo/src/samd/Servo.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/Servo/src/samd/Servo.cpp",
+        "output": ".pio/build/ATmega2560/liba1d/Servo/samd/Servo.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/liba1d/Servo/stm32f4/Servo.cpp.o -c -I.pio/libdeps/ATmega2560/Servo/src -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include .pio/libdeps/ATmega2560/Servo/src/stm32f4/Servo.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/Servo/src/stm32f4/Servo.cpp",
+        "output": ".pio/build/ATmega2560/liba1d/Servo/stm32f4/Servo.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/liba1d/Servo/xmc/Servo.cpp.o -c -I.pio/libdeps/ATmega2560/Servo/src -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include .pio/libdeps/ATmega2560/Servo/src/xmc/Servo.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/Servo/src/xmc/Servo.cpp",
+        "output": ".pio/build/ATmega2560/liba1d/Servo/xmc/Servo.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/lib3c6/PinChangeInterrupt/PinChangeInterrupt.cpp.o -c -I.pio/libdeps/ATmega2560/PinChangeInterrupt/src -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include .pio/libdeps/ATmega2560/PinChangeInterrupt/src/PinChangeInterrupt.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/PinChangeInterrupt/src/PinChangeInterrupt.cpp",
+        "output": ".pio/build/ATmega2560/lib3c6/PinChangeInterrupt/PinChangeInterrupt.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/lib3c6/PinChangeInterrupt/PinChangeInterrupt0.cpp.o -c -I.pio/libdeps/ATmega2560/PinChangeInterrupt/src -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include .pio/libdeps/ATmega2560/PinChangeInterrupt/src/PinChangeInterrupt0.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/PinChangeInterrupt/src/PinChangeInterrupt0.cpp",
+        "output": ".pio/build/ATmega2560/lib3c6/PinChangeInterrupt/PinChangeInterrupt0.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/lib3c6/PinChangeInterrupt/PinChangeInterrupt1.cpp.o -c -I.pio/libdeps/ATmega2560/PinChangeInterrupt/src -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include .pio/libdeps/ATmega2560/PinChangeInterrupt/src/PinChangeInterrupt1.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/PinChangeInterrupt/src/PinChangeInterrupt1.cpp",
+        "output": ".pio/build/ATmega2560/lib3c6/PinChangeInterrupt/PinChangeInterrupt1.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/lib3c6/PinChangeInterrupt/PinChangeInterrupt2.cpp.o -c -I.pio/libdeps/ATmega2560/PinChangeInterrupt/src -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include .pio/libdeps/ATmega2560/PinChangeInterrupt/src/PinChangeInterrupt2.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/PinChangeInterrupt/src/PinChangeInterrupt2.cpp",
+        "output": ".pio/build/ATmega2560/lib3c6/PinChangeInterrupt/PinChangeInterrupt2.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/lib3c6/PinChangeInterrupt/PinChangeInterrupt3.cpp.o -c -I.pio/libdeps/ATmega2560/PinChangeInterrupt/src -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include .pio/libdeps/ATmega2560/PinChangeInterrupt/src/PinChangeInterrupt3.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": ".pio/libdeps/ATmega2560/PinChangeInterrupt/src/PinChangeInterrupt3.cpp",
+        "output": ".pio/build/ATmega2560/lib3c6/PinChangeInterrupt/PinChangeInterrupt3.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/lib9fc/klevebrand_maxfly_drone/components/drone_pwm_receiver/drone_pwm_receiver.cpp.o -c -Ilib/klevebrand_maxfly_drone \"-I.pio/libdeps/ATmega2560/Adafruit BNO08x/src\" \"-I.pio/libdeps/ATmega2560/Adafruit Unified Sensor\" \"-I.pio/libdeps/ATmega2560/Adafruit BusIO\" -I.pio/libdeps/ATmega2560/Servo/src -I.pio/libdeps/ATmega2560/PinChangeInterrupt/src -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include lib/klevebrand_maxfly_drone/components/drone_pwm_receiver/drone_pwm_receiver.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "lib/klevebrand_maxfly_drone/components/drone_pwm_receiver/drone_pwm_receiver.cpp",
+        "output": ".pio/build/ATmega2560/lib9fc/klevebrand_maxfly_drone/components/drone_pwm_receiver/drone_pwm_receiver.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/lib9fc/klevebrand_maxfly_drone/components/gyro/gyro.cpp.o -c -Ilib/klevebrand_maxfly_drone \"-I.pio/libdeps/ATmega2560/Adafruit BNO08x/src\" \"-I.pio/libdeps/ATmega2560/Adafruit Unified Sensor\" \"-I.pio/libdeps/ATmega2560/Adafruit BusIO\" -I.pio/libdeps/ATmega2560/Servo/src -I.pio/libdeps/ATmega2560/PinChangeInterrupt/src -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include lib/klevebrand_maxfly_drone/components/gyro/gyro.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "lib/klevebrand_maxfly_drone/components/gyro/gyro.cpp",
+        "output": ".pio/build/ATmega2560/lib9fc/klevebrand_maxfly_drone/components/gyro/gyro.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/lib9fc/klevebrand_maxfly_drone/components/pid/pid.cpp.o -c -Ilib/klevebrand_maxfly_drone \"-I.pio/libdeps/ATmega2560/Adafruit BNO08x/src\" \"-I.pio/libdeps/ATmega2560/Adafruit Unified Sensor\" \"-I.pio/libdeps/ATmega2560/Adafruit BusIO\" -I.pio/libdeps/ATmega2560/Servo/src -I.pio/libdeps/ATmega2560/PinChangeInterrupt/src -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include lib/klevebrand_maxfly_drone/components/pid/pid.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "lib/klevebrand_maxfly_drone/components/pid/pid.cpp",
+        "output": ".pio/build/ATmega2560/lib9fc/klevebrand_maxfly_drone/components/pid/pid.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/lib9fc/klevebrand_maxfly_drone/components/pwm_receiver/pwm_receiver.cpp.o -c -Ilib/klevebrand_maxfly_drone \"-I.pio/libdeps/ATmega2560/Adafruit BNO08x/src\" \"-I.pio/libdeps/ATmega2560/Adafruit Unified Sensor\" \"-I.pio/libdeps/ATmega2560/Adafruit BusIO\" -I.pio/libdeps/ATmega2560/Servo/src -I.pio/libdeps/ATmega2560/PinChangeInterrupt/src -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include lib/klevebrand_maxfly_drone/components/pwm_receiver/pwm_receiver.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "lib/klevebrand_maxfly_drone/components/pwm_receiver/pwm_receiver.cpp",
+        "output": ".pio/build/ATmega2560/lib9fc/klevebrand_maxfly_drone/components/pwm_receiver/pwm_receiver.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/lib9fc/klevebrand_maxfly_drone/klevebrand_maxfly_drone.cpp.o -c -Ilib/klevebrand_maxfly_drone \"-I.pio/libdeps/ATmega2560/Adafruit BNO08x/src\" \"-I.pio/libdeps/ATmega2560/Adafruit Unified Sensor\" \"-I.pio/libdeps/ATmega2560/Adafruit BusIO\" -I.pio/libdeps/ATmega2560/Servo/src -I.pio/libdeps/ATmega2560/PinChangeInterrupt/src -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include lib/klevebrand_maxfly_drone/klevebrand_maxfly_drone.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "lib/klevebrand_maxfly_drone/klevebrand_maxfly_drone.cpp",
+        "output": ".pio/build/ATmega2560/lib9fc/klevebrand_maxfly_drone/klevebrand_maxfly_drone.cpp.o"
+    },
+    {
+        "command": "/home/kdc_admin/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/ATmega2560/src/main.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60118 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -Iinclude -Isrc -Ilib/klevebrand_maxfly_drone -I.pio/libdeps/ATmega2560/PinChangeInterrupt/src -I.pio/libdeps/ATmega2560/Servo/src \"-I.pio/libdeps/ATmega2560/Adafruit BNO08x/src\" \"-I.pio/libdeps/ATmega2560/Adafruit BusIO\" \"-I.pio/libdeps/ATmega2560/Adafruit Unified Sensor\" -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include -I/home/kdc_admin/.platformio/packages/toolchain-atmelavr/avr/include -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/kdc_admin/.platformio/packages/framework-arduino-avr/variants/mega src/main.cpp",
+        "directory": "/mnt/c/Users/max.klevebrand/source/repos/klevebrand-quadcopter-drone-flightcontroller",
+        "file": "src/main.cpp",
+        "output": ".pio/build/ATmega2560/src/main.cpp.o"
+    }
+]

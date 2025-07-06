@@ -51,7 +51,7 @@ public:
   void setFlightModeAcro();
 
 private:
-  FlightMode flight_mode = auto_level;
+  FlightMode flight_mode;
   Gyro gyro;
   Pid pid;
   Servo motor_left_front;

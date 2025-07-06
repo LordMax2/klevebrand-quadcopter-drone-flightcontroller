@@ -39,9 +39,6 @@ void Gyro::setup()
   Serial.println("BNO085 set up!");
 
   delay(300);
-
-  // setReportModeEuler();
-  setReportModeAcro();
 }
 
 void Gyro::printYawPitchRoll()
