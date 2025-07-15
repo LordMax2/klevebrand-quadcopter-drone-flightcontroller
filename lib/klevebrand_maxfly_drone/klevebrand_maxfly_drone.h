@@ -49,6 +49,7 @@ public:
   void setPidDConstant(float value);
   void setFlightModeAutoLevel();
   void setFlightModeAcro();
+  FlightMode getFlightMode();
 
 private:
   FlightMode flight_mode;
@@ -74,7 +75,7 @@ private:
   void calculatePidIntegral(float gyro_roll, float gyro_pitch, float gyro_yaw);
   void runMotors(float gyro_roll, float gyro_pitch, float gyro_yaw);
   void stopMotors();
-  void updateGyro();
+  bool updateGyro();
   void savePidErrors(float gyro_roll, float gyro_pitch, float gyro_yaw);
   void delayToKeepFeedbackLoopHz(long start_micros_timestamp);
   void setFlightMode(FlightMode flight_mode);

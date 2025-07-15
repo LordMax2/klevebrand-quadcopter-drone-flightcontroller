@@ -5,7 +5,7 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO08x.h>
 
-#define BNO_RESET_PIN -1 
+#define BNO_RESET_PIN -1
 #define BNO_REPORT_INTERVAL 2500
 
 struct YawPitchRoll_t
@@ -13,13 +13,14 @@ struct YawPitchRoll_t
     float yaw;
     float pitch;
     float roll;
+    long timestamp_milliseconds;
 };
 
 class Gyro
 {
 public:
     void setup();
-    void reload();
+    bool reload();
     void printYawPitchRoll();
 
     float yaw() const
@@ -33,6 +34,10 @@ public:
     float roll() const
     {
         return yaw_pitch_roll.roll;
+    }
+    long timestamp_milliseconds() const
+    {
+        return yaw_pitch_roll.timestamp_milliseconds;
     }
     bool setReportModeEuler();
     bool setReportModeAcro();

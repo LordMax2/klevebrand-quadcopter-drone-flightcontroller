@@ -14,9 +14,9 @@ void Drone::setup()
 
     Serial.println("Starting drone...");
 
-    setupMotors();
-
     gyro.setup();
+
+    setupMotors();
 
     setFlightModeAcro();
 
@@ -28,7 +28,7 @@ void Drone::run()
     long start_micros_timestamp = micros();
 
     // Get the latest data from the gyroscope
-    updateGyro();
+    bool gyro_updated = updateGyro();
 
     // Check if connection is alive
     if (hasLostConnection())
@@ -39,15 +39,15 @@ void Drone::run()
 
         Serial.println("LOST CONNECTION");
     }
-    else
-{
+    else if(gyro_updated)
+    {
         // Increment the integral part of the PID loop
         if (throttle > PID_THROTTLE_THRESHOLD)
         {
             calculatePidIntegral(gyro.roll(), gyro.pitch(), gyro.yaw());
         }
         else
-    {
+        {
             resetPid();
         }
 
@@ -60,9 +60,9 @@ void Drone::run()
         runMotors(gyro.roll(), gyro.pitch(), gyro.yaw());
 
         savePidErrors(gyro.roll(), gyro.pitch(), gyro.yaw());
-
-        delayToKeepFeedbackLoopHz(start_micros_timestamp);
     }
+
+    delayToKeepFeedbackLoopHz(start_micros_timestamp);
 }
 
 void Drone::delayToKeepFeedbackLoopHz(long start_micros_timestamp)
@@ -78,7 +78,7 @@ void Drone::delayToKeepFeedbackLoopHz(long start_micros_timestamp)
         delayMicroseconds(microseconds_left_for_loop);
     }
 
-    //Serial.println(current_micros_timestamp - start_micros_timestamp);
+    // Serial.println(current_micros_timestamp - start_micros_timestamp);
 }
 
 void Drone::setupMotors()
@@ -128,12 +128,16 @@ void Drone::calculatePidIntegral(float gyro_roll, float gyro_pitch, float gyro_y
 
 bool Drone::hasLostConnection()
 {
-    return millis() - throttle_set_timestamp >= TRANSMITION_TIMEOUT_DEFINITION_MILLISECONDS;
+    bool transmitter_lost_connection = millis() - throttle_set_timestamp >= TRANSMITION_TIMEOUT_DEFINITION_MILLISECONDS;
+
+    bool gyro_lost_connection = millis() - gyro.timestamp_milliseconds() >= TRANSMITION_TIMEOUT_DEFINITION_MILLISECONDS;
+
+    return transmitter_lost_connection || gyro_lost_connection;
 }
 
-void Drone::updateGyro()
+bool Drone::updateGyro()
 {
-    gyro.reload();
+    return gyro.reload();
 }
 
 void Drone::printGyro()
@@ -233,7 +237,8 @@ void Drone::setFlightMode(FlightMode flight_mode)
 
 void Drone::setFlightModeAutoLevel()
 {
-    if(flight_mode != auto_level) {
+    if (flight_mode != auto_level)
+    {
         gyro.setReportModeEuler();
     }
 
@@ -246,7 +251,8 @@ void Drone::setFlightModeAutoLevel()
 
 void Drone::setFlightModeAcro()
 {
-    if(flight_mode != acro){
+    if (flight_mode != acro)
+    {
         gyro.setReportModeAcro();
     }
 
@@ -255,4 +261,9 @@ void Drone::setFlightModeAcro()
     setPidDConstant(14);
 
     setFlightMode(acro);
+}
+
+FlightMode Drone::getFlightMode()
+{
+    return flight_mode;
 }

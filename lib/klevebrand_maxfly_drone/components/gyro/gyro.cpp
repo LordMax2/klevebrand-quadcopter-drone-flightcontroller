@@ -50,7 +50,7 @@ void Gyro::printYawPitchRoll()
   Serial.println(yaw_pitch_roll.roll);
 }
 
-void Gyro::reload()
+bool Gyro::reload()
 {
   if (bno08x.getSensorEvent(&sensor_value))
   {
@@ -73,7 +73,13 @@ void Gyro::reload()
       Gyro::yaw_pitch_roll.pitch = gyro_pitch * RAD_TO_DEG;
       Gyro::yaw_pitch_roll.roll = gyro_roll * RAD_TO_DEG;
     }
+
+    Gyro::yaw_pitch_roll.timestamp_milliseconds = millis();
+
+    return true;
   }
+
+  return false;
 }
 
 YawPitchRoll_t Gyro::quaternionsToYawPitchRoll(sh2_RotationVectorWAcc_t *rotational_vector, bool to_degrees)
