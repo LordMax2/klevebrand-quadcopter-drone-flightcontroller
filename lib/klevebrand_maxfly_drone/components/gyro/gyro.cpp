@@ -6,7 +6,7 @@ bool Gyro::setReportModeEuler()
 
   if (!result)
   {
-    Serial.println("Faled to setup Euler mode");
+    Serial.println("FAILED TO SETUP EULER MODE.");
   }
 
   return result;
@@ -18,7 +18,7 @@ bool Gyro::setReportModeAcro()
 
   if (!result)
   {
-    Serial.println("Failed to setup Acro mode.");
+    Serial.println("FAILED TO SETUP ACRO MODE.");
   }
 
   return result;
@@ -26,17 +26,17 @@ bool Gyro::setReportModeAcro()
 
 void Gyro::setup()
 {
-  Serial.println("Setting up gyroscope");
+  Serial.println("SETTING UP GYROSCOPE.");
   if (!bno08x.begin_I2C())
   {
-    Serial.println("Failed to connect to BNO085...");
+    Serial.println("FAILED TO CONNECT TO BNO085...");
     while (1)
     {
       delay(10);
     }
   }
 
-  Serial.println("BNO085 set up!");
+  Serial.println("BNO085 SET UP!");
 
   delay(300);
 }

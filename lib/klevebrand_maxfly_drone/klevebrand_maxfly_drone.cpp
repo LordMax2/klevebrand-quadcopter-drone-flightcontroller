@@ -7,12 +7,12 @@ void Drone::setup()
 
     if (!Serial)
     {
-        Serial.println("Failed to start serial...");
+        Serial.println("FAILED TO START SERIAL...");
     }
     while (!Serial)
         ;
 
-    Serial.println("Starting drone...");
+    Serial.println("STARTING DRONE...");
 
     gyro.setup();
 
@@ -20,7 +20,7 @@ void Drone::setup()
 
     setFlightModeAcro();
 
-    Serial.println("Drone started!");
+    Serial.println("DRONE STARTED!");
 }
 
 void Drone::run()
@@ -39,7 +39,7 @@ void Drone::run()
 
         Serial.println("LOST CONNECTION");
     }
-    else if(gyro_updated)
+    else if (gyro_updated)
     {
         // Increment the integral part of the PID loop
         if (throttle > PID_THROTTLE_THRESHOLD)
@@ -60,9 +60,9 @@ void Drone::run()
         runMotors(gyro.roll(), gyro.pitch(), gyro.yaw());
 
         savePidErrors(gyro.roll(), gyro.pitch(), gyro.yaw());
-    }
 
-    delayToKeepFeedbackLoopHz(start_micros_timestamp);
+        delayToKeepFeedbackLoopHz(start_micros_timestamp);
+    }
 }
 
 void Drone::delayToKeepFeedbackLoopHz(long start_micros_timestamp)
@@ -83,7 +83,7 @@ void Drone::delayToKeepFeedbackLoopHz(long start_micros_timestamp)
 
 void Drone::setupMotors()
 {
-    Serial.println("Setting up motors...");
+    Serial.println("SETTING UP MOTORS...");
 
     pinMode(motor_left_front_pin_number, OUTPUT);
     pinMode(motor_right_front_pin_number, OUTPUT);
@@ -102,7 +102,7 @@ void Drone::setupMotors()
 
     delay(1000);
 
-    Serial.println("Motors setup!");
+    Serial.println("MOTORS SETUP!");
 }
 
 void Drone::stopMotors()
