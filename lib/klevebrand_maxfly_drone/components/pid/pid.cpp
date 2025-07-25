@@ -45,3 +45,12 @@ void Pid::printPid(float gyro_roll, float roll_desired_angle, float gyro_pitch, 
   Serial.print(",");
   Serial.println(yawPid(gyro_yaw, yaw_desired_angle));
 }
+
+void Pid::printPidConstants() 
+{
+  Serial.print(roll_kp);
+  Serial.print(",");
+  Serial.print(roll_ki);
+  Serial.print(",");
+  Serial.println(roll_kd);
+}

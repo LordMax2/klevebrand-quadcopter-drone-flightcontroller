@@ -38,6 +38,7 @@ public:
   void printGyro();
   void printThrottle();
   void printPid();
+  void printPidConstants();
   void resetPid();
   bool hasLostConnection();
   void setThrottle(float value);

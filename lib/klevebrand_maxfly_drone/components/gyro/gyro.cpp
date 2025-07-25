@@ -14,7 +14,7 @@ bool Gyro::setReportModeEuler()
 
 bool Gyro::setReportModeAcro()
 {
-  bool result = bno08x.enableReport(SH2_GYROSCOPE_CALIBRATED, 2000);
+  bool result = bno08x.enableReport(SH2_GYROSCOPE_CALIBRATED, 5000);
 
   if (!result)
   {

@@ -53,6 +53,7 @@ void Drone::run()
 
         // To debug throttle response
         // printPid();
+        // printPidConstants();
         // printThrottle();
         // printGyro();
 
@@ -228,6 +229,11 @@ void Drone::printThrottle()
 void Drone::printPid()
 {
     pid.printPid(gyro.roll(), roll_desired_angle, gyro.pitch(), pitch_desired_angle, gyro.yaw(), yaw_desired_angle);
+}
+
+void Drone::printPidConstants()
+{
+    pid.printPidConstants();
 }
 
 void Drone::setFlightMode(FlightMode flight_mode)
