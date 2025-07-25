@@ -2,6 +2,7 @@
 #define PID_H
 
 #include <Arduino.h>
+#include "../pid_optimizer/pid_optimizer.h"
 
 #define PID_THROTTLE_THRESHOLD 1100
 #define PID_MAX 400
@@ -9,13 +10,18 @@
 #define THROTTLE_MINIMUM 1000
 #define THROTTLE_MAXIMUM 2000
 
+
 class Pid
 {
 public:
+    Pid() {
+
+    };
     void reset();
     void updateIntegral(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle);
     void printPid(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle);
     void printPidConstants();
+    void saveMeasurements(float gyro_pitch, float pitch_desired_angle, float gyro_roll, float roll_desired_angle, long micoseconds_timestamp);
 
     float pidThrottleLF(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle)
     {
@@ -68,6 +74,7 @@ public:
 private:
     long previous_timer;
     float pitch_offset = 0, roll_offset = 0;
+    PidOptimizer pid_optimizer;
 
     /* Roll PID */
     float rollPid(float gyro_roll, float roll_desired_angle)

@@ -62,8 +62,21 @@ void Drone::run()
 
         savePidErrors(gyro.roll(), gyro.pitch(), gyro.yaw());
 
+        saveMeasurements();
+
         delayToKeepFeedbackLoopHz(start_micros_timestamp);
     }
+}
+
+void Drone::saveMeasurements()
+{
+    pid.saveMeasurements(
+        gyro.pitch(), 
+        pitch_desired_angle, 
+        gyro.roll(), 
+        roll_desired_angle, 
+        micros()
+    );
 }
 
 void Drone::delayToKeepFeedbackLoopHz(long start_micros_timestamp)

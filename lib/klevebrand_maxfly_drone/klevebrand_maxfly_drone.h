@@ -80,6 +80,7 @@ private:
   void savePidErrors(float gyro_roll, float gyro_pitch, float gyro_yaw);
   void delayToKeepFeedbackLoopHz(long start_micros_timestamp);
   void setFlightMode(FlightMode flight_mode);
+  void saveMeasurements();
 };
 
 #endif
