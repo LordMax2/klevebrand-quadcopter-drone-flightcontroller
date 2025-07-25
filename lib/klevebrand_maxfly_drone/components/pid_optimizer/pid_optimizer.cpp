@@ -1,5 +1,4 @@
 #include "pid_optimizer.h"
-#include "Arduino.h"
 
 void PidOptimizer::saveRollMeasurements(
     float pid_kp,

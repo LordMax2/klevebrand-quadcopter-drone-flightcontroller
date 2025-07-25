@@ -1,6 +1,7 @@
 #ifndef PID_OPTIMIZER_H
 #define PID_OPTIMIZER_H
 
+#include <Arduino.h>
 #include "../pid_state_snapshot/pid_state_snapshot.h"
 
 #define PID_SNAPSHOT_ARRAY_SIZE 50 
