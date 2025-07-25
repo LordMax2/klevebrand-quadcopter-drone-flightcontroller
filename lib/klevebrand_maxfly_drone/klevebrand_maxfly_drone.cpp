@@ -28,7 +28,7 @@ void Drone::run()
     long start_micros_timestamp = micros();
 
     // Get the latest data from the gyroscope
-    bool gyro_updated = updateGyro();
+    updateGyro();
 
     // Check if connection is alive
     if (hasLostConnection())
@@ -39,7 +39,7 @@ void Drone::run()
 
         Serial.println("LOST CONNECTION");
     }
-    else if (gyro_updated)
+    else 
     {
         // Increment the integral part of the PID loop
         if (throttle > PID_THROTTLE_THRESHOLD)
