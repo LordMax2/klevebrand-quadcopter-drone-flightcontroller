@@ -262,9 +262,9 @@ void Drone::setFlightModeAcro()
         gyro.setReportModeAcro();
     }
 
-    setPidPConstant(6);
-    setPidIConstant(0);
-    setPidDConstant(14);
+    setPidPConstant(0.2);
+    setPidIConstant(0.01);
+    setPidDConstant(6);
 
     setFlightMode(acro);
 }

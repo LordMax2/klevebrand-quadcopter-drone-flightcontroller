@@ -93,5 +93,5 @@ int PwmReceiver::getChannelValue(int channelNumber)
     {
         return -1;
     }
-    return pulse_widths[channelNumber - 1];
+    return constrain(pulse_widths[channelNumber - 1], 1000, 2000);
 }
