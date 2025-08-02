@@ -263,8 +263,8 @@ void Drone::setFlightModeAcro()
     }
 
     setPidPConstant(0.4);
-    setPidIConstant(0.01);
-    setPidDConstant(10);
+    setPidIConstant(0.02);
+    setPidDConstant(6);
 
     setFlightMode(acro);
 }
