@@ -7,7 +7,7 @@ void DronePwmReceiver::setThrottleYawPitchRoll(Drone *drone)
 
     if (drone->getFlightMode() == acro)
     {
-        float desired_yaw_angle = map(receiver.getChannelValue(yaw_receiver_channel_number), 1000, 2000, -180, 180);
+        float desired_yaw_angle = map(receiver.getChannelValue(yaw_receiver_channel_number), 1000, 2000, 180, -180);
         if (desired_yaw_angle < 5 && desired_yaw_angle > -5)
         {
             desired_yaw_angle = 0;
