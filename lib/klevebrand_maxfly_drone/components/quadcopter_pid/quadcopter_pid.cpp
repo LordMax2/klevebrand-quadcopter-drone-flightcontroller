@@ -1,4 +1,4 @@
-#include "pid.h"
+#include "quadcopter_pid.h"
 
 void Pid::reset()
 {

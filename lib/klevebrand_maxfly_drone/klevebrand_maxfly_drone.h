@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include <Servo.h>
-#include "./components/pid/pid.h"
+#include "./components/quadcopter_pid/quadcopter_pid.h"
 #include "./components/gyro/gyro.h"
 #include "./components/flight_mode/flight_mode.h"
 
