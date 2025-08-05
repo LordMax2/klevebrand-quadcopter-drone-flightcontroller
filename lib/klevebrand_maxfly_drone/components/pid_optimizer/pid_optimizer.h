@@ -16,10 +16,14 @@ public:
 private:
     PidStateSnapshot pid_state_snapshot_array[PID_SNAPSHOT_ARRAY_SIZE];
 
-    float last_adjustment_value = 0;
     float best_score = 0;
-    float best_adjustment_value = 0;
 
+    float last_p_adjustment_value = 0;
+    float last_i_adjustment_value = 0;
+    float last_d_adjustment_value = 0;
+    float best_p_adjustment_value = 0;
+    float best_i_adjustment_value = 0;
+    float best_d_adjustment_value = 0;
 };
 
 #endif // PID_OPTIMIZER_H

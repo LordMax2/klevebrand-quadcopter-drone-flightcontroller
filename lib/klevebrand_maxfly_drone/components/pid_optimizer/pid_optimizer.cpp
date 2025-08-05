@@ -48,43 +48,43 @@ float PidOptimizer::getPAdjustmentValue()
 {
     float current_score = score();
 
-    if (current_score < best_score)
+    if (current_score < best_score || (current_score != 0 && best_score == 0))
     {
         best_score = current_score;
-        best_adjustment_value = last_adjustment_value;
+        best_p_adjustment_value = last_p_adjustment_value;
     }
 
-    last_adjustment_value = last_adjustment_value + random(-1, 1);
+    last_p_adjustment_value = last_p_adjustment_value + random(-1, 1);
 
-    return last_adjustment_value;
+    return last_p_adjustment_value;
 }
 
 float PidOptimizer::getIAdjustmentValue()
 {
     float current_score = score();
 
-    if (current_score < best_score)
+    if (current_score < best_score || (current_score != 0 && best_score == 0))
     {
         best_score = current_score;
-        best_adjustment_value = last_adjustment_value;
+        best_i_adjustment_value = last_i_adjustment_value;
     }
 
-    last_adjustment_value = last_adjustment_value + random(-0.1, 0.1);
+    last_i_adjustment_value = last_i_adjustment_value + random(-0.1, 0.1);
 
-    return last_adjustment_value;
+    return last_i_adjustment_value;
 }
 
 float PidOptimizer::getDAdjustmentValue()
 {
     float current_score = score();
 
-    if (current_score < best_score)
+    if (current_score < best_score || (current_score != 0 && best_score == 0))
     {
         best_score = current_score;
-        best_adjustment_value = last_adjustment_value;
+        best_d_adjustment_value = last_d_adjustment_value;
     }
 
-    last_adjustment_value = last_adjustment_value + random(-10, 10);
+    last_d_adjustment_value = last_d_adjustment_value + random(-10, 10);
 
-    return last_adjustment_value;
+    return last_d_adjustment_value;
 }
