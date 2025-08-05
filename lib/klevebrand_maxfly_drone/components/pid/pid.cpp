@@ -8,7 +8,7 @@ void Pid::reset()
 
 void Pid::updateIntegral(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle)
 {
-  roll_pid_i = constrain(roll_pid_i + (roll_ki * rollError(gyro_roll, roll_desired_angle)), -PID_MAX, PID_MAX);
+  roll_pid_i = constrain(roll_pid_i + ((roll_ki + pid_roll_optimizer.getIAdjustmentValue()) * rollError(gyro_roll, roll_desired_angle)), -PID_MAX, PID_MAX);
   pitch_pid_i = constrain(pitch_pid_i + (pitch_ki * pitchError(gyro_pitch, pitch_desired_angle)), -PID_MAX, PID_MAX);
   yaw_pid_i = constrain(yaw_pid_i + (yaw_ki * yawError(gyro_yaw, yaw_desired_angle)), -PID_MAX, PID_MAX);
 }
@@ -20,8 +20,7 @@ void Pid::setPitchOffset(float value)
 
 void Pid::saveMeasurements(float gyro_pitch, float pitch_desired_angle, float gyro_roll, float roll_desired_angle, long micoseconds_timestamp)
 {
-  pid_optimizer.saveRollMeasurements(roll_kp, roll_ki, roll_kd, rollPidP(gyro_roll, roll_desired_angle), roll_pid_i, rollPidD(gyro_roll, roll_desired_angle), rollError(gyro_roll, roll_desired_angle), roll_previous_error);
-  pid_optimizer.savePitchMeasurements(pitch_kp, pitch_ki, pitch_kd, pitchPidP(gyro_pitch, pitch_desired_angle), pitch_pid_i, pitchPidD(gyro_pitch, pitch_desired_angle), pitchError(gyro_pitch, pitch_desired_angle), pitch_previous_error);
+  pid_roll_optimizer.saveMeasurements(roll_kp, roll_ki, roll_kd, rollPidP(gyro_roll, roll_desired_angle), roll_pid_i, rollPidD(gyro_roll, roll_desired_angle), rollError(gyro_roll, roll_desired_angle), roll_previous_error);
 }
 
 void Pid::savePitchError(float gyro_pitch, float pitch_desired_angle)
