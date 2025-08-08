@@ -10,7 +10,7 @@ void PidOptimizer::saveMeasurements(
     float error,
     float previous_error)
 {
-    for (int i = PID_SNAPSHOT_ARRAY_SIZE - 1; i >= 0; i--)
+    for (int i = PID_SNAPSHOT_ARRAY_SIZE - 1; i > 0; i--)
     {
         pid_state_snapshot_array[i + 1] = pid_state_snapshot_array[i];
     }
@@ -22,23 +22,15 @@ float PidOptimizer::score()
 {
     float error_score = 0;
 
-    float last_pid_kp = 0;
-    float last_pid_ki = 0;
-    float last_pid_kd = 0;
-
     for (int i = 0; i < PID_SNAPSHOT_ARRAY_SIZE - 1; i++)
     {
         // Only calculate the score where the PID constants are the same, otherwise when changed we want to get a new fresh score for the new set of constants
-        if(i != 0 && last_pid_kp != pid_state_snapshot_array[i].pid_kp && last_pid_ki != pid_state_snapshot_array[i].pid_ki && last_pid_kd != pid_state_snapshot_array[i].pid_kd) 
-        {
-            continue;
-        }
+        // if(i != 0 && last_pid_kp != pid_state_snapshot_array[i].pid_kp && last_pid_ki != pid_state_snapshot_array[i].pid_ki && last_pid_kd != pid_state_snapshot_array[i].pid_kd) 
+        // {
+        //     continue;
+        // }
 
-        error_score += pid_state_snapshot_array[i].error * (pid_state_snapshot_array[i + 1].microseconds_timestamp - pid_state_snapshot_array[i].microseconds_timestamp);
-
-        last_pid_kp = pid_state_snapshot_array[i].pid_kp;
-        last_pid_ki = pid_state_snapshot_array[i].pid_ki;
-        last_pid_kd = pid_state_snapshot_array[i].pid_kd;
+        error_score += pid_state_snapshot_array[i].error * (pid_state_snapshot_array[i + 1].microseconds_timestamp / 1000 - pid_state_snapshot_array[i].microseconds_timestamp / 1000);
     }
 
     return error_score;
@@ -48,13 +40,18 @@ float PidOptimizer::getPAdjustmentValue()
 {
     float current_score = score();
 
-    if (current_score < best_score || (current_score != 0 && best_score == 0))
+    Serial.print(current_score);
+    Serial.print(",");
+    Serial.println(best_score);
+
+    // Somehow here check if the new value is closer to zero
+    if (current_score < best_score)
     {
         best_score = current_score;
         best_p_adjustment_value = last_p_adjustment_value;
     }
 
-    last_p_adjustment_value = last_p_adjustment_value + random(-1, 1);
+    last_p_adjustment_value = constrain(last_p_adjustment_value + random(-10.0, 10.0) / 10.0, -3.0, 3.0);
 
     return last_p_adjustment_value;
 }
