@@ -72,11 +72,11 @@ long PidOptimizer::score()
 
 void PidOptimizer::evaluateTrial()
 {
-    long currentScore = score();
+    long current_score = score();
 
-    if (currentScore < best_score)
+    if (current_score < best_score)
     {
-        best_score = currentScore;
+        best_score = current_score;
         best_kp = current_kp;
         best_ki = current_ki;
         best_kd = current_kd;
@@ -84,11 +84,11 @@ void PidOptimizer::evaluateTrial()
     else
     {
         float temperature = 1.0 - coolingFactor();
-        float acceptance_probability = exp(-(currentScore - best_score) / temperature);
+        float acceptance_probability = exp(-(current_score - best_score) / temperature);
         
         if (random(0.0, 1000.0) / 1000.0 < acceptance_probability)
         {
-            best_score = currentScore;
+            best_score = current_score;
             best_kp = current_kp;
             best_ki = current_ki;
             best_kd = current_kd;
