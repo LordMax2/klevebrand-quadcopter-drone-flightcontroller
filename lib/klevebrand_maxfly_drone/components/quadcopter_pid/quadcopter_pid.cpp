@@ -1,4 +1,4 @@
-#include "pid.h"
+#include "quadcopter_pid.h"
 
 void Pid::reset()
 {
@@ -8,7 +8,7 @@ void Pid::reset()
 
 void Pid::updateIntegral(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle)
 {
-  roll_pid_i = constrain(roll_pid_i + (roll_ki * rollError(gyro_roll, roll_desired_angle)), -PID_MAX, PID_MAX);
+  roll_pid_i = constrain(roll_pid_i + ((roll_ki + pid_roll_optimizer.getKi()) * rollError(gyro_roll, roll_desired_angle)), -PID_MAX, PID_MAX);
   pitch_pid_i = constrain(pitch_pid_i + (pitch_ki * pitchError(gyro_pitch, pitch_desired_angle)), -PID_MAX, PID_MAX);
   yaw_pid_i = constrain(yaw_pid_i + (yaw_ki * yawError(gyro_yaw, yaw_desired_angle)), -PID_MAX, PID_MAX);
 }
@@ -16,6 +16,11 @@ void Pid::updateIntegral(float gyro_roll, float roll_desired_angle, float gyro_p
 void Pid::setPitchOffset(float value)
 {
   pitch_offset = value;
+}
+
+void Pid::runRollOptimizer(float gyro_roll, float roll_desired_angle)
+{
+  pid_roll_optimizer.run(rollError(gyro_roll, roll_desired_angle));
 }
 
 void Pid::savePitchError(float gyro_pitch, float pitch_desired_angle)
@@ -38,7 +43,8 @@ void Pid::saveYawError(float gyro_yaw, float yaw_desired_angle)
   yaw_previous_error = yawError(gyro_yaw, yaw_desired_angle);
 }
 
-void Pid::printPid(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle) {
+void Pid::printPid(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle)
+{
   Serial.print(rollPid(gyro_roll, roll_desired_angle));
   Serial.print(",");
   Serial.print(pitchPid(gyro_pitch, pitch_desired_angle));
@@ -46,7 +52,7 @@ void Pid::printPid(float gyro_roll, float roll_desired_angle, float gyro_pitch, 
   Serial.println(yawPid(gyro_yaw, yaw_desired_angle));
 }
 
-void Pid::printPidConstants() 
+void Pid::printPidConstants()
 {
   Serial.print(roll_kp);
   Serial.print(",");

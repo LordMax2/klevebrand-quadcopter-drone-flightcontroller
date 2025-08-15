@@ -2,6 +2,7 @@
 #define PID_H
 
 #include <Arduino.h>
+#include "../pid_optimizer/pid_optimizer.h"
 
 #define PID_THROTTLE_THRESHOLD 1100
 #define PID_MAX 400
@@ -12,10 +13,12 @@
 class Pid
 {
 public:
+    Pid() : pid_roll_optimizer(roll_kp, roll_ki, roll_kd) {};
     void reset();
     void updateIntegral(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle);
     void printPid(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle);
     void printPidConstants();
+    void runRollOptimizer(float gyro_roll, float roll_desired_anglfloat);
 
     float pidThrottleLF(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle)
     {
@@ -68,6 +71,7 @@ public:
 private:
     long previous_timer;
     float pitch_offset = 0, roll_offset = 0;
+    PidOptimizer pid_roll_optimizer;
 
     /* Roll PID */
     float rollPid(float gyro_roll, float roll_desired_angle)
@@ -84,14 +88,14 @@ private:
 
     float rollPidP(float gyro_roll, float roll_desired_angle)
     {
-        return roll_kp * rollError(gyro_roll, roll_desired_angle);
+        return (roll_kp + pid_roll_optimizer.getKp()) * rollError(gyro_roll, roll_desired_angle);
     }
 
     float roll_pid_i = 0;
 
     float rollPidD(float gyro_roll, float roll_desired_angle)
     {
-        return roll_kd * (rollError(gyro_roll, roll_desired_angle) - roll_previous_error);
+        return (roll_kd + pid_roll_optimizer.getKd()) * (rollError(gyro_roll, roll_desired_angle) - roll_previous_error);
     }
 
     /* Pitch PID */

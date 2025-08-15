@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include <Servo.h>
-#include "./components/pid/pid.h"
+#include "./components/quadcopter_pid/quadcopter_pid.h"
 #include "./components/gyro/gyro.h"
 #include "./components/flight_mode/flight_mode.h"
 
@@ -80,6 +80,7 @@ private:
   void savePidErrors(float gyro_roll, float gyro_pitch, float gyro_yaw);
   void delayToKeepFeedbackLoopHz(long start_micros_timestamp);
   void setFlightMode(FlightMode flight_mode);
+  void runPidOptimizer();
 };
 
 #endif

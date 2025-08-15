@@ -62,8 +62,15 @@ void Drone::run()
 
         savePidErrors(gyro.roll(), gyro.pitch(), gyro.yaw());
 
+        runPidOptimizer();
+
         delayToKeepFeedbackLoopHz(start_micros_timestamp);
     }
+}
+
+void Drone::runPidOptimizer()
+{
+    pid.runRollOptimizer(gyro.roll(), roll_desired_angle);
 }
 
 void Drone::delayToKeepFeedbackLoopHz(long start_micros_timestamp)
