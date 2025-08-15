@@ -158,38 +158,11 @@ void Drone::resetPid()
     pid.reset();
 }
 
-void Drone::setPidPConstant(float value)
+void Drone::setPidConstants(float kp, float ki, float kd) 
 {
-    pid.roll_kp = value;
-    pid.pitch_kp = value;
-
-    if (pid.roll_kp < 0)
-        pid.roll_kp = 0;
-    if (pid.pitch_kp < 0)
-        pid.pitch_kp = 0;
+    pid = Pid(kp, ki, kd);
 }
 
-void Drone::setPidIConstant(float value)
-{
-    pid.roll_ki = value;
-    pid.pitch_ki = value;
-
-    if (pid.roll_ki < 0)
-        pid.roll_ki = 0;
-    if (pid.pitch_ki < 0)
-        pid.pitch_ki = 0;
-}
-
-void Drone::setPidDConstant(float value)
-{
-    pid.roll_kd = value;
-    pid.pitch_kd = value;
-
-    if (pid.roll_kd < 0)
-        pid.roll_kd = 0;
-    if (pid.pitch_kd < 0)
-        pid.pitch_kd = 0;
-}
 
 void Drone::setThrottle(float value)
 {
@@ -255,9 +228,7 @@ void Drone::setFlightModeAutoLevel()
         gyro.setReportModeEuler();
     }
 
-    setPidPConstant(1.25);
-    setPidIConstant(0.01);
-    setPidDConstant(25);
+    setPidConstants(1.25, 0.01, 25);
 
     setFlightMode(auto_level);
 }
@@ -269,9 +240,7 @@ void Drone::setFlightModeAcro()
         gyro.setReportModeAcro();
     }
 
-    setPidPConstant(0.4);
-    setPidIConstant(0.02);
-    setPidDConstant(6);
+    setPidConstants(0.4, 0.02, 6);
 
     setFlightMode(acro);
 }

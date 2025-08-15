@@ -10,10 +10,24 @@
 #define THROTTLE_MINIMUM 1000
 #define THROTTLE_MAXIMUM 2000
 
+#define PID_ONLY_USE_OPTIMIZER_PID_CONSTANTS false
+
 class Pid
 {
 public:
-    Pid() : pid_roll_optimizer(roll_kp, roll_ki, roll_kd) {};
+    Pid(float kp, float ki, float kd) : pid_roll_optimizer(kp, ki, kd)
+    {
+        if (!PID_ONLY_USE_OPTIMIZER_PID_CONSTANTS)
+        {
+            roll_kp = kp;
+            roll_ki = ki;
+            roll_kd = kd;
+
+            pitch_kp = kp;
+            pitch_ki = ki;
+            pitch_kd = kd;
+        }
+    };
     void reset();
     void updateIntegral(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle);
     void printPid(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle);
@@ -64,9 +78,9 @@ public:
     double roll_kd = 0; // Working: 25      (Autolevel)
 
     /* Pitch PID Constants */
-    double pitch_kp = roll_kp;
-    double pitch_ki = roll_ki;
-    double pitch_kd = roll_kd;
+    double pitch_kp = 0; // Working: 1.25    (Autolevel)
+    double pitch_ki = 0; // Working: 0.01    (Autolevel)
+    double pitch_kd = 0; // Working: 25      (Autolevel)
 
 private:
     long previous_timer;
