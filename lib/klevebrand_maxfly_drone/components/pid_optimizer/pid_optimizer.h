@@ -2,30 +2,45 @@
 #define PID_OPTIMIZER_H
 
 #include <Arduino.h>
-#include "../pid_state_snapshot/pid_state_snapshot.h"
 
-#define PID_SNAPSHOT_ARRAY_SIZE 50 
+#define TRIAL_DURATION_MS 5000 
+
+enum OptimizerState {
+    IDLE,
+    MEASURING,
+    DECIDING
+};
 
 class PidOptimizer {
 public:
- void saveMeasurements(float pid_kp, float pid_ki, float pid_kd, float pid_p, float pid_i, float pid_d, float error, float previous_error);
- float score();
- float getPAdjustmentValue();
- float getIAdjustmentValue();
- float getDAdjustmentValue();
+    PidOptimizer(float default_kp, float default_ki, float default_kd);
+
+    void run(float current_error);
+
+    float getKp() { return current_kp; }
+    float getKi() { return current_ki; }
+    float getKd() { return current_kd; }
+
 private:
-    PidStateSnapshot pid_state_snapshot_array[PID_SNAPSHOT_ARRAY_SIZE];
+    float current_kp;
+    float current_ki;
+    float current_kd;
 
-    float best_score = 0;
+    float best_kp;
+    float best_ki;
+    float best_kd;
+    
+    float best_score;
 
-    float last_p_adjustment_value = 0;
-    float best_p_adjustment_value = 0;
+    OptimizerState state;
+    unsigned long trial_start_time;
+    float error_sum_squared;
+    int error_measurement_count;
 
-    float last_i_adjustment_value = 0;
-    float best_i_adjustment_value = 0;
-
-    float last_d_adjustment_value = 0;
-    float best_d_adjustment_value = 0;
+    void startTrial();
+    long score();
+    void evaluateTrial();
+    float coolingFactor();
 };
 
 #endif // PID_OPTIMIZER_H

@@ -1,87 +1,105 @@
 #include "pid_optimizer.h"
 
-void PidOptimizer::saveMeasurements(
-    float pid_kp,
-    float pid_ki,
-    float pid_kd,
-    float pid_p,
-    float pid_i,
-    float pid_d,
-    float error,
-    float previous_error)
+PidOptimizer::PidOptimizer(float initial_kp, float initial_ki, float initial_kd)
 {
-    for (int i = PID_SNAPSHOT_ARRAY_SIZE - 1; i > 0; i--)
-    {
-        pid_state_snapshot_array[i + 1] = pid_state_snapshot_array[i];
-    }
+    current_kp = initial_kp;
+    current_ki = initial_ki;
+    current_kd = initial_kd;
 
-    pid_state_snapshot_array[0] = PidStateSnapshot(pid_kp, pid_ki, pid_kd, pid_p, pid_i, pid_d, error, previous_error, micros());
+    best_kp = initial_kp;
+    best_ki = initial_ki;
+    best_kd = initial_kd;
+
+    best_score = 1e10;
+
+    state = IDLE;
 }
 
-float PidOptimizer::score()
+void PidOptimizer::run(float current_error)
 {
-    float error_score = 0;
-
-    for (int i = 0; i < PID_SNAPSHOT_ARRAY_SIZE - 1; i++)
+    switch (state)
     {
-        // Only calculate the score where the PID constants are the same, otherwise when changed we want to get a new fresh score for the new set of constants
-        // if(i != 0 && last_pid_kp != pid_state_snapshot_array[i].pid_kp && last_pid_ki != pid_state_snapshot_array[i].pid_ki && last_pid_kd != pid_state_snapshot_array[i].pid_kd) 
-        // {
-        //     continue;
-        // }
+    case IDLE:
+        startTrial();
+        break;
 
-        error_score += pid_state_snapshot_array[i].error * (pid_state_snapshot_array[i + 1].microseconds_timestamp / 1000 - pid_state_snapshot_array[i].microseconds_timestamp / 1000);
+    case MEASURING:
+        if (millis() - trial_start_time < TRIAL_DURATION_MS)
+        {
+            error_sum_squared += pow(current_error, 2);
+            error_measurement_count++;
+        }
+        else
+        {
+            state = DECIDING;
+        }
+        break;
+
+    case DECIDING:
+        evaluateTrial();
+        state = IDLE;
+        break;
     }
-
-    return error_score;
 }
 
-float PidOptimizer::getPAdjustmentValue()
+void PidOptimizer::startTrial()
 {
-    float current_score = score();
+    current_kp = best_kp;
+    current_ki = best_ki;
+    current_kd = best_kd;
 
-    Serial.print(current_score);
-    Serial.print(",");
-    Serial.println(best_score);
+    float cooling_factor = coolingFactor();
+    current_kp += random(-5.0, 5.0) * cooling_factor;
+    current_ki += random(-1.0, 1.0) * cooling_factor;
+    current_kd += random(-10.0, 10.0) * cooling_factor;
 
-    // Somehow here check if the new value is closer to zero
-    if (current_score < best_score)
-    {
-        best_score = current_score;
-        best_p_adjustment_value = last_p_adjustment_value;
-    }
+    current_kp = constrain(current_kp, 0.0, 10.0);
+    current_ki = constrain(current_ki, 0.0, 2.0);
+    current_kd = constrain(current_kd, 0.0, 30.0);
 
-    last_p_adjustment_value = constrain(last_p_adjustment_value + random(-10.0, 10.0) / 10.0, -3.0, 3.0);
-
-    return last_p_adjustment_value;
+    error_sum_squared = 0;
+    error_measurement_count = 0;
+    trial_start_time = millis();
+    state = MEASURING;
 }
 
-float PidOptimizer::getIAdjustmentValue()
+long PidOptimizer::score() 
 {
-    float current_score = score();
+    if(error_measurement_count == 0) return 1e10;
 
-    if (current_score < best_score || (current_score != 0 && best_score == 0))
-    {
-        best_score = current_score;
-        best_i_adjustment_value = last_i_adjustment_value;
-    }
-
-    last_i_adjustment_value = last_i_adjustment_value + random(-0.1, 0.1);
-
-    return last_i_adjustment_value;
+    return error_sum_squared / error_measurement_count;
 }
 
-float PidOptimizer::getDAdjustmentValue()
+void PidOptimizer::evaluateTrial()
 {
-    float current_score = score();
+    long currentScore = score();
 
-    if (current_score < best_score || (current_score != 0 && best_score == 0))
+    if (currentScore < best_score)
     {
-        best_score = current_score;
-        best_d_adjustment_value = last_d_adjustment_value;
+        best_score = currentScore;
+        best_kp = current_kp;
+        best_ki = current_ki;
+        best_kd = current_kd;
     }
+    else
+    {
+        float temperature = 1.0 - coolingFactor();
+        float acceptance_probability = exp(-(currentScore - best_score) / temperature);
+        
+        if (random(0.0, 1000.0) / 1000.0 < acceptance_probability)
+        {
+            best_score = currentScore;
+            best_kp = current_kp;
+            best_ki = current_ki;
+            best_kd = current_kd;
+        }
+    }
+}
 
-    last_d_adjustment_value = last_d_adjustment_value + random(-10, 10);
+float PidOptimizer::coolingFactor()
+{
+    unsigned long time_elapsed = millis();
+    float max_duration = 600000; 
 
-    return last_d_adjustment_value;
+    return 1.0 - constrain((float)time_elapsed / max_duration, 0.0, 1.0);
 }

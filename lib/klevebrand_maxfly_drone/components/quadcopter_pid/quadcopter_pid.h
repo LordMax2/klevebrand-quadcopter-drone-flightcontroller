@@ -10,18 +10,15 @@
 #define THROTTLE_MINIMUM 1000
 #define THROTTLE_MAXIMUM 2000
 
-
 class Pid
 {
 public:
-    Pid() {
-
-    };
+    Pid() : pid_roll_optimizer(roll_kp, roll_ki, roll_kd) {};
     void reset();
     void updateIntegral(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle);
     void printPid(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle);
     void printPidConstants();
-    void saveMeasurements(float gyro_pitch, float pitch_desired_angle, float gyro_roll, float roll_desired_angle, long micoseconds_timestamp);
+    void runRollOptimizer(float gyro_roll, float roll_desired_anglfloat);
 
     float pidThrottleLF(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle)
     {
@@ -91,14 +88,14 @@ private:
 
     float rollPidP(float gyro_roll, float roll_desired_angle)
     {
-        return (roll_kp + pid_roll_optimizer.getPAdjustmentValue()) * rollError(gyro_roll, roll_desired_angle);
+        return (roll_kp + pid_roll_optimizer.getKp()) * rollError(gyro_roll, roll_desired_angle);
     }
 
     float roll_pid_i = 0;
 
     float rollPidD(float gyro_roll, float roll_desired_angle)
     {
-        return (roll_kd + pid_roll_optimizer.getDAdjustmentValue()) * (rollError(gyro_roll, roll_desired_angle) - roll_previous_error);
+        return (roll_kd + pid_roll_optimizer.getKd()) * (rollError(gyro_roll, roll_desired_angle) - roll_previous_error);
     }
 
     /* Pitch PID */
