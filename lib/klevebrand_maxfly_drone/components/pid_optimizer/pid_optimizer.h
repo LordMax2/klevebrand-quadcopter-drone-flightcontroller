@@ -5,7 +5,7 @@
 
 #define TRIAL_DURATION_MS 5000 
 
-enum OptimizerState {
+enum PidOptimizerState {
     IDLE,
     MEASURING,
     DECIDING
@@ -32,7 +32,7 @@ private:
     
     float best_score;
 
-    OptimizerState state;
+    PidOptimizerState state;
     unsigned long trial_start_time;
     float error_sum_squared;
     int error_measurement_count;
