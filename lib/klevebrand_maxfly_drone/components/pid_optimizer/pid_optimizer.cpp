@@ -77,6 +77,7 @@ void PidOptimizer::evaluateTrial()
     if (current_score < best_score)
     {
         best_score = current_score;
+
         best_kp = current_kp;
         best_ki = current_ki;
         best_kd = current_kd;
@@ -89,6 +90,7 @@ void PidOptimizer::evaluateTrial()
         if (random(0.0, 1000.0) / 1000.0 < acceptance_probability)
         {
             best_score = current_score;
+
             best_kp = current_kp;
             best_ki = current_ki;
             best_kd = current_kd;
@@ -99,7 +101,7 @@ void PidOptimizer::evaluateTrial()
 float PidOptimizer::coolingFactor()
 {
     unsigned long time_elapsed = millis();
-    float max_duration = 600000; 
+    float cooling_duration = 600000; 
 
-    return 1.0 - constrain((float)time_elapsed / max_duration, 0.0, 1.0);
+    return 1.0 - constrain((float)time_elapsed / cooling_duration, 0.0, 1.0);
 }
