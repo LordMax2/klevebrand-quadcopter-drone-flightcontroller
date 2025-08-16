@@ -70,6 +70,7 @@ void Drone::run()
 void Drone::runPidOptimizer()
 {
     pid.runRollOptimizer(gyro.roll(), roll_desired_angle);
+    pid.runPitchOptimizer(gyro.pitch(), pitch_desired_angle);
 }
 
 void Drone::delayToKeepFeedbackLoopHz(long start_micros_timestamp)
