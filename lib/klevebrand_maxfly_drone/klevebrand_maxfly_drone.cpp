@@ -44,6 +44,7 @@ void Drone::run()
         // Increment the integral part of the PID loop
         if (throttle > PID_THROTTLE_THRESHOLD)
         {
+            runPidOptimizer();
             calculatePidIntegral(gyro.roll(), gyro.pitch(), gyro.yaw());
         }
         else
@@ -61,8 +62,6 @@ void Drone::run()
         runMotors(gyro.roll(), gyro.pitch(), gyro.yaw());
 
         savePidErrors(gyro.roll(), gyro.pitch(), gyro.yaw());
-
-        runPidOptimizer();
 
         delayToKeepFeedbackLoopHz(start_micros_timestamp);
     }
