@@ -24,7 +24,7 @@ void PidOptimizer::run(float current_error)
         break;
 
     case MEASURING:
-        if (millis() - trial_start_time < TRIAL_DURATION_MS)
+        if (millis() - trial_start_time < TRIAL_DURATION_MILLISECONDS)
         {
             error_sum_squared += pow(current_error, 2);
             error_measurement_count++;
@@ -49,7 +49,7 @@ void PidOptimizer::startTrial()
     current_kd = best_kd;
 
     float cooling_factor = coolingFactor();
-    current_kp += random(-5.0, 5.0) * cooling_factor;
+    current_kp += random(-3.0, 3.0) * cooling_factor;
     current_ki += random(-1.0, 1.0) * cooling_factor;
     current_kd += random(-10.0, 10.0) * cooling_factor;
 

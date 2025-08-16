@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-#define TRIAL_DURATION_MS 5000 
+#define TRIAL_DURATION_MILLISECONDS 3000 
 
 enum PidOptimizerState {
     IDLE,

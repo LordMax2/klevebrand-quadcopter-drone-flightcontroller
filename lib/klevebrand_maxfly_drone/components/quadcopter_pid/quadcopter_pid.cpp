@@ -54,9 +54,9 @@ void Pid::printPid(float gyro_roll, float roll_desired_angle, float gyro_pitch, 
 
 void Pid::printPidConstants()
 {
-  Serial.print(roll_kp);
+  Serial.print(pid_roll_optimizer.getKp());
   Serial.print(",");
-  Serial.print(roll_ki);
+  Serial.print(pid_roll_optimizer.getKi());
   Serial.print(",");
-  Serial.println(roll_kd);
+  Serial.println(pid_roll_optimizer.getKd());
 }
