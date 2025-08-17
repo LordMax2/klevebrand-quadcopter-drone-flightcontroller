@@ -1,18 +1,25 @@
-# Drone Flight Controller
-This repository contains the code and resources for an open-source drone flight controller project built with C++ and optimized for AVR processors such as the ATmega2560. It utilizes the onboard IMU (Gyroscope) BNO085
+# Klevebrand quadcopter flight controller
 
-# Overview
-The aim of this project is to create a simple yet effective flight controller for drones. The focus is on simplicity and functionality, ensuring that the complexity of drone control is minimized without compromising performance.
+An open-source C++ flight controller for quadcopters, designed with a the vision: **it doesnt need to be harder than it needs to be**. Optimized for AVR microcontrollers like the ATmega2560, this project provides a lightweight yet powerful foundation for any drone.
 
-# Features
-* C++ Implementation: High-performance code written in C++.
-* AVR Processor Optimization: Designed specifically for ATmega2560.
-* BNO085 Sensor Integration: Accurate orientation and motion tracking.
-# Vision
-My vision is to create simple solutions, things don’t need to be harder than they need to be.
+Its standout feature is a **self-calibrating PID system** using Black Box optimization, which dramatically simplifies the tuning process.
 
-# License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## Features
 
-# Contributing
-Contributions are welcome! Please open an issue or submit a pull request.
+*  **High-performance C++ code:** Written in clean, modern C++ for reliability and speed.
+*  **Optimized for AVR Microcontrollers:** Specifically designed for the ATmega2560, but works with any AVR controller with sufficient RAM.
+*  **Precise Motion Tracking:** Integrates the high-quality **BNO085** 9-DOF IMU for stable and accurate orientation data.
+*  **Self-Calibrating PID Stabilization:** Utilizes **Black Box optimization** with **Simulated Annealing** to automatically tune PID values, eliminating the need for manual calibration for different drones/motors/batteries. 
+*  **Versatile Radio Support:** Compatible with standard PWM receivers and 4G/LTE modems for long-range control.
+
+## Artificial inteligence for PID calibration
+
+Tuning a drone's PID controllers for stable flight is a challenging and difficult task. This project offers a solution that automates the process, making it far simpler and more efficient.
+
+Using a Simulated Annealing algorithm, the flight controller can autonomously run tests and intelligently adjust its PID parameters. This "Black Box" tuning method finds near-optimal values with minimal manual input, ensuring a stable and responsive flight.
+
+Furthermore, this optimization runs continuously during flight, adapting to environmental changes like wind, rain, or motor defects. It constantly seeks the ideal configuration to keep the drone stable and maneuverable in real time.
+
+## 📄 License
+
+This project is licensed under the MIT License. See the `LICENSE` file for more information.
