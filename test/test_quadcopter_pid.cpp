@@ -50,6 +50,7 @@ void test_pid_throttle_response_pitch_roll()
 
     float gyroPreviousRoll = 42;
     float gyroPreviousPitch = -0.1;
+    float gyroPreviousYaw = -0.1;
 
     float desiredRoll = 0;
     float desiredPitch = 0;
@@ -57,6 +58,7 @@ void test_pid_throttle_response_pitch_roll()
 
     pid.saveRollError(gyroPreviousRoll, desiredRoll);
     pid.savePitchError(gyroPreviousPitch, desiredPitch);
+    pid.saveYawError(gyroPreviousYaw, desiredYaw);
 
     // Run the integral update 3 times to get a little bit bigger values, in reality, this equals three feedback loop-runs.
     pid.updateIntegral(gyroRoll, desiredRoll, gyroPitch, desiredPitch, gyroYaw, desiredYaw);
