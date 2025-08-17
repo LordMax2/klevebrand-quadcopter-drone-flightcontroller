@@ -1,18 +1,21 @@
 #include <unity.h>
 #include "../lib/klevebrand_maxfly_drone/components/quadcopter_pid/quadcopter_pid.h"
 
-void setUp(void) {
+void setUp(void)
+{
     // set stuff up here
 }
 
-void tearDown(void) {
+void tearDown(void)
+{
     // clean stuff up here
 }
 
-/// @brief 
-/// Test the PID throttle output when PID constants are zero. 
+/// @brief
+/// Test the PID throttle output when PID constants are zero.
 /// The throttle output from the PID should be the same as the throttle input when the constants are zero.
-void test_zero_pid_throttle() {
+void test_zero_pid_throttle()
+{
     Pid pid(0, 0, 0);
 
     float throttle = 1500;
@@ -36,9 +39,9 @@ void test_zero_pid_throttle() {
     TEST_ASSERT_EQUAL(throttle, throttleRb);
 }
 
-/// @brief 
+/// @brief
 /// Tests the PID throttle in a couple of loops to make sure P, I and D respond as predicted for pitch and roll.
-void test_pid_throttle_response_pitch_roll() 
+void test_pid_throttle_response_pitch_roll()
 {
     Pid pid(1.25, 0.01, 8);
 
@@ -74,10 +77,10 @@ void test_pid_throttle_response_pitch_roll()
     TEST_ASSERT_EQUAL(1425, throttleRf);
     TEST_ASSERT_EQUAL(1574, throttleLb);
     TEST_ASSERT_EQUAL(1410, throttleRb);
-
 }
 
-int main( int argc, char **argv) {
+int main(int argc, char **argv)
+{
     UNITY_BEGIN();
 
     RUN_TEST(test_zero_pid_throttle);
