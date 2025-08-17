@@ -49,9 +49,9 @@ void PidOptimizer::startTrial()
     current_kd = best_kd;
 
     float cooling_factor = coolingFactor();
-    current_kp += random(-3.0, 3.0) * cooling_factor;
-    current_ki += random(-1.0, 1.0) * cooling_factor;
-    current_kd += random(-10.0, 10.0) * cooling_factor;
+    current_kp += random(-1.0, 1.0) * cooling_factor;
+    current_ki += random(-0.5, 0.5) * cooling_factor;
+    current_kd += random(-2.0, 2.0) * cooling_factor;
 
     current_kp = constrain(current_kp, 0.0, 10.0);
     current_ki = constrain(current_ki, 0.0, 2.0);
@@ -63,9 +63,10 @@ void PidOptimizer::startTrial()
     state = MEASURING;
 }
 
-long PidOptimizer::score() 
+long PidOptimizer::score()
 {
-    if(error_measurement_count == 0) return 1e10;
+    if (error_measurement_count == 0)
+        return 1e10;
 
     return error_sum_squared / error_measurement_count;
 }
@@ -86,7 +87,7 @@ void PidOptimizer::evaluateTrial()
     {
         float temperature = 1.0 - coolingFactor();
         float acceptance_probability = exp(-(current_score - best_score) / temperature);
-        
+
         if (random(0.0, 1000.0) / 1000.0 < acceptance_probability)
         {
             best_score = current_score;
@@ -101,7 +102,7 @@ void PidOptimizer::evaluateTrial()
 float PidOptimizer::coolingFactor()
 {
     unsigned long time_elapsed = millis();
-    float cooling_duration = 600000; 
+    float cooling_duration = 600000;
 
     return 1.0 - constrain((float)time_elapsed / cooling_duration, 0.0, 1.0);
 }
