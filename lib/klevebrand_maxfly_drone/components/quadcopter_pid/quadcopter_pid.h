@@ -10,29 +10,16 @@
 #define THROTTLE_MINIMUM 1000
 #define THROTTLE_MAXIMUM 2000
 
-#define PID_ONLY_USE_OPTIMIZER_PID_CONSTANTS false
-
 class Pid
 {
 public:
-    Pid(float kp, float ki, float kd) : pid_roll_optimizer(kp, ki, kd)
-    {
-        if (!PID_ONLY_USE_OPTIMIZER_PID_CONSTANTS)
-        {
-            roll_kp = kp;
-            roll_ki = ki;
-            roll_kd = kd;
-
-            pitch_kp = kp;
-            pitch_ki = ki;
-            pitch_kd = kd;
-        }
-    };
+    Pid(float kp, float ki, float kd) : pid_roll_optimizer(kp, ki, kd), pid_pitch_optimizer(kp, ki, kd) { };
     void reset();
     void updateIntegral(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle);
     void printPid(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle);
     void printPidConstants();
-    void runRollOptimizer(float gyro_roll, float roll_desired_anglfloat);
+    void runRollOptimizer(float gyro_roll, float roll_desired_angle);
+    void runPitchOptimizer(float gyro_pitch, float pitch_desired_angle);
 
     float pidThrottleLF(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle)
     {
@@ -66,26 +53,21 @@ public:
         return constrain(throttle + rollPid(gyro_roll, roll_desired_angle) - pitchPid(gyro_pitch, pitch_desired_angle) + yawPid(gyro_yaw, yaw_desired_angle), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
 
-    void setPitchOffset(float value);
     void savePitchError(float gyro_pitch, float pitch_desired_angle);
-    void setRollOffset(float value);
     void saveRollError(float gyro_roll, float roll_desired_angle);
     void saveYawError(float gyro_yaw, float yaw_desired_angle);
 
-    /* Roll PID Constants */
-    double roll_kp = 0; // Working: 1.25    (Autolevel)
-    double roll_ki = 0; // Working: 0.01    (Autolevel)
-    double roll_kd = 0; // Working: 25      (Autolevel)
-
-    /* Pitch PID Constants */
-    double pitch_kp = 0; // Working: 1.25    (Autolevel)
-    double pitch_ki = 0; // Working: 0.01    (Autolevel)
-    double pitch_kd = 0; // Working: 25      (Autolevel)
+    // Working PID contants: 
+    /*
+        kp = 1.25
+        ki = 0.01
+        kd = 25
+    */
 
 private:
     long previous_timer;
-    float pitch_offset = 0, roll_offset = 0;
     PidOptimizer pid_roll_optimizer;
+    PidOptimizer pid_pitch_optimizer;
 
     /* Roll PID */
     float rollPid(float gyro_roll, float roll_desired_angle)
@@ -95,21 +77,21 @@ private:
 
     float rollError(float gyro_roll, float roll_desired_angle)
     {
-        return roll_offset - roll_desired_angle - gyro_roll;
+        return roll_desired_angle - gyro_roll;
     }
 
     float roll_previous_error = 0;
 
     float rollPidP(float gyro_roll, float roll_desired_angle)
     {
-        return (roll_kp + pid_roll_optimizer.getKp()) * rollError(gyro_roll, roll_desired_angle);
+        return (pid_roll_optimizer.getKp()) * rollError(gyro_roll, roll_desired_angle);
     }
 
     float roll_pid_i = 0;
 
     float rollPidD(float gyro_roll, float roll_desired_angle)
     {
-        return (roll_kd + pid_roll_optimizer.getKd()) * (rollError(gyro_roll, roll_desired_angle) - roll_previous_error);
+        return (pid_roll_optimizer.getKd()) * (rollError(gyro_roll, roll_desired_angle) - roll_previous_error);
     }
 
     /* Pitch PID */
@@ -120,21 +102,21 @@ private:
 
     float pitchError(float gyro_pitch, float pitch_desired_angle)
     {
-        return pitch_offset - pitch_desired_angle - gyro_pitch;
+        return pitch_desired_angle - gyro_pitch;
     }
 
     float pitch_previous_error = 0;
 
     float pitchPidP(float gyro_pitch, float pitch_desired_angle)
     {
-        return pitch_kp * pitchError(gyro_pitch, pitch_desired_angle);
+        return pid_pitch_optimizer.getKp() * pitchError(gyro_pitch, pitch_desired_angle);
     }
 
     float pitch_pid_i = 0;
 
     float pitchPidD(float gyro_pitch, float pitch_desired_angle)
     {
-        return pitch_kd * (pitchError(gyro_pitch, pitch_desired_angle) - pitch_previous_error);
+        return pid_pitch_optimizer.getKd() * (pitchError(gyro_pitch, pitch_desired_angle) - pitch_previous_error);
     }
 
     /* Yaw PID Constants */
@@ -153,7 +135,7 @@ private:
         return yaw_desired_angle - gyro_yaw;
     }
 
-    float yaw_previous_error;
+    float yaw_previous_error = 0;
 
     float yawPidP(float gyro_yaw, float yaw_desired_angle)
     {

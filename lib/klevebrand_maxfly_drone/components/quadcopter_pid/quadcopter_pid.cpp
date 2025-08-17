@@ -8,14 +8,9 @@ void Pid::reset()
 
 void Pid::updateIntegral(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle)
 {
-  roll_pid_i = constrain(roll_pid_i + ((roll_ki + pid_roll_optimizer.getKi()) * rollError(gyro_roll, roll_desired_angle)), -PID_MAX, PID_MAX);
-  pitch_pid_i = constrain(pitch_pid_i + (pitch_ki * pitchError(gyro_pitch, pitch_desired_angle)), -PID_MAX, PID_MAX);
+  roll_pid_i = constrain(roll_pid_i + (pid_roll_optimizer.getKi() * rollError(gyro_roll, roll_desired_angle)), -PID_MAX, PID_MAX);
+  pitch_pid_i = constrain(pitch_pid_i + (pid_pitch_optimizer.getKi() * pitchError(gyro_pitch, pitch_desired_angle)), -PID_MAX, PID_MAX);
   yaw_pid_i = constrain(yaw_pid_i + (yaw_ki * yawError(gyro_yaw, yaw_desired_angle)), -PID_MAX, PID_MAX);
-}
-
-void Pid::setPitchOffset(float value)
-{
-  pitch_offset = value;
 }
 
 void Pid::runRollOptimizer(float gyro_roll, float roll_desired_angle)
@@ -23,14 +18,14 @@ void Pid::runRollOptimizer(float gyro_roll, float roll_desired_angle)
   pid_roll_optimizer.run(rollError(gyro_roll, roll_desired_angle));
 }
 
+void Pid::runPitchOptimizer(float gyro_pitch, float pitch_desired_angle)
+{
+  pid_pitch_optimizer.run(pitchError(gyro_pitch, pitch_desired_angle));
+}
+
 void Pid::savePitchError(float gyro_pitch, float pitch_desired_angle)
 {
   pitch_previous_error = pitchError(gyro_pitch, pitch_desired_angle);
-}
-
-void Pid::setRollOffset(float value)
-{
-  roll_offset = value;
 }
 
 void Pid::saveRollError(float gyro_roll, float roll_desired_angle)
