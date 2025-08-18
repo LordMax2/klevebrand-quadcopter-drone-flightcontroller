@@ -26,7 +26,7 @@ public:
         if (throttle < PID_THROTTLE_THRESHOLD)
             return THROTTLE_MINIMUM;
 
-        return constrain(throttle - rollPid(gyro_roll, roll_desired_angle) + pitchPid(gyro_pitch, pitch_desired_angle) + yawPid(gyro_yaw, yaw_desired_angle), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
+        return constrain(throttle + rollPid(gyro_roll, roll_desired_angle) - pitchPid(gyro_pitch, pitch_desired_angle) + yawPid(gyro_yaw, yaw_desired_angle), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
 
     float pidThrottleLB(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle)
@@ -34,7 +34,7 @@ public:
         if (throttle < PID_THROTTLE_THRESHOLD)
             return THROTTLE_MINIMUM;
 
-        return constrain(throttle - rollPid(gyro_roll, roll_desired_angle) - pitchPid(gyro_pitch, pitch_desired_angle) - yawPid(gyro_yaw, yaw_desired_angle), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
+        return constrain(throttle + rollPid(gyro_roll, roll_desired_angle) + pitchPid(gyro_pitch, pitch_desired_angle) - yawPid(gyro_yaw, yaw_desired_angle), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
 
     float pidThrottleRF(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle)
@@ -42,7 +42,7 @@ public:
         if (throttle < PID_THROTTLE_THRESHOLD)
             return THROTTLE_MINIMUM;
 
-        return constrain(throttle + rollPid(gyro_roll, roll_desired_angle) + pitchPid(gyro_pitch, pitch_desired_angle) - yawPid(gyro_yaw, yaw_desired_angle), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
+        return constrain(throttle - rollPid(gyro_roll, roll_desired_angle) - pitchPid(gyro_pitch, pitch_desired_angle) - yawPid(gyro_yaw, yaw_desired_angle), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
 
     float pidThrottleRB(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle)
@@ -50,7 +50,7 @@ public:
         if (throttle < PID_THROTTLE_THRESHOLD)
             return THROTTLE_MINIMUM;
 
-        return constrain(throttle + rollPid(gyro_roll, roll_desired_angle) - pitchPid(gyro_pitch, pitch_desired_angle) + yawPid(gyro_yaw, yaw_desired_angle), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
+        return constrain(throttle - rollPid(gyro_roll, roll_desired_angle) + pitchPid(gyro_pitch, pitch_desired_angle) + yawPid(gyro_yaw, yaw_desired_angle), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
     }
 
     void savePitchError(float gyro_pitch, float pitch_desired_angle);
