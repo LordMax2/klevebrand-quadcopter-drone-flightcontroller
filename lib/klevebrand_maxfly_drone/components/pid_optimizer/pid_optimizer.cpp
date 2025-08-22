@@ -48,10 +48,9 @@ void PidOptimizer::startTrial()
     current_ki = best_ki;
     current_kd = best_kd;
 
-    float cooling_factor = coolingFactor();
-    current_kp += random(-1.0, 1.0) * cooling_factor;
-    current_ki += random(-0.5, 0.5) * cooling_factor;
-    current_kd += random(-2.0, 2.0) * cooling_factor;
+    current_kp += random(-1.0, 1.0);
+    current_ki += random(-0.5, 0.5);
+    current_kd += random(-2.0, 2.0);
 
     current_kp = constrain(current_kp, 0.0, 10.0);
     current_ki = constrain(current_ki, 0.0, 2.0);
