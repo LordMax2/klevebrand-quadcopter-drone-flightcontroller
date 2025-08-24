@@ -51,13 +51,10 @@ void DronePwmReceiver::setPid(Drone *drone)
     if (drone->getFlightMode() == acro)
     {
         float pid_p_value = mapfloat(receiver.getChannelValue(pid_p_constant_channel_number), 1100, 1800, 0, 10);
-        drone->setPidPConstant(pid_p_value / 5);
-
         float pid_i_value = mapfloat(receiver.getChannelValue(pid_i_constant_channel_number), 1100, 1800, 0, 1) / 10;
-        drone->setPidIConstant(pid_i_value / 5);
-
         float pid_d_value = mapfloat(receiver.getChannelValue(pid_d_constant_channel_number), 1100, 1800, 0, 60);
-        drone->setPidDConstant(pid_d_value / 5);
+
+        drone->setPidConstants(pid_p_value / 5, pid_i_value / 5, pid_d_value / 5);
 
         return;
     }
@@ -65,13 +62,10 @@ void DronePwmReceiver::setPid(Drone *drone)
     if (drone->getFlightMode() == auto_level)
     {
         float pid_p_value = mapfloat(receiver.getChannelValue(pid_p_constant_channel_number), 1100, 1800, 0, 10);
-        drone->setPidPConstant(pid_p_value);
-
         float pid_i_value = mapfloat(receiver.getChannelValue(pid_i_constant_channel_number), 1100, 1800, 0, 1) / 10;
-        drone->setPidIConstant(pid_i_value);
-
         float pid_d_value = mapfloat(receiver.getChannelValue(pid_d_constant_channel_number), 1100, 1800, 0, 60);
-        drone->setPidDConstant(pid_d_value);
+
+        drone->setPidConstants(pid_p_value, pid_i_value, pid_d_value);
 
         return;
     }

@@ -67,6 +67,7 @@ void PwmReceiver::recordPinChangePulseWidth(int channelNumber)
     if (pinState == HIGH)
     {
         pulse_start_micros[channelNumberIndex] = micros();
+
         return;
     }
 
@@ -82,6 +83,7 @@ void PwmReceiver::recordPinChangePulseWidth(int channelNumber)
     {
         pulse_widths[channelNumberIndex] = (int)(micros() - pulse_start_micros[channelNumberIndex]);
         pulse_start_micros[channelNumberIndex] = 0;
+
         return;
     }
 }
@@ -93,5 +95,6 @@ int PwmReceiver::getChannelValue(int channelNumber)
     {
         return -1;
     }
+
     return constrain(pulse_widths[channelNumber - 1], 1000, 2000);
 }

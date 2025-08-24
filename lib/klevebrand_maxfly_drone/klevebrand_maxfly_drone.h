@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include <Servo.h>
-#include "./components/pid/pid.h"
+#include "./components/quadcopter_pid/quadcopter_pid.h"
 #include "./components/gyro/gyro.h"
 #include "./components/flight_mode/flight_mode.h"
 
@@ -23,7 +23,7 @@ public:
       uint8_t motor_left_front_pin_number,
       uint8_t motor_right_front_pin_number,
       uint8_t motor_left_back_pin_number,
-      uint8_t motor_right_back_pin_number)
+      uint8_t motor_right_back_pin_number) : pid(0, 0, 0)
   {
     /*
      * Map the motor pin numbers
@@ -45,9 +45,7 @@ public:
   void setDesiredYawAngle(float value);
   void setDesiredPitchAngle(float value);
   void setDesiredRollAngle(float value);
-  void setPidPConstant(float value);
-  void setPidIConstant(float value);
-  void setPidDConstant(float value);
+  void setPidConstants(float kp, float ki, float kd);
   void setFlightModeAutoLevel();
   void setFlightModeAcro();
   FlightMode getFlightMode();
@@ -80,6 +78,7 @@ private:
   void savePidErrors(float gyro_roll, float gyro_pitch, float gyro_yaw);
   void delayToKeepFeedbackLoopHz(long start_micros_timestamp);
   void setFlightMode(FlightMode flight_mode);
+  void runPidOptimizer();
 };
 
 #endif

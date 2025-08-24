@@ -30,6 +30,7 @@ void Gyro::setup()
   if (!bno08x.begin_I2C())
   {
     Serial.println("FAILED TO CONNECT TO BNO085...");
+
     while (1)
     {
       delay(10);
