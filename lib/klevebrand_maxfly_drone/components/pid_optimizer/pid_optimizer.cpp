@@ -85,6 +85,9 @@ void PidOptimizer::evaluateTrial()
     else
     {
         float temperature = 1.0 - coolingFactor();
+
+        if(temperature == 0.0) return;
+
         float acceptance_probability = exp(-(current_score - best_score) / temperature);
 
         if (random(0.0, 1000.0) / 1000.0 < acceptance_probability)
