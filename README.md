@@ -20,6 +20,7 @@ Using a Simulated Annealing algorithm, the flight controller can autonomously ru
 
 Furthermore, this optimization runs continuously during flight, adapting to environmental changes like wind, rain, or motor defects. It constantly seeks the ideal configuration to keep the drone stable and maneuverable in real time.
 
-## 📄 License
+## License
 
-This project is licensed under the MIT License. See the `LICENSE` file for more information.
+This project is licensed under the MIT `LICENSE`. 
+
