@@ -1,3 +1,12 @@
+/*
+*
+*   This part of the drone was possbile because of my genious friend Pio Korinth. 
+*   He has explained how a Black Box smiulated annealing works in a way that I could finally wrap my head around.
+*
+*   Thanks a lot and big credits!: 
+*
+*/
+
 #ifndef PID_OPTIMIZER_H
 #define PID_OPTIMIZER_H
 
