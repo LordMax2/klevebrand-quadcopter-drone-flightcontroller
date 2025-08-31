@@ -40,6 +40,14 @@ void PidOptimizer::run(float current_error)
         }
         else
         {
+            // If we dont get enough readings, restart the trial
+            if(error_measurement_count < ((TRIAL_DURATION_MILLISECONDS / 1000) * 200) * 0.9)  // TODO: Replace hardcoded 200 with the Flight Controller hz frequency, and the acceptance percentage deviation.
+            {
+                startTrial();
+
+                return;
+            }
+
             state = DECIDING;
         }
         break;
@@ -57,9 +65,9 @@ void PidOptimizer::startTrial()
     current_ki = best_ki;
     current_kd = best_kd;
 
-    current_kp += random(-1.0, 1.0);
-    current_ki += random(-0.5, 0.5);
-    current_kd += random(-2.0, 2.0);
+    current_kp += random(-0.5, 0.5);
+    current_ki += random(-0.25, 0.25);
+    current_kd += random(-1.0, 1.0);
 
     current_kp = constrain(current_kp, 0.0, 10.0);
     current_ki = constrain(current_ki, 0.0, 2.0);
@@ -94,6 +102,8 @@ void PidOptimizer::evaluateTrial()
     else
     {
         float temperature = 1.0 - coolingFactor();
+
+        temperature = 0.0; // Diable temprature, dangerous for real flight, cost new propellers hehe
 
         if(temperature == 0.0) return;
 
