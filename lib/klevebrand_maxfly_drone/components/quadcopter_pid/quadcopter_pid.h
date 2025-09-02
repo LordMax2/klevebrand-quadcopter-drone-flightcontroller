@@ -13,7 +13,7 @@
 class Pid
 {
 public:
-    Pid(float kp, float ki, float kd) : pid_roll_optimizer(kp, ki, kd), pid_pitch_optimizer(kp, ki, kd) { };
+    Pid(float kp, float ki, float kd) : pid_roll_optimizer(kp, ki, kd), pid_pitch_optimizer(kp, ki, kd), pid_yaw_optimizer(kp, ki, kd) { };
     void reset();
     void updateIntegral(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle);
     void printPid(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle);
@@ -68,6 +68,7 @@ private:
     long previous_timer;
     PidOptimizer pid_roll_optimizer;
     PidOptimizer pid_pitch_optimizer;
+    PidOptimizer pid_yaw_optimizer;
 
     /* Roll PID */
     float rollPid(float gyro_roll, float roll_desired_angle)
@@ -120,9 +121,9 @@ private:
     }
 
     /* Yaw PID Constants */
-    double yaw_kp = 0.5; // 0.5
-    double yaw_ki = 0.005;
-    double yaw_kd = 2; // 5
+    // double yaw_kp = 0.5; // 0.5
+    // double yaw_ki = 0.005;
+    // double yaw_kd = 2; // 5
 
     /* Yaw PID */
     float yawPid(float gyro_yaw, float yaw_desired_angle)
@@ -139,14 +140,14 @@ private:
 
     float yawPidP(float gyro_yaw, float yaw_desired_angle)
     {
-        return yaw_kp * yawError(gyro_yaw, yaw_desired_angle);
+        return pid_yaw_optimizer.getKp() * yawError(gyro_yaw, yaw_desired_angle);
     }
 
     float yaw_pid_i = 0;
 
     float yawPidD(float gyro_yaw, float yaw_desired_angle)
     {
-        return yaw_kd * (yawError(gyro_yaw, yaw_desired_angle) - yaw_previous_error);
+        return pid_yaw_optimizer.getKd() * (yawError(gyro_yaw, yaw_desired_angle) - yaw_previous_error);
     }
 };
 
