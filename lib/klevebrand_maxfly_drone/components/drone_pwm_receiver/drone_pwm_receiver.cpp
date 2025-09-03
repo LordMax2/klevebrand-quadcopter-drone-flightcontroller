@@ -46,28 +46,20 @@ void DronePwmReceiver::setThrottleYawPitchRoll(Drone *drone)
     }
 }
 
-void DronePwmReceiver::setPid(Drone *drone)
+void DronePwmReceiver::setFlightMode(Drone *drone) 
 {
-    if (drone->getFlightMode() == acro)
-    {
-        float pid_p_value = mapfloat(receiver.getChannelValue(pid_p_constant_channel_number), 1100, 1800, 0, 10);
-        float pid_i_value = mapfloat(receiver.getChannelValue(pid_i_constant_channel_number), 1100, 1800, 0, 1) / 10;
-        float pid_d_value = mapfloat(receiver.getChannelValue(pid_d_constant_channel_number), 1100, 1800, 0, 60);
+    int flight_mode_pwm_signal = receiver.getChannelValue(flight_mode_receiver_channel_number);
 
-        drone->setPidConstants(pid_p_value / 5, pid_i_value / 5, pid_d_value / 5);
-
-        return;
-    }
-
-    if (drone->getFlightMode() == auto_level)
-    {
-        float pid_p_value = mapfloat(receiver.getChannelValue(pid_p_constant_channel_number), 1100, 1800, 0, 10);
-        float pid_i_value = mapfloat(receiver.getChannelValue(pid_i_constant_channel_number), 1100, 1800, 0, 1) / 10;
-        float pid_d_value = mapfloat(receiver.getChannelValue(pid_d_constant_channel_number), 1100, 1800, 0, 60);
-
-        drone->setPidConstants(pid_p_value, pid_i_value, pid_d_value);
-
-        return;
+    switch(flight_mode_pwm_signal) {
+        case 1000:
+            drone->disableMotors();
+        case 1500: 
+            drone->enableMotors();
+            drone->setFlightModeAutoLevel();
+        case 2000: 
+            drone->enableMotors();
+            drone->setFlightModeAcro();
+        break;
     }
 }
 

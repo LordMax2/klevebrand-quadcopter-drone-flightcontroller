@@ -39,7 +39,15 @@ void Drone::run()
 
         Serial.println("LOST CONNECTION");
     }
-    else 
+    else if (!isMotorsEnabled())
+    {
+        // If the motors are diabled, stop the drone
+        resetPid();
+        stopMotors();
+
+        Serial.println("MOTORS DISABLED");
+    }
+    else
     {
         // Increment the integral part of the PID loop
         if (throttle > PID_THROTTLE_THRESHOLD)
@@ -159,15 +167,30 @@ void Drone::resetPid()
     pid.reset();
 }
 
-void Drone::setPidConstants(float kp, float ki, float kd) 
+void Drone::setPidConstants(float kp, float ki, float kd)
 {
     pid = Pid(kp, ki, kd);
 }
 
+void Drone::disableMotors()
+{
+    is_motors_enabled = false;
+}
+
+void Drone::enableMotors()
+{
+    is_motors_enabled = true;
+}
+
+bool Drone::isMotorsEnabled()
+{
+    return is_motors_enabled;
+}
 
 void Drone::setThrottle(float value)
 {
-    if(value > 1800) value = 1800;
+    if (value > 1800)
+        value = 1800;
 
     throttle = value;
     throttle_set_timestamp = millis();

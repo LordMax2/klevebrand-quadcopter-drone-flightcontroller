@@ -12,17 +12,9 @@ public:
         int yaw_receiver_channel_number,
         int pitch_receiver_channel_number,
         int roll_receiver_channel_number,
-        int pid_p_constant_channel_number,
-        int pid_i_constant_channel_number,
-        int pid_d_constant_channel_number)
+        int flight_mode_receiver_channel_number
+    )
     {
-        /*
-         * Map the reciever PID channel numbers
-         */
-        this->pid_p_constant_channel_number = pid_p_constant_channel_number;
-        this->pid_i_constant_channel_number = pid_i_constant_channel_number;
-        this->pid_d_constant_channel_number = pid_d_constant_channel_number;
-
         /*
          * Map the receiver channel numbers
          */
@@ -30,11 +22,13 @@ public:
         this->yaw_receiver_channel_number = yaw_receiver_channel_number;
         this->pitch_receiver_channel_number = pitch_receiver_channel_number;
         this->roll_receiver_channel_number = roll_receiver_channel_number;
+
+        this->flight_mode_receiver_channel_number=flight_mode_receiver_channel_number;
     };
 
     void setup();
     void setThrottleYawPitchRoll(Drone *drone);
-    void setPid(Drone *drone);
+    void setFlightMode(Drone *drone);
 
 private:
     PwmReceiver receiver;
@@ -43,9 +37,7 @@ private:
     int yaw_receiver_channel_number;
     int pitch_receiver_channel_number;
     int roll_receiver_channel_number;
-    int pid_p_constant_channel_number;
-    int pid_i_constant_channel_number;
-    int pid_d_constant_channel_number;
+    int flight_mode_receiver_channel_number;
 
     float mapfloat(float x, float in_min, float in_max, float out_min, float out_max)
     {

@@ -48,6 +48,8 @@ public:
   void setPidConstants(float kp, float ki, float kd);
   void setFlightModeAutoLevel();
   void setFlightModeAcro();
+  void enableMotors();
+  void disableMotors();
   FlightMode getFlightMode();
 
 private:
@@ -70,6 +72,7 @@ private:
   uint8_t motor_right_front_pin_number;
   uint8_t motor_left_back_pin_number;
   uint8_t motor_right_back_pin_number;
+  bool is_motors_enabled = false;
   void setupMotors();
   void calculatePidIntegral(float gyro_roll, float gyro_pitch, float gyro_yaw);
   void runMotors(float gyro_roll, float gyro_pitch, float gyro_yaw);
@@ -78,6 +81,7 @@ private:
   void savePidErrors(float gyro_roll, float gyro_pitch, float gyro_yaw);
   void delayToKeepFeedbackLoopHz(long start_micros_timestamp);
   void setFlightMode(FlightMode flight_mode);
+  bool isMotorsEnabled();
   void runPidOptimizer();
 };
 
