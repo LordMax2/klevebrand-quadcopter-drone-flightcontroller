@@ -13,13 +13,14 @@
 class Pid
 {
 public:
-    Pid(float kp, float ki, float kd) : pid_roll_optimizer(kp, ki, kd), pid_pitch_optimizer(kp, ki, kd), pid_yaw_optimizer(kp, ki, kd) { };
+    Pid(float kp, float ki, float kd) : pid_roll_optimizer(kp, ki, kd), pid_pitch_optimizer(kp, ki, kd), pid_yaw_optimizer(kp / 2, ki / 2, kd / 2) { };
     void reset();
     void updateIntegral(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle);
     void printPid(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle);
     void printPidConstants();
     void runRollOptimizer(float gyro_roll, float roll_desired_angle);
     void runPitchOptimizer(float gyro_pitch, float pitch_desired_angle);
+    void runYawOptimizer(float gyro_yaw, float yaw_desired_angle);
 
     float pidThrottleLF(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle)
     {
@@ -56,13 +57,6 @@ public:
     void savePitchError(float gyro_pitch, float pitch_desired_angle);
     void saveRollError(float gyro_roll, float roll_desired_angle);
     void saveYawError(float gyro_yaw, float yaw_desired_angle);
-
-    // Working PID contants: 
-    /*
-        kp = 1.25
-        ki = 0.01
-        kd = 25
-    */
 
 private:
     long previous_timer;

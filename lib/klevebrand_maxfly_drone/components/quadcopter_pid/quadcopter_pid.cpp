@@ -23,6 +23,11 @@ void Pid::runPitchOptimizer(float gyro_pitch, float pitch_desired_angle)
   pid_pitch_optimizer.run(pitchError(gyro_pitch, pitch_desired_angle));
 }
 
+void Pid::runYawOptimizer(float gyro_yaw, float yaw_desired_angle)
+{
+  pid_yaw_optimizer.run(yawError(gyro_yaw, yaw_desired_angle));
+}
+
 void Pid::savePitchError(float gyro_pitch, float pitch_desired_angle)
 {
   pitch_previous_error = pitchError(gyro_pitch, pitch_desired_angle);

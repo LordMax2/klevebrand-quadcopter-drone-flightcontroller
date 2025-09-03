@@ -71,6 +71,7 @@ void Drone::runPidOptimizer()
 {
     pid.runRollOptimizer(gyro.roll(), roll_desired_angle);
     pid.runPitchOptimizer(gyro.pitch(), pitch_desired_angle);
+    pid.runYawOptimizer(gyro.yaw(), yaw_desired_angle);
 }
 
 void Drone::delayToKeepFeedbackLoopHz(long start_micros_timestamp)
@@ -166,6 +167,8 @@ void Drone::setPidConstants(float kp, float ki, float kd)
 
 void Drone::setThrottle(float value)
 {
+    if(value > 1800) value = 1800;
+
     throttle = value;
     throttle_set_timestamp = millis();
 }

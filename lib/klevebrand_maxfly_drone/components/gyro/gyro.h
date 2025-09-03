@@ -29,11 +29,11 @@ public:
     }
     float pitch() const
     {
-        return yaw_pitch_roll.pitch;
+        return yaw_pitch_roll.pitch * -1;
     }
     float roll() const
     {
-        return yaw_pitch_roll.roll;
+        return yaw_pitch_roll.roll * -1;
     }
     long timestamp_milliseconds() const
     {
