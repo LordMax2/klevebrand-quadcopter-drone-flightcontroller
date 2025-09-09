@@ -128,6 +128,9 @@ private:
 
     float yawError(float gyro_yaw, float yaw_desired_angle)
     {
+        // Here, some way, we need to decide how we want to use the error, for autolevel, the gyro is like a compass, for acro, its not, probably need some higher level control, but temprorary if here.
+        if(true) return yaw_desired_angle - gyro_yaw;
+
         auto a = fmod((gyro_yaw + 180), 360) - fmod((yaw_desired_angle + 180), 360);
         float b = min(abs(a), 360 - abs(a));
 
