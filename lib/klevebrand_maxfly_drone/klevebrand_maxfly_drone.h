@@ -65,6 +65,7 @@ private:
   float throttle_set_timestamp = 0;
   float yaw_desired_angle = 0;
   float yaw_desired_angle_set_timestamp = 0;
+  bool yaw_compass_mode = false;
   float pitch_desired_angle = 0;
   float desired_pitch_angle_set_timestamp = 0;
   float roll_desired_angle = 0;
@@ -84,6 +85,7 @@ private:
   void setFlightMode(FlightMode flight_mode);
   bool isMotorsEnabled();
   void runPidOptimizer();
+  void setYawCompassMode(bool yaw_compass_mode);
 };
 
 #endif

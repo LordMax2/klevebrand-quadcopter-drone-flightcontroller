@@ -79,8 +79,9 @@ void Drone::runPidOptimizer()
 {
     pid.runRollOptimizer(gyro.roll(), roll_desired_angle);
     pid.runPitchOptimizer(gyro.pitch(), pitch_desired_angle);
-    pid.runYawOptimizer(gyro.yaw(), yaw_desired_angle);
+    pid.runYawOptimizer(gyro.yaw(), yaw_desired_angle, yaw_compass_mode);
 }
+
 
 void Drone::delayToKeepFeedbackLoopHz(long start_micros_timestamp)
 {
@@ -132,15 +133,15 @@ void Drone::stopMotors()
 
 void Drone::runMotors(float gyro_roll, float gyro_pitch, float gyro_yaw)
 {
-    motor_left_front.writeMicroseconds(pid.pidThrottleLF(throttle, gyro_roll, roll_desired_angle, gyro_pitch, pitch_desired_angle, gyro_yaw, yaw_desired_angle));
-    motor_right_front.writeMicroseconds(pid.pidThrottleRF(throttle, gyro_roll, roll_desired_angle, gyro_pitch, pitch_desired_angle, gyro_yaw, yaw_desired_angle));
-    motor_left_back.writeMicroseconds(pid.pidThrottleLB(throttle, gyro_roll, roll_desired_angle, gyro_pitch, pitch_desired_angle, gyro_yaw, yaw_desired_angle));
-    motor_right_back.writeMicroseconds(pid.pidThrottleRB(throttle, gyro_roll, roll_desired_angle, gyro_pitch, pitch_desired_angle, gyro_yaw, yaw_desired_angle));
+    motor_left_front.writeMicroseconds(pid.pidThrottleLF(throttle, gyro_roll, roll_desired_angle, gyro_pitch, pitch_desired_angle, gyro_yaw, yaw_desired_angle, yaw_compass_mode));
+    motor_right_front.writeMicroseconds(pid.pidThrottleRF(throttle, gyro_roll, roll_desired_angle, gyro_pitch, pitch_desired_angle, gyro_yaw, yaw_desired_angle, yaw_compass_mode));
+    motor_left_back.writeMicroseconds(pid.pidThrottleLB(throttle, gyro_roll, roll_desired_angle, gyro_pitch, pitch_desired_angle, gyro_yaw, yaw_desired_angle, yaw_compass_mode));
+    motor_right_back.writeMicroseconds(pid.pidThrottleRB(throttle, gyro_roll, roll_desired_angle, gyro_pitch, pitch_desired_angle, gyro_yaw, yaw_desired_angle, yaw_compass_mode));
 }
 
 void Drone::calculatePidIntegral(float gyro_roll, float gyro_pitch, float gyro_yaw)
 {
-    pid.updateIntegral(gyro_roll, roll_desired_angle, gyro_pitch, pitch_desired_angle, gyro_yaw, yaw_desired_angle);
+    pid.updateIntegral(gyro_roll, roll_desired_angle, gyro_pitch, pitch_desired_angle, gyro_yaw, yaw_desired_angle, yaw_compass_mode);
 }
 
 bool Drone::hasLostConnection()
@@ -223,23 +224,28 @@ void Drone::savePidErrors(float gyro_roll, float gyro_pitch, float gyro_yaw)
 {
     pid.savePitchError(gyro_pitch, pitch_desired_angle);
     pid.saveRollError(gyro_roll, roll_desired_angle);
-    pid.saveYawError(gyro_yaw, yaw_desired_angle);
+    pid.saveYawError(gyro_yaw, yaw_desired_angle, yaw_compass_mode);
 }
 
 void Drone::printThrottle()
 {
-    Serial.print(pid.pidThrottleLF(throttle, gyro.roll(), roll_desired_angle, gyro.pitch(), pitch_desired_angle, gyro.yaw(), yaw_desired_angle));
+    Serial.print(pid.pidThrottleLF(throttle, gyro.roll(), roll_desired_angle, gyro.pitch(), pitch_desired_angle, gyro.yaw(), yaw_desired_angle, yaw_compass_mode));
     Serial.print("    ");
-    Serial.println(pid.pidThrottleRF(throttle, gyro.roll(), roll_desired_angle, gyro.pitch(), pitch_desired_angle, gyro.yaw(), yaw_desired_angle));
-    Serial.print(pid.pidThrottleLB(throttle, gyro.roll(), roll_desired_angle, gyro.pitch(), pitch_desired_angle, gyro.yaw(), yaw_desired_angle));
+    Serial.println(pid.pidThrottleRF(throttle, gyro.roll(), roll_desired_angle, gyro.pitch(), pitch_desired_angle, gyro.yaw(), yaw_desired_angle, yaw_compass_mode));
+    Serial.print(pid.pidThrottleLB(throttle, gyro.roll(), roll_desired_angle, gyro.pitch(), pitch_desired_angle, gyro.yaw(), yaw_desired_angle, yaw_compass_mode));
     Serial.print("    ");
-    Serial.println(pid.pidThrottleRB(throttle, gyro.roll(), roll_desired_angle, gyro.pitch(), pitch_desired_angle, gyro.yaw(), yaw_desired_angle));
+    Serial.println(pid.pidThrottleRB(throttle, gyro.roll(), roll_desired_angle, gyro.pitch(), pitch_desired_angle, gyro.yaw(), yaw_desired_angle, yaw_compass_mode));
     Serial.println("-----------------------------------------");
+}
+
+void Drone::setYawCompassMode(bool yaw_compass_mode)
+{
+    this->yaw_compass_mode = yaw_compass_mode;
 }
 
 void Drone::printPid()
 {
-    pid.printPid(gyro.roll(), roll_desired_angle, gyro.pitch(), pitch_desired_angle, gyro.yaw(), yaw_desired_angle);
+    pid.printPid(gyro.roll(), roll_desired_angle, gyro.pitch(), pitch_desired_angle, gyro.yaw(), yaw_desired_angle, yaw_compass_mode);
 }
 
 void Drone::printPidConstants()
@@ -264,6 +270,8 @@ void Drone::setFlightModeAutoLevel()
     setPidConstants(1.25, 0.01, 25, 0.5, 0.005, 2);
 
     setFlightMode(auto_level);
+
+    setYawCompassMode(true);
     
     Serial.println("FLIGHT MODE AUTOLEVEL");
 }
@@ -280,6 +288,8 @@ void Drone::setFlightModeAcro()
     setPidConstants(0.4, 0.02, 6);
 
     setFlightMode(acro);
+
+    setYawCompassMode(false);
 
     Serial.println("FLIGHT MODE ACRO");
 }
