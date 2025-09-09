@@ -115,11 +115,6 @@ private:
         return pid_pitch_optimizer.getKd() * (pitchError(gyro_pitch, pitch_desired_angle) - pitch_previous_error);
     }
 
-    /* Yaw PID Constants */
-    // double yaw_kp = 0.5; // 0.5
-    // double yaw_ki = 0.005;
-    // double yaw_kd = 2; // 5
-
     /* Yaw PID */
     float yawPid(float gyro_yaw, float yaw_desired_angle)
     {
