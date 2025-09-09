@@ -172,6 +172,11 @@ void Drone::setPidConstants(float kp, float ki, float kd)
     pid = Pid(kp, ki, kd);
 }
 
+void Drone::setPidConstants(float kp, float ki, float kd, float yaw_kp, float yaw_ki, float yaw_kd)
+{
+    pid = Pid(kp, ki, kd, yaw_kp, yaw_ki, yaw_kd);
+}
+
 void Drone::disableMotors()
 {
     is_motors_enabled = false;
@@ -249,26 +254,34 @@ void Drone::setFlightMode(FlightMode flight_mode)
 
 void Drone::setFlightModeAutoLevel()
 {
-    if (flight_mode != auto_level)
-    {
-        gyro.setReportModeEuler();
-    }
+    // Temprorary return early util I have connected the IMU's reset pin
+    if (flight_mode == auto_level) return;
 
-    setPidConstants(1.25, 0.01, 25);
+    gyro.reset();
+
+    gyro.setReportModeEuler();
+
+    setPidConstants(1.25, 0.01, 25, 0.5, 0.005, 2);
 
     setFlightMode(auto_level);
+    
+    Serial.println("FLIGHT MODE AUTOLEVEL");
 }
 
 void Drone::setFlightModeAcro()
 {
-    if (flight_mode != acro)
-    {
-        gyro.setReportModeAcro();
-    }
+    // Temprorary return early util I have connected the IMU's reset pin
+    if(flight_mode == acro) return;
+
+    gyro.reset();
+
+    gyro.setReportModeAcro();
 
     setPidConstants(0.4, 0.02, 6);
 
     setFlightMode(acro);
+
+    Serial.println("FLIGHT MODE ACRO");
 }
 
 FlightMode Drone::getFlightMode()

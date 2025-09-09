@@ -46,6 +46,7 @@ public:
   void setDesiredPitchAngle(float value);
   void setDesiredRollAngle(float value);
   void setPidConstants(float kp, float ki, float kd);
+  void setPidConstants(float kp, float ki, float kd, float yaw_kp, float yaw_ki, float yaw_kd);
   void setFlightModeAutoLevel();
   void setFlightModeAcro();
   void enableMotors();

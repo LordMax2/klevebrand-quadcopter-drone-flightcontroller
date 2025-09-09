@@ -22,6 +22,7 @@ public:
     void setup();
     bool reload();
     void printYawPitchRoll();
+    void reset();
 
     float yaw() const
     {

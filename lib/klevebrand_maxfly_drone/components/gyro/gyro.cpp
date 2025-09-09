@@ -42,6 +42,11 @@ void Gyro::setup()
   delay(300);
 }
 
+void Gyro::reset() 
+{
+  bno08x.hardwareReset();
+}
+
 void Gyro::printYawPitchRoll()
 {
   Serial.print(yaw_pitch_roll.yaw);
