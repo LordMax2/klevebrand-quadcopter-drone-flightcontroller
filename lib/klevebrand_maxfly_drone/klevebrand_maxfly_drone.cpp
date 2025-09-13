@@ -18,7 +18,7 @@ void Drone::setup()
 
     setupMotors();
 
-    setFlightModeAcro();
+    setFlightModeAutoLevel();
 
     Serial.println("DRONE STARTED!");
 }
@@ -30,7 +30,6 @@ void Drone::run()
     // Get the latest data from the gyroscope
     updateGyro();
 
-    // Check if connection is alive
     if (hasLostConnection())
     {
         // If connection is dead, stop the drone
@@ -60,7 +59,7 @@ void Drone::run()
             resetPid();
         }
 
-        // To debug throttle response
+        // To debug stuff 
         // printPid();
         // printPidConstants();
         // printThrottle();
@@ -95,8 +94,6 @@ void Drone::delayToKeepFeedbackLoopHz(long start_micros_timestamp)
     {
         delayMicroseconds(microseconds_left_for_loop);
     }
-
-    // Serial.println(current_micros_timestamp - start_micros_timestamp);
 }
 
 void Drone::setupMotors()
@@ -196,7 +193,9 @@ bool Drone::isMotorsEnabled()
 void Drone::setThrottle(float value)
 {
     if (value > 1800)
+    {
         value = 1800;
+    }
 
     throttle = value;
     throttle_set_timestamp = millis();
@@ -261,7 +260,7 @@ void Drone::setFlightMode(FlightMode flight_mode)
 void Drone::setFlightModeAutoLevel()
 {
     // Temprorary return early util I have connected the IMU's reset pin
-    if (flight_mode == auto_level) return;
+    if (getFlightMode() == auto_level) return;
 
     gyro.reset();
 
@@ -279,7 +278,7 @@ void Drone::setFlightModeAutoLevel()
 void Drone::setFlightModeAcro()
 {
     // Temprorary return early util I have connected the IMU's reset pin
-    if(flight_mode == acro) return;
+    if(getFlightMode() == acro) return;
 
     gyro.reset();
 

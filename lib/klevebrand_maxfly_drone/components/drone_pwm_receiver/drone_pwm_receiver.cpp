@@ -61,7 +61,7 @@ void DronePwmReceiver::setFlightMode(Drone *drone)
     else if (flight_mode_pwm_signal >= 1250 && flight_mode_pwm_signal < 1750)
     {
         drone->enableMotors();
-        drone->setFlightModeAcro();
+        drone->setFlightModeAutoLevel();
     }
     else if (flight_mode_pwm_signal >= 1750)
     {

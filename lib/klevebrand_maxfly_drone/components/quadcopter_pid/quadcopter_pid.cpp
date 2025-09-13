@@ -8,6 +8,7 @@ void Pid::reset()
 
 void Pid::updateIntegral(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode)
 {
+  // Since we always run this at the same frequency, we dont need the time between the measurements
   roll_pid_i = constrain(roll_pid_i + (pid_roll_optimizer.getKi() * rollError(gyro_roll, roll_desired_angle)), -PID_MAX, PID_MAX);
   pitch_pid_i = constrain(pitch_pid_i + (pid_pitch_optimizer.getKi() * pitchError(gyro_pitch, pitch_desired_angle)), -PID_MAX, PID_MAX);
   yaw_pid_i = constrain(yaw_pid_i + (pid_yaw_optimizer.getKi() * yawError(gyro_yaw, yaw_desired_angle, yaw_compass_mode)), -PID_MAX, PID_MAX);

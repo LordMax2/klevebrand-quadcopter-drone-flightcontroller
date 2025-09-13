@@ -123,7 +123,7 @@ private:
     /* Yaw PID */
     float yawPid(float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode)
     {
-        return constrain(yawPidP(gyro_yaw, yaw_desired_angle, yaw_compass_mode) + yaw_pid_i + yawPidD(gyro_yaw, yaw_desired_angle, yaw_compass_mode), -PID_MAX, PID_MAX);
+        return constrain(yawPidP(gyro_yaw, yaw_desired_angle, yaw_compass_mode) + yawPidD(gyro_yaw, yaw_desired_angle, yaw_compass_mode), -PID_MAX, PID_MAX);
     }
 
     float yawError(float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode)
