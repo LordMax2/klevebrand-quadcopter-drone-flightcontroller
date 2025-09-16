@@ -131,14 +131,14 @@ private:
         if (yaw_compass_mode)
         {
             auto error = fmod((gyro_yaw + 180), 360) - fmod((yaw_desired_angle + 180), 360);
-            float absoluteError = min(abs(error), 360 - abs(error));
+            float absolute_error = min(abs(error), 360 - abs(error));
 
             if (error < 0)
             {
-                return -1 * absoluteError;
+                return -1 * absolute_error;
             }
 
-            return absoluteError;
+            return absolute_error;
         }
 
         return yaw_desired_angle - gyro_yaw;
