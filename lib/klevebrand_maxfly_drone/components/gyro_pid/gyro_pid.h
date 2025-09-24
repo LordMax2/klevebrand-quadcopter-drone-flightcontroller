@@ -7,14 +7,14 @@
 class GyroPid
 {
 public:
-    GyroPid(float kp, float ki, float kd, float pid_max) : pid_roll_optimizer(kp, ki, kd),
+    GyroPid(float kp, float ki, float kd, float pid_max) : pid_max(pid_max), 
+                                        pid_roll_optimizer(kp, ki, kd),
                                         pid_pitch_optimizer(kp, ki, kd),
-                                        pid_yaw_optimizer(kp, ki, kd),
-                                        pid_max(pid_max) {};
-    GyroPid(float kp, float ki, float kd, float yaw_kp, float yaw_ki, float yaw_kd, float pid_max) : pid_roll_optimizer(kp, ki, kd),
+                                        pid_yaw_optimizer(kp, ki, kd) {};
+    GyroPid(float kp, float ki, float kd, float yaw_kp, float yaw_ki, float yaw_kd, float pid_max) : pid_max(pid_max),
+                                                                                                         pid_roll_optimizer(kp, ki, kd),
                                                                                                          pid_pitch_optimizer(kp, ki, kd),
-                                                                                                         pid_yaw_optimizer(yaw_kp, yaw_ki, yaw_kd), 
-                                                                                                         pid_max(pid_max) {};
+                                                                                                         pid_yaw_optimizer(yaw_kp, yaw_ki, yaw_kd) {};
     void reset();
 
     void updateIntegral(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode);
