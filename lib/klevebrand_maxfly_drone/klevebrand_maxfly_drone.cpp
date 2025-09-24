@@ -167,12 +167,12 @@ void Drone::resetPid()
 
 void Drone::setPidConstants(float kp, float ki, float kd)
 {
-    pid = Pid(kp, ki, kd);
+    pid = QuadcopterPid(kp, ki, kd);
 }
 
 void Drone::setPidConstants(float kp, float ki, float kd, float yaw_kp, float yaw_ki, float yaw_kd)
 {
-    pid = Pid(kp, ki, kd, yaw_kp, yaw_ki, yaw_kd);
+    pid = QuadcopterPid(kp, ki, kd, yaw_kp, yaw_ki, yaw_kd);
 }
 
 void Drone::disableMotors()
