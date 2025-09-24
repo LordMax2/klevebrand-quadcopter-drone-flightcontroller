@@ -18,7 +18,7 @@ void Drone::setup()
 
     setupMotors();
 
-    setFlightModeAutoLevel();
+    setFlightModeAcro();
 
     Serial.println("DRONE STARTED!");
 }

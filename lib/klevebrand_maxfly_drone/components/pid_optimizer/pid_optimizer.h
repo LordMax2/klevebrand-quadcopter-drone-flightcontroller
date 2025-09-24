@@ -3,7 +3,7 @@
 *   This part of the drone was possbile because of my genious friend Pio Korinth. 
 *   He has explained how a Black Box smiulated annealing works in a way that I could finally wrap my head around.
 *
-*   Thanks a lot and big credits!: 
+*   Thanks a lot and big credits!
 *
 */
 
@@ -12,7 +12,7 @@
 
 #include <Arduino.h>
 
-#define TRIAL_DURATION_MILLISECONDS 3000 
+#define TRIAL_DURATION_MILLISECONDS 200 
 
 enum PidOptimizerState {
     IDLE,
@@ -39,7 +39,7 @@ private:
     float best_ki;
     float best_kd;
     
-    float best_score;
+    float previous_score;
 
     PidOptimizerState state;
     unsigned long trial_start_time;
