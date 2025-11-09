@@ -264,6 +264,8 @@ void Drone::setFlightModeAutoLevel()
 
     gyro.reset();
 
+    delay(1000);
+
     gyro.setReportModeEuler();
 
     setPidConstants(1.25, 0.01, 25, 0.5, 0.005, 2);
@@ -281,6 +283,8 @@ void Drone::setFlightModeAcro()
     if(getFlightMode() == acro) return;
 
     gyro.reset();
+
+    delay(1000);
 
     gyro.setReportModeAcro();
 
