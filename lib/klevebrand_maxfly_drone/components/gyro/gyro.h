@@ -5,7 +5,7 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO08x.h>
 
-#define BNO_RESET_PIN -1
+#define BNO_RESET_PIN 10
 #define BNO_REPORT_INTERVAL 2500
 
 struct YawPitchRoll_t

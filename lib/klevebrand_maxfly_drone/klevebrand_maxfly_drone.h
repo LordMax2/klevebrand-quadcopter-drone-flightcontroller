@@ -56,7 +56,7 @@ public:
 private:
   FlightMode flight_mode;
   Gyro gyro;
-  Pid pid;
+  QuadcopterPid pid;
   Servo motor_left_front;
   Servo motor_right_front;
   Servo motor_left_back;

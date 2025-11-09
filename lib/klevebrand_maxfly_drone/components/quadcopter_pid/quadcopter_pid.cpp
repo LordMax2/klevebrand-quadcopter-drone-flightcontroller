@@ -1,63 +1,33 @@
 #include "quadcopter_pid.h"
 
-void Pid::reset()
+float QuadcopterPid::pidThrottleLF(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode)
 {
-  roll_previous_error = 0, pitch_previous_error = 0, yaw_previous_error = 0;
-  yaw_pid_i = 0, roll_pid_i = 0, pitch_pid_i = 0;
+  if (throttle < PID_THROTTLE_THRESHOLD)
+    return THROTTLE_MINIMUM;
+
+  return constrain(throttle + rollPid(gyro_roll, roll_desired_angle) - pitchPid(gyro_pitch, pitch_desired_angle) + yawPid(gyro_yaw, yaw_desired_angle, yaw_compass_mode), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
 }
 
-void Pid::updateIntegral(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode)
+float QuadcopterPid::pidThrottleLB(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode)
 {
-  // Since we always run this at the same frequency, we dont need the time between the measurements
-  roll_pid_i = constrain(roll_pid_i + (pid_roll_optimizer.getKi() * rollError(gyro_roll, roll_desired_angle)), -PID_MAX, PID_MAX);
-  pitch_pid_i = constrain(pitch_pid_i + (pid_pitch_optimizer.getKi() * pitchError(gyro_pitch, pitch_desired_angle)), -PID_MAX, PID_MAX);
-  yaw_pid_i = constrain(yaw_pid_i + (pid_yaw_optimizer.getKi() * yawError(gyro_yaw, yaw_desired_angle, yaw_compass_mode)), -PID_MAX, PID_MAX);
+  if (throttle < PID_THROTTLE_THRESHOLD)
+    return THROTTLE_MINIMUM;
+
+  return constrain(throttle + rollPid(gyro_roll, roll_desired_angle) + pitchPid(gyro_pitch, pitch_desired_angle) - yawPid(gyro_yaw, yaw_desired_angle, yaw_compass_mode), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
 }
 
-void Pid::runRollOptimizer(float gyro_roll, float roll_desired_angle)
+float QuadcopterPid::pidThrottleRF(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode)
 {
-  pid_roll_optimizer.run(rollError(gyro_roll, roll_desired_angle));
+  if (throttle < PID_THROTTLE_THRESHOLD)
+    return THROTTLE_MINIMUM;
+
+  return constrain(throttle - rollPid(gyro_roll, roll_desired_angle) - pitchPid(gyro_pitch, pitch_desired_angle) - yawPid(gyro_yaw, yaw_desired_angle, yaw_compass_mode), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
 }
 
-void Pid::runPitchOptimizer(float gyro_pitch, float pitch_desired_angle)
+float QuadcopterPid::pidThrottleRB(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode)
 {
-  pid_pitch_optimizer.run(pitchError(gyro_pitch, pitch_desired_angle));
-}
+  if (throttle < PID_THROTTLE_THRESHOLD)
+    return THROTTLE_MINIMUM;
 
-void Pid::runYawOptimizer(float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode)
-{
-  pid_yaw_optimizer.run(yawError(gyro_yaw, yaw_desired_angle, yaw_compass_mode));
-}
-
-void Pid::savePitchError(float gyro_pitch, float pitch_desired_angle)
-{
-  pitch_previous_error = pitchError(gyro_pitch, pitch_desired_angle);
-}
-
-void Pid::saveRollError(float gyro_roll, float roll_desired_angle)
-{
-  roll_previous_error = rollError(gyro_roll, roll_desired_angle);
-}
-
-void Pid::saveYawError(float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode)
-{
-  yaw_previous_error = yawError(gyro_yaw, yaw_desired_angle, yaw_compass_mode);
-}
-
-void Pid::printPid(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode)
-{
-  Serial.print(rollPid(gyro_roll, roll_desired_angle));
-  Serial.print(",");
-  Serial.print(pitchPid(gyro_pitch, pitch_desired_angle));
-  Serial.print(",");
-  Serial.println(yawPid(gyro_yaw, yaw_desired_angle, yaw_compass_mode));
-}
-
-void Pid::printPidConstants()
-{
-  Serial.print(pid_roll_optimizer.getKp());
-  Serial.print(",");
-  Serial.print(pid_roll_optimizer.getKi());
-  Serial.print(",");
-  Serial.println(pid_roll_optimizer.getKd());
+  return constrain(throttle - rollPid(gyro_roll, roll_desired_angle) + pitchPid(gyro_pitch, pitch_desired_angle) + yawPid(gyro_yaw, yaw_desired_angle, yaw_compass_mode), THROTTLE_MINIMUM, THROTTLE_MAXIMUM);
 }
