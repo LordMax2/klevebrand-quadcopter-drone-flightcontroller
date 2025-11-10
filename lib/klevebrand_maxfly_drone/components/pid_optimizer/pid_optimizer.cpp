@@ -19,7 +19,7 @@ PidOptimizer::PidOptimizer(float initial_kp, float initial_ki, float initial_kd)
     best_ki = initial_ki;
     best_kd = initial_kd;
 
-    best_score = 1e10;
+    previous_score = 1e10;
 
     state = IDLE;
 }
@@ -65,9 +65,9 @@ void PidOptimizer::startTrial()
     current_ki = best_ki;
     current_kd = best_kd;
 
-    current_kp += random(-0.5, 0.5);
-    current_ki += random(-0.25, 0.25);
-    current_kd += random(-1.0, 1.0);
+    current_kp += random(-0.025, 0.025);
+    current_ki += random(-0.0125, 0.0125);
+    current_kd += random(-0.05, 0.05);
 
     current_kp = constrain(current_kp, 0.0, 10.0);
     current_ki = constrain(current_ki, 0.0, 2.0);
@@ -91,33 +91,21 @@ void PidOptimizer::evaluateTrial()
 {
     long current_score = score();
 
-    if (current_score < best_score)
+    float factor = 0.9f;
+
+    // If current score is "worse" than the previous score, reverse the direction of the values
+    if (current_score > previous_score)
     {
-        best_score = current_score;
-
-        best_kp = current_kp;
-        best_ki = current_ki;
-        best_kd = current_kd;
+        current_kp = (current_kp - best_kp) * -1 + best_kp;
+        current_ki = (current_ki - best_ki) * -1 + best_ki;
+        current_kd = (current_kd - best_kd) * -1 + best_kd;
     }
-    else
-    {
-        float temperature = 1.0 - coolingFactor();
 
-        temperature = 0.0; // Diable temprature, dangerous for real flight, cost new propellers hehe
-
-        if(temperature == 0.0) return;
-
-        float acceptance_probability = exp(-(current_score - best_score) / temperature);
-
-        if (random(0.0, 1000.0) / 1000.0 < acceptance_probability)
-        {
-            best_score = current_score;
-
-            best_kp = current_kp;
-            best_ki = current_ki;
-            best_kd = current_kd;
-        }
-    }
+    best_kp = best_kp * factor + current_kp * (1.0f - factor);
+    best_ki = best_ki * factor + current_ki * (1.0f - factor);
+    best_kd = best_kd * factor + current_kd * (1.0f - factor);
+    
+    previous_score = current_score;
 }
 
 float PidOptimizer::coolingFactor()
