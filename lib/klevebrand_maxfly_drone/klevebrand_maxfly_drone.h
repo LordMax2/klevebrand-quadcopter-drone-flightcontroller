@@ -3,6 +3,8 @@
 
 #include <Arduino.h>
 #include <Servo.h>
+#include <I2C_eeprom.h>
+#include <Wire.h>
 #include "./components/quadcopter_pid/quadcopter_pid.h"
 #include "./components/gyro/gyro.h"
 #include "./components/flight_mode/flight_mode.h"
@@ -23,7 +25,7 @@ public:
       uint8_t motor_left_front_pin_number,
       uint8_t motor_right_front_pin_number,
       uint8_t motor_left_back_pin_number,
-      uint8_t motor_right_back_pin_number) : pid(0, 0, 0)
+      uint8_t motor_right_back_pin_number) : pid(0, 0, 0), eeprom(0x50, I2C_DEVICESIZE_24LC512)
   {
     /*
      * Map the motor pin numbers
@@ -54,6 +56,7 @@ public:
   FlightMode getFlightMode();
 
 private:
+  I2C_eeprom eeprom; 
   FlightMode flight_mode;
   Gyro gyro;
   QuadcopterPid pid;
@@ -86,6 +89,7 @@ private:
   bool isMotorsEnabled();
   void runPidOptimizer();
   void setYawCompassMode(bool yaw_compass_mode);
+  void persistPidConstants();
 };
 
 #endif

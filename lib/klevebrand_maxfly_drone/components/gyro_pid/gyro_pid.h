@@ -22,6 +22,18 @@ public:
     void printPid(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode);
     void printPidConstants();
 
+    float getRollKp();
+    float getRollKi();
+    float getRollKd();
+
+    float getPitchKp();
+    float getPitchKi();
+    float getPitchKd();
+
+    float getYawKp();
+    float getYawKi();
+    float getYawKd();
+
     void runRollOptimizer(float gyro_roll, float roll_desired_angle);
     void runPitchOptimizer(float gyro_pitch, float pitch_desired_angle);
     void runYawOptimizer(float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode);
