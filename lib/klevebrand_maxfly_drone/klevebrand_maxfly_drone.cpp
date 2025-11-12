@@ -188,6 +188,11 @@ void Drone::setPidConstants(float kp, float ki, float kd, float yaw_kp, float ya
     pid = QuadcopterPid(kp, ki, kd, yaw_kp, yaw_ki, yaw_kd);
 }
 
+void Drone::setPidConstants(float yaw_kp, float yaw_ki, float yaw_kd, float pitch_kp, float pitch_ki, float pitch_kd, float roll_kp, float roll_ki, float roll_kd)
+{
+    pid = QuadcopterPid(yaw_kp, yaw_ki, yaw_kd, pitch_kp, pitch_ki, pitch_kd, roll_kp, roll_ki, roll_kd);
+}
+
 void Drone::disableMotors()
 {
     is_motors_enabled = false;
@@ -282,7 +287,19 @@ void Drone::setFlightModeAutoLevel()
 
     gyro.setReportModeEuler();
 
-    setPidConstants(1.25, 0.01, 25, 0.5, 0.005, 2);
+    PidConstants pid_constants = eeprom_pid_repository.get();
+
+    if (true)
+    {
+        setPidConstants(pid_constants.yaw_kp, pid_constants.yaw_ki, pid_constants.yaw_kd,
+                        pid_constants.pitch_kp, pid_constants.pitch_ki, pid_constants.pitch_kd,
+                        pid_constants.roll_kp, pid_constants.roll_ki, pid_constants.roll_kd);
+    }
+    else
+    {
+        setPidConstants(1.25, 0.01, 25, 0.5, 0.005, 2);
+    }
+
 
     setFlightMode(auto_level);
 
@@ -303,7 +320,18 @@ void Drone::setFlightModeAcro()
 
     gyro.setReportModeAcro();
 
-    setPidConstants(0.4, 0.02, 6);
+    PidConstants pid_constants = eeprom_pid_repository.get();
+
+    if (true)
+    {
+        setPidConstants(pid_constants.yaw_kp, pid_constants.yaw_ki, pid_constants.yaw_kd,
+                        pid_constants.pitch_kp, pid_constants.pitch_ki, pid_constants.pitch_kd,
+                        pid_constants.roll_kp, pid_constants.roll_ki, pid_constants.roll_kd);
+    }
+    else
+    {
+        setPidConstants(0.4, 0.02, 6);
+    }
 
     setFlightMode(acro);
 

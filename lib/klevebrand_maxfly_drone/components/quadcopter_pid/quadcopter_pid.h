@@ -16,6 +16,7 @@ class QuadcopterPid : public GyroPid
 public:
     QuadcopterPid(float kp, float ki, float kd) : GyroPid(kp, ki, kd, PID_MAX) {};
     QuadcopterPid(float kp, float ki, float kd, float yaw_kp, float yaw_ki, float yaw_kd) : GyroPid(kp, ki, kd, yaw_kp, yaw_ki, yaw_kd, PID_MAX) {};
+    QuadcopterPid(float yaw_kp, float yaw_ki, float yaw_kd, float pitch_kp, float pitch_ki, float pitch_kd, float roll_kp, float roll_ki, float roll_kd) : GyroPid(yaw_kp, yaw_ki, yaw_kd, pitch_kp, pitch_ki, pitch_kd, roll_kp, roll_ki, roll_kd, PID_MAX) {};
 
     float pidThrottleLF(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode);
     float pidThrottleLB(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode);
