@@ -1,15 +1,15 @@
 #include "eeprom_pid_repository.h"
 
-void EepromPidRepository::save(PidConstants& pid_constants)
+void EepromPidRepository::save(PidConstants& pid_constants, int address)
 {
-    eeprom.writeBlock(0, (uint8_t *)&pid_constants, sizeof(pid_constants));
+    eeprom.writeBlock(address, (uint8_t *)&pid_constants, sizeof(pid_constants));
 }
 
-PidConstants EepromPidRepository::get()
+PidConstants EepromPidRepository::get(int address)
 {
     PidConstants pid_constants;
 
-    eeprom.readBlock(0, (uint8_t *) &pid_constants, sizeof(pid_constants));
+    eeprom.readBlock(address, (uint8_t *) &pid_constants, sizeof(pid_constants));
 
     return pid_constants;
 }

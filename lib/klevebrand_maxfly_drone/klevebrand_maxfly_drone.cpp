@@ -73,19 +73,38 @@ void Drone::run()
         runMotors(gyro.roll(), gyro.pitch(), gyro.yaw());
 
         savePidErrors(gyro.roll(), gyro.pitch(), gyro.yaw());
+    
+        persistPidConstants();
 
         delayToKeepFeedbackLoopHz(start_micros_timestamp);
     }
 }
 
-void Drone::persistPidConstants()
+void Drone::persistPidConstants(int address)
 {
-    PidConstants pid_constants = PidConstants(
-        pid.getYawKp(), pid.getYawKi(), pid.getYawKd(),
-        pid.getPitchKp(), pid.getPitchKi(), pid.getPitchKd(),
-        pid.getRollKp(), pid.getRollKi(), pid.getRollKd());
+    if(millis() - last_pid_persist_timestamp_milliseconds >= PID_PERSIST_INTERVAL_MILLISECONDS)
+    {
+        int address = 128;
 
-    eeprom_pid_repository.save(pid_constants);
+        switch (getFlightMode())
+        {
+        case acro:
+            address = 128;
+            break;
+        case auto_level:
+            address = 256;
+            break;
+        }
+
+        PidConstants pid_constants = PidConstants(
+            pid.getYawKp(), pid.getYawKi(), pid.getYawKd(),
+            pid.getPitchKp(), pid.getPitchKi(), pid.getPitchKd(),
+            pid.getRollKp(), pid.getRollKi(), pid.getRollKd());
+
+        eeprom_pid_repository.save(pid_constants, address);
+
+        last_pid_persist_timestamp_milliseconds = millis();
+    }
 }
 
 void Drone::runPidOptimizer()
@@ -287,7 +306,7 @@ void Drone::setFlightModeAutoLevel()
 
     gyro.setReportModeEuler();
 
-    PidConstants pid_constants = eeprom_pid_repository.get();
+    PidConstants pid_constants = eeprom_pid_repository.get(256);
 
     if (pid_constants.isValid())
     {
@@ -320,7 +339,7 @@ void Drone::setFlightModeAcro()
 
     gyro.setReportModeAcro();
 
-    PidConstants pid_constants = eeprom_pid_repository.get();
+    PidConstants pid_constants = eeprom_pid_repository.get(128);
 
     if (pid_constants.isValid())
     {

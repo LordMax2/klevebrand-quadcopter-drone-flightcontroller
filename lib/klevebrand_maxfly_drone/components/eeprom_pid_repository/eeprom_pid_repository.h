@@ -11,8 +11,8 @@ public:
     EepromPidRepository() : eeprom(0x50, I2C_DEVICESIZE_24LC512) {}
 
     void setup();
-    void save(PidConstants& pidConstants);
-    PidConstants get();
+    void save(PidConstants& pidConstants, int address);
+    PidConstants get(int address);
 
 private:
     I2C_eeprom eeprom;

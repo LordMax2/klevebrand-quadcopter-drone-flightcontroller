@@ -14,6 +14,8 @@
 
 #define FEEDBACK_LOOP_HZ 200
 
+#define PID_PERSIST_INTERVAL_MILLISECONDS 10000
+
 class Drone
 {
 public:
@@ -78,6 +80,7 @@ private:
   uint8_t motor_left_back_pin_number;
   uint8_t motor_right_back_pin_number;
   bool is_motors_enabled = false;
+  unsigned long last_pid_persist_timestamp_milliseconds = 0;
   void setupMotors();
   void calculatePidIntegral(float gyro_roll, float gyro_pitch, float gyro_yaw);
   void runMotors(float gyro_roll, float gyro_pitch, float gyro_yaw);
@@ -89,7 +92,7 @@ private:
   bool isMotorsEnabled();
   void runPidOptimizer();
   void setYawCompassMode(bool yaw_compass_mode);
-  void persistPidConstants();
+  void persistPidConstants(int address);
 };
 
 #endif
