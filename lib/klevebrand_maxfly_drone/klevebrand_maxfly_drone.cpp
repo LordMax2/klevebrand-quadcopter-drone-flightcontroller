@@ -18,14 +18,7 @@ void Drone::setup()
 
     Wire.begin();
 
-    eeprom.begin();
-    if (!eeprom.isConnected())
-    {
-        Serial.println("ERROR: CAN'T FIND EEPROMD...");
-    }
-
-    Serial.print("EEPROM CONNECTION STATUS:\t");
-    Serial.println(eeprom.isConnected());
+    eeprom_pid_repository.setup();
 
     setupMotors();
 
@@ -70,7 +63,7 @@ void Drone::run()
             resetPid();
         }
 
-        // To debug stuff 
+        // To debug stuff
         // printPid();
         // printPidConstants();
         // printThrottle();
@@ -85,52 +78,14 @@ void Drone::run()
     }
 }
 
-void Drone::persistPidConstants() 
+void Drone::persistPidConstants()
 {
-    int address = 256;
+    PidConstants pid_constants = PidConstants(
+        pid.getYawKp(), pid.getYawKi(), pid.getYawKd(),
+        pid.getPitchKp(), pid.getPitchKi(), pid.getPitchKd(),
+        pid.getRollKp(), pid.getRollKi(), pid.getRollKd());
 
-    float yawKp = pid.getYawKp();
-    eeprom.setBlock(address, (uint8_t*) &yawKp, sizeof(yawKp));
-    
-    address += sizeof(yawKp) * 2;
-
-    float yawKi = pid.getYawKi();
-    eeprom.setBlock(address, (uint8_t*) &yawKi, sizeof(yawKi));
-    
-    address += sizeof(yawKi) * 2;
-
-    float yawKd = pid.getYawKd();
-    eeprom.setBlock(address, (uint8_t*) &yawKd, sizeof(yawKd));
-
-    address += sizeof(yawKd) * 2;
-
-    float pitchKp = pid.getPitchKp();
-    eeprom.setBlock(address, (uint8_t*) &pitchKp, sizeof(pitchKp));
-    
-    address += sizeof(pitchKp) * 2;
-
-    float pitchKi = pid.getPitchKi();
-    eeprom.setBlock(address, (uint8_t*) &pitchKi, sizeof(pitchKi));
-    
-    address += sizeof(pitchKi) * 2;
-
-    float pitchKd = pid.getPitchKd();
-    eeprom.setBlock(address, (uint8_t*) &pitchKd, sizeof(pitchKd));
-
-    address += sizeof(pitchKd) * 2;
-
-    float rollKp = pid.getRollKp();
-    eeprom.setBlock(address, (uint8_t*) &rollKp, sizeof(rollKp));
-    
-    address += sizeof(rollKp) * 2;
-
-    float rollKi = pid.getPitchKi();
-    eeprom.setBlock(address, (uint8_t*) &rollKi, sizeof(rollKi));
-    
-    address += sizeof(rollKi) * 2;
-
-    float rollKd = pid.getPitchKd();
-    eeprom.setBlock(address, (uint8_t*) &rollKd, sizeof(rollKd));
+    eeprom_pid_repository.save(pid_constants);
 }
 
 void Drone::runPidOptimizer()
@@ -318,7 +273,8 @@ void Drone::setFlightMode(FlightMode flight_mode)
 void Drone::setFlightModeAutoLevel()
 {
     // Temprorary return early util I have connected the IMU's reset pin
-    if (getFlightMode() == auto_level) return;
+    if (getFlightMode() == auto_level)
+        return;
 
     gyro.reset();
 
@@ -331,14 +287,15 @@ void Drone::setFlightModeAutoLevel()
     setFlightMode(auto_level);
 
     setYawCompassMode(true);
-    
+
     Serial.println("FLIGHT MODE AUTOLEVEL");
 }
 
 void Drone::setFlightModeAcro()
 {
     // Temprorary return early util I have connected the IMU's reset pin
-    if(getFlightMode() == acro) return;
+    if (getFlightMode() == acro)
+        return;
 
     gyro.reset();
 

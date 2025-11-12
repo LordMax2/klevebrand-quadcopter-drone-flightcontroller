@@ -3,11 +3,10 @@
 
 #include <Arduino.h>
 #include <Servo.h>
-#include <I2C_eeprom.h>
-#include <Wire.h>
 #include "./components/quadcopter_pid/quadcopter_pid.h"
 #include "./components/gyro/gyro.h"
 #include "./components/flight_mode/flight_mode.h"
+#include "./components/eeprom_pid_repository/eeprom_pid_repository.h"
 
 #define TRANSMITION_TIMEOUT_DEFINITION_MILLISECONDS 500
 
@@ -25,7 +24,7 @@ public:
       uint8_t motor_left_front_pin_number,
       uint8_t motor_right_front_pin_number,
       uint8_t motor_left_back_pin_number,
-      uint8_t motor_right_back_pin_number) : pid(0, 0, 0), eeprom(0x50, I2C_DEVICESIZE_24LC512)
+      uint8_t motor_right_back_pin_number) : pid(0, 0, 0)
   {
     /*
      * Map the motor pin numbers
@@ -56,7 +55,7 @@ public:
   FlightMode getFlightMode();
 
 private:
-  I2C_eeprom eeprom; 
+  EepromPidRepository eeprom_pid_repository;
   FlightMode flight_mode;
   Gyro gyro;
   QuadcopterPid pid;
