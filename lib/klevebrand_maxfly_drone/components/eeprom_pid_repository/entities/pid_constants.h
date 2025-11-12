@@ -26,9 +26,15 @@ struct PidConstants
 
     bool isValid() 
     {
-      return yaw_kp != 0.0f || yaw_ki != 0.0f || yaw_kd != 0.0f ||
-             pitch_kp != 0.0f || pitch_ki != 0.0f || pitch_kd != 0.0f ||
-             roll_kp != 0.0f || roll_ki != 0.0f || roll_kd != 0.0f;
+      bool everything_is_not_zero = yaw_kp != 0.0f && yaw_ki != 0.0f && yaw_kd != 0.0f &&
+             pitch_kp != 0.0f && pitch_ki != 0.0f && pitch_kd != 0.0f &&
+             roll_kp != 0.0f && roll_ki != 0.0f && roll_kd != 0.0f;
+
+      bool nothing_is_nan = !isnan(yaw_kp) || !isnan(yaw_ki) || !isnan(yaw_kd) ||
+            !isnan(pitch_kp) || !isnan(pitch_ki) || !isnan(pitch_kd) ||
+            !isnan(roll_kp) || !isnan(roll_ki) || !isnan(roll_kd);
+
+      return everything_is_not_zero && nothing_is_nan;
     }
 };
 

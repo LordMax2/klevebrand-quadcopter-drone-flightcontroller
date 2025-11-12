@@ -80,7 +80,7 @@ void Drone::run()
     }
 }
 
-void Drone::persistPidConstants(int address)
+void Drone::persistPidConstants()
 {
     if(millis() - last_pid_persist_timestamp_milliseconds >= PID_PERSIST_INTERVAL_MILLISECONDS)
     {
@@ -300,6 +300,8 @@ void Drone::setFlightModeAutoLevel()
     if (getFlightMode() == auto_level)
         return;
 
+    setFlightMode(auto_level);
+
     gyro.reset();
 
     delay(1000);
@@ -319,9 +321,6 @@ void Drone::setFlightModeAutoLevel()
         setPidConstants(1.25, 0.01, 25, 0.5, 0.005, 2);
     }
 
-
-    setFlightMode(auto_level);
-
     setYawCompassMode(true);
 
     Serial.println("FLIGHT MODE AUTOLEVEL");
@@ -332,6 +331,8 @@ void Drone::setFlightModeAcro()
     // Temprorary return early util I have connected the IMU's reset pin
     if (getFlightMode() == acro)
         return;
+
+    setFlightMode(acro);
 
     gyro.reset();
 
@@ -351,8 +352,6 @@ void Drone::setFlightModeAcro()
     {
         setPidConstants(0.4, 0.02, 6);
     }
-
-    setFlightMode(acro);
 
     setYawCompassMode(false);
 

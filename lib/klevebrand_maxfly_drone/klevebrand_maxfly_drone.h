@@ -92,7 +92,7 @@ private:
   bool isMotorsEnabled();
   void runPidOptimizer();
   void setYawCompassMode(bool yaw_compass_mode);
-  void persistPidConstants(int address);
+  void persistPidConstants();
 };
 
 #endif
