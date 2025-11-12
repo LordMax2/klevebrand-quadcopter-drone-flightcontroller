@@ -289,7 +289,7 @@ void Drone::setFlightModeAutoLevel()
 
     PidConstants pid_constants = eeprom_pid_repository.get();
 
-    if (true)
+    if (pid_constants.isValid())
     {
         setPidConstants(pid_constants.yaw_kp, pid_constants.yaw_ki, pid_constants.yaw_kd,
                         pid_constants.pitch_kp, pid_constants.pitch_ki, pid_constants.pitch_kd,
@@ -322,7 +322,7 @@ void Drone::setFlightModeAcro()
 
     PidConstants pid_constants = eeprom_pid_repository.get();
 
-    if (true)
+    if (pid_constants.isValid())
     {
         setPidConstants(pid_constants.yaw_kp, pid_constants.yaw_ki, pid_constants.yaw_kd,
                         pid_constants.pitch_kp, pid_constants.pitch_ki, pid_constants.pitch_kd,

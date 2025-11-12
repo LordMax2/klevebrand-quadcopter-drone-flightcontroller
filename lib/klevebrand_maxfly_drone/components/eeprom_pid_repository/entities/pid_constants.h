@@ -23,6 +23,13 @@ struct PidConstants
     float roll_kp;
     float roll_ki;
     float roll_kd;
+
+    bool isValid() 
+    {
+      return yaw_kp != 0.0f || yaw_ki != 0.0f || yaw_kd != 0.0f ||
+             pitch_kp != 0.0f || pitch_ki != 0.0f || pitch_kd != 0.0f ||
+             roll_kp != 0.0f || roll_ki != 0.0f || roll_kd != 0.0f;
+    }
 };
 
 #endif // PID_CONSTANTS_H
