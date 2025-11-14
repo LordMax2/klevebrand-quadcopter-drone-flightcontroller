@@ -16,6 +16,8 @@ PidConstants EepromPidRepository::get(int address)
 
 void EepromPidRepository::setup()
 {
+    Wire.begin();
+
     if (!eeprom.isConnected())
     {
         Serial.println("ERROR: CAN'T FIND EEPROMD...");

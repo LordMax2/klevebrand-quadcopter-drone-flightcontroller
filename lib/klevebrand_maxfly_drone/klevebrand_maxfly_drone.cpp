@@ -16,8 +16,6 @@ void Drone::setup()
 
     gyro.setup();
 
-    Wire.begin();
-
     eeprom_pid_repository.setup();
 
     setupMotors();
