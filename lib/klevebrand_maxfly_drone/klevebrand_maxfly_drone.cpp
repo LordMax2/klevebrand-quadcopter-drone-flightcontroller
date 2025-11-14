@@ -16,6 +16,8 @@ void Drone::setup()
 
     gyro.setup();
 
+    eeprom_pid_repository.setup();
+
     setupMotors();
 
     setFlightModeAcro();
@@ -59,7 +61,7 @@ void Drone::run()
             resetPid();
         }
 
-        // To debug stuff 
+        // To debug stuff
         // printPid();
         // printPidConstants();
         // printThrottle();
@@ -69,8 +71,37 @@ void Drone::run()
         runMotors(gyro.roll(), gyro.pitch(), gyro.yaw());
 
         savePidErrors(gyro.roll(), gyro.pitch(), gyro.yaw());
+    
+        persistPidConstants();
 
         delayToKeepFeedbackLoopHz(start_micros_timestamp);
+    }
+}
+
+void Drone::persistPidConstants()
+{
+    if(millis() - last_pid_persist_timestamp_milliseconds >= PID_PERSIST_INTERVAL_MILLISECONDS)
+    {
+        int address = 128;
+
+        switch (getFlightMode())
+        {
+        case acro:
+            address = 128;
+            break;
+        case auto_level:
+            address = 256;
+            break;
+        }
+
+        PidConstants pid_constants = PidConstants(
+            pid.getYawKp(), pid.getYawKi(), pid.getYawKd(),
+            pid.getPitchKp(), pid.getPitchKi(), pid.getPitchKd(),
+            pid.getRollKp(), pid.getRollKi(), pid.getRollKd());
+
+        eeprom_pid_repository.save(pid_constants, address);
+
+        last_pid_persist_timestamp_milliseconds = millis();
     }
 }
 
@@ -80,7 +111,6 @@ void Drone::runPidOptimizer()
     pid.runPitchOptimizer(gyro.pitch(), pitch_desired_angle);
     pid.runYawOptimizer(gyro.yaw(), yaw_desired_angle, yaw_compass_mode);
 }
-
 
 void Drone::delayToKeepFeedbackLoopHz(long start_micros_timestamp)
 {
@@ -175,6 +205,11 @@ void Drone::setPidConstants(float kp, float ki, float kd, float yaw_kp, float ya
     pid = QuadcopterPid(kp, ki, kd, yaw_kp, yaw_ki, yaw_kd);
 }
 
+void Drone::setPidConstants(float yaw_kp, float yaw_ki, float yaw_kd, float pitch_kp, float pitch_ki, float pitch_kd, float roll_kp, float roll_ki, float roll_kd)
+{
+    pid = QuadcopterPid(yaw_kp, yaw_ki, yaw_kd, pitch_kp, pitch_ki, pitch_kd, roll_kp, roll_ki, roll_kd);
+}
+
 void Drone::disableMotors()
 {
     is_motors_enabled = false;
@@ -260,7 +295,10 @@ void Drone::setFlightMode(FlightMode flight_mode)
 void Drone::setFlightModeAutoLevel()
 {
     // Temprorary return early util I have connected the IMU's reset pin
-    if (getFlightMode() == auto_level) return;
+    if (getFlightMode() == auto_level)
+        return;
+
+    setFlightMode(auto_level);
 
     gyro.reset();
 
@@ -268,19 +306,31 @@ void Drone::setFlightModeAutoLevel()
 
     gyro.setReportModeEuler();
 
-    setPidConstants(1.25, 0.01, 25, 0.5, 0.005, 2);
+    PidConstants pid_constants = eeprom_pid_repository.get(256);
 
-    setFlightMode(auto_level);
+    if (pid_constants.isValid())
+    {
+        setPidConstants(pid_constants.yaw_kp, pid_constants.yaw_ki, pid_constants.yaw_kd,
+                        pid_constants.pitch_kp, pid_constants.pitch_ki, pid_constants.pitch_kd,
+                        pid_constants.roll_kp, pid_constants.roll_ki, pid_constants.roll_kd);
+    }
+    else
+    {
+        setPidConstants(1.25, 0.01, 25, 0.5, 0.005, 2);
+    }
 
     setYawCompassMode(true);
-    
+
     Serial.println("FLIGHT MODE AUTOLEVEL");
 }
 
 void Drone::setFlightModeAcro()
 {
     // Temprorary return early util I have connected the IMU's reset pin
-    if(getFlightMode() == acro) return;
+    if (getFlightMode() == acro)
+        return;
+
+    setFlightMode(acro);
 
     gyro.reset();
 
@@ -288,9 +338,18 @@ void Drone::setFlightModeAcro()
 
     gyro.setReportModeAcro();
 
-    setPidConstants(0.4, 0.02, 6);
+    PidConstants pid_constants = eeprom_pid_repository.get(128);
 
-    setFlightMode(acro);
+    if (pid_constants.isValid())
+    {
+        setPidConstants(pid_constants.yaw_kp, pid_constants.yaw_ki, pid_constants.yaw_kd,
+                        pid_constants.pitch_kp, pid_constants.pitch_ki, pid_constants.pitch_kd,
+                        pid_constants.roll_kp, pid_constants.roll_ki, pid_constants.roll_kd);
+    }
+    else
+    {
+        setPidConstants(0.4, 0.02, 6);
+    }
 
     setYawCompassMode(false);
 

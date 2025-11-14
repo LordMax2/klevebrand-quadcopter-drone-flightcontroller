@@ -6,12 +6,15 @@
 #include "./components/quadcopter_pid/quadcopter_pid.h"
 #include "./components/gyro/gyro.h"
 #include "./components/flight_mode/flight_mode.h"
+#include "./components/eeprom_pid_repository/eeprom_pid_repository.h"
 
 #define TRANSMITION_TIMEOUT_DEFINITION_MILLISECONDS 500
 
 #define SERIAL_BAUD_RATE 115200
 
 #define FEEDBACK_LOOP_HZ 200
+
+#define PID_PERSIST_INTERVAL_MILLISECONDS 10000
 
 class Drone
 {
@@ -47,6 +50,7 @@ public:
   void setDesiredRollAngle(float value);
   void setPidConstants(float kp, float ki, float kd);
   void setPidConstants(float kp, float ki, float kd, float yaw_kp, float yaw_ki, float yaw_kd);
+  void setPidConstants(float yaw_kp, float yaw_ki, float yaw_kd, float pitch_kp, float pitch_ki, float pitch_kd, float roll_kp, float roll_ki, float roll_kd);
   void setFlightModeAutoLevel();
   void setFlightModeAcro();
   void enableMotors();
@@ -54,6 +58,7 @@ public:
   FlightMode getFlightMode();
 
 private:
+  EepromPidRepository eeprom_pid_repository;
   FlightMode flight_mode;
   Gyro gyro;
   QuadcopterPid pid;
@@ -75,6 +80,7 @@ private:
   uint8_t motor_left_back_pin_number;
   uint8_t motor_right_back_pin_number;
   bool is_motors_enabled = false;
+  unsigned long last_pid_persist_timestamp_milliseconds = 0;
   void setupMotors();
   void calculatePidIntegral(float gyro_roll, float gyro_pitch, float gyro_yaw);
   void runMotors(float gyro_roll, float gyro_pitch, float gyro_yaw);
@@ -86,6 +92,7 @@ private:
   bool isMotorsEnabled();
   void runPidOptimizer();
   void setYawCompassMode(bool yaw_compass_mode);
+  void persistPidConstants();
 };
 
 #endif

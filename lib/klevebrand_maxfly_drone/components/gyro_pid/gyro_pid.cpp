@@ -9,9 +9,9 @@ void GyroPid::reset()
 void GyroPid::updateIntegral(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode)
 {
   // Since we always run this at the same frequency, we dont need the time between the measurements
-  roll_pid_i = constrain(roll_pid_i + (pid_roll_optimizer.getKi() * rollError(gyro_roll, roll_desired_angle)), -pid_max, pid_max);
-  pitch_pid_i = constrain(pitch_pid_i + (pid_pitch_optimizer.getKi() * pitchError(gyro_pitch, pitch_desired_angle)), -pid_max, pid_max);
-  yaw_pid_i = constrain(yaw_pid_i + (pid_yaw_optimizer.getKi() * yawError(gyro_yaw, yaw_desired_angle, yaw_compass_mode)), -pid_max, pid_max);
+  roll_pid_i = constrain(roll_pid_i + (getRollKi() * rollError(gyro_roll, roll_desired_angle)), -pid_max, pid_max);
+  pitch_pid_i = constrain(pitch_pid_i + (getPitchKi() * pitchError(gyro_pitch, pitch_desired_angle)), -pid_max, pid_max);
+  yaw_pid_i = constrain(yaw_pid_i + (getYawKi() * yawError(gyro_yaw, yaw_desired_angle, yaw_compass_mode)), -pid_max, pid_max);
 }
 
 void GyroPid::runRollOptimizer(float gyro_roll, float roll_desired_angle)
@@ -53,13 +53,58 @@ void GyroPid::printPid(float gyro_roll, float roll_desired_angle, float gyro_pit
   Serial.println(yawPid(gyro_yaw, yaw_desired_angle, yaw_compass_mode));
 }
 
+float GyroPid::getRollKp()
+{
+  return pid_roll_optimizer.getKp();
+}
+
+float GyroPid::getRollKi()
+{
+  return pid_roll_optimizer.getKi();
+}
+
+float GyroPid::getRollKd()
+{
+  return pid_roll_optimizer.getKd();
+}
+
+float GyroPid::getPitchKp()
+{
+  return pid_pitch_optimizer.getKp();
+}
+
+float GyroPid::getPitchKi()
+{
+  return pid_pitch_optimizer.getKi();
+}
+
+float GyroPid::getPitchKd()
+{
+  return pid_pitch_optimizer.getKd();
+}
+
+float GyroPid::getYawKp()
+{
+  return pid_yaw_optimizer.getKp();
+}
+
+float GyroPid::getYawKi()
+{
+  return pid_yaw_optimizer.getKi();
+}
+
+float GyroPid::getYawKd()
+{
+  return pid_yaw_optimizer.getKd();
+}
+
 void GyroPid::printPidConstants()
 {
-  Serial.print(pid_roll_optimizer.getKp());
+  Serial.print(getRollKp());
   Serial.print(",");
-  Serial.print(pid_roll_optimizer.getKi());
+  Serial.print(getRollKi());
   Serial.print(",");
-  Serial.println(pid_roll_optimizer.getKd());
+  Serial.println(getRollKd());
 }
 
 float GyroPid::rollPid(float gyro_roll, float roll_desired_angle)
@@ -74,12 +119,12 @@ float GyroPid::rollError(float gyro_roll, float roll_desired_angle)
 
 float GyroPid::rollPidP(float gyro_roll, float roll_desired_angle)
 {
-  return (pid_roll_optimizer.getKp()) * rollError(gyro_roll, roll_desired_angle);
+  return (getRollKp()) * rollError(gyro_roll, roll_desired_angle);
 }
 
 float GyroPid::rollPidD(float gyro_roll, float roll_desired_angle)
 {
-  return (pid_roll_optimizer.getKd()) * (rollError(gyro_roll, roll_desired_angle) - roll_previous_error);
+  return (getRollKd()) * (rollError(gyro_roll, roll_desired_angle) - roll_previous_error);
 }
 
 float GyroPid::pitchPid(float gyro_pitch, float pitch_desired_angle)
@@ -94,12 +139,12 @@ float GyroPid::pitchError(float gyro_pitch, float pitch_desired_angle)
 
 float GyroPid::pitchPidP(float gyro_pitch, float pitch_desired_angle)
 {
-  return pid_pitch_optimizer.getKp() * pitchError(gyro_pitch, pitch_desired_angle);
+  return getPitchKp() * pitchError(gyro_pitch, pitch_desired_angle);
 }
 
 float GyroPid::pitchPidD(float gyro_pitch, float pitch_desired_angle)
 {
-  return pid_pitch_optimizer.getKd() * (pitchError(gyro_pitch, pitch_desired_angle) - pitch_previous_error);
+  return getPitchKd() * (pitchError(gyro_pitch, pitch_desired_angle) - pitch_previous_error);
 }
 
 float GyroPid::yawPid(float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode)
@@ -127,12 +172,12 @@ float GyroPid::yawError(float gyro_yaw, float yaw_desired_angle, bool yaw_compas
 
 float GyroPid::yawPidP(float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode)
 {
-  return pid_yaw_optimizer.getKp() * yawError(gyro_yaw, yaw_desired_angle, yaw_compass_mode);
+  return getYawKp() * yawError(gyro_yaw, yaw_desired_angle, yaw_compass_mode);
 }
 
 float yaw_pid_i = 0;
 
 float GyroPid::yawPidD(float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode)
 {
-  return pid_yaw_optimizer.getKd() * (yawError(gyro_yaw, yaw_desired_angle, yaw_compass_mode) - yaw_previous_error);
+  return getYawKd() * (yawError(gyro_yaw, yaw_desired_angle, yaw_compass_mode) - yaw_previous_error);
 }
