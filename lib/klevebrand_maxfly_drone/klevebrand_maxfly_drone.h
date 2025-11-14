@@ -26,7 +26,7 @@ public:
       uint8_t motor_left_front_pin_number,
       uint8_t motor_right_front_pin_number,
       uint8_t motor_left_back_pin_number,
-      uint8_t motor_right_back_pin_number) : pid(0, 0, 0)
+      uint8_t motor_right_back_pin_number) : pid(0, 0, 0, 0, 0, 0, 0, 0, 0) 
   {
     /*
      * Map the motor pin numbers
@@ -48,8 +48,6 @@ public:
   void setDesiredYawAngle(float value);
   void setDesiredPitchAngle(float value);
   void setDesiredRollAngle(float value);
-  void setPidConstants(float kp, float ki, float kd);
-  void setPidConstants(float kp, float ki, float kd, float yaw_kp, float yaw_ki, float yaw_kd);
   void setPidConstants(float yaw_kp, float yaw_ki, float yaw_kd, float pitch_kp, float pitch_ki, float pitch_kd, float roll_kp, float roll_ki, float roll_kd);
   void setFlightModeAutoLevel();
   void setFlightModeAcro();

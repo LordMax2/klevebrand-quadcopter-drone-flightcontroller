@@ -98,7 +98,7 @@ float GyroPid::getYawKd()
   return pid_yaw_optimizer.getKd();
 }
 
-void GyroPid::printPidConstants()
+void GyroPid::printConstants()
 {
   Serial.print(getRollKp());
   Serial.print(",");

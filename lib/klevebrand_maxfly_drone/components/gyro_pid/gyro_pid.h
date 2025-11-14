@@ -7,15 +7,6 @@
 class GyroPid
 {
 public:
-    GyroPid(float kp, float ki, float kd, float pid_max) : pid_max(pid_max), 
-                                        pid_roll_optimizer(kp, ki, kd),
-                                        pid_pitch_optimizer(kp, ki, kd),
-                                        pid_yaw_optimizer(kp, ki, kd) {};
-    GyroPid(float kp, float ki, float kd, float yaw_kp, float yaw_ki, float yaw_kd, float pid_max) : pid_max(pid_max),
-                                                                                                         pid_roll_optimizer(kp, ki, kd),
-                                                                                                         pid_pitch_optimizer(kp, ki, kd),
-                                                                                                         pid_yaw_optimizer(yaw_kp, yaw_ki, yaw_kd) {};
-
     GyroPid(float yaw_kp, float yaw_ki, float yaw_kd, float pitch_kp, float pitch_ki, float pitch_kd, float roll_kp, float roll_ki, float roll_kd, float pid_max) : pid_max(pid_max),
                                                                                                          pid_roll_optimizer(roll_kp, roll_ki, roll_kd),
                                                                                                          pid_pitch_optimizer(pitch_kp, pitch_ki, pitch_kd),
@@ -26,7 +17,7 @@ public:
     void updateIntegral(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode);
     
     void printPid(float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode);
-    void printPidConstants();
+    void printConstants();
 
     float getRollKp();
     float getRollKi();
@@ -61,21 +52,18 @@ private:
     
     bool yaw_compass_mode;
 
-    /* Roll PID */
     float rollError(float gyro_roll, float roll_desired_angle);
     float roll_previous_error = 0;
     float rollPidP(float gyro_roll, float roll_desired_angle);
     float roll_pid_i = 0;
     float rollPidD(float gyro_roll, float roll_desired_angle);
 
-    /* Pitch PID */
     float pitchError(float gyro_pitch, float pitch_desired_angle);
     float pitch_previous_error = 0;
     float pitchPidP(float gyro_pitch, float pitch_desired_angle);
     float pitch_pid_i = 0;
     float pitchPidD(float gyro_pitch, float pitch_desired_angle);
 
-    /* Yaw PID */
     float yawError(float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode);
     float yaw_previous_error = 0;
     float yawPidP(float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode);

@@ -62,8 +62,8 @@ void Drone::run()
         }
 
         // To debug stuff
-        // printPid();
-        // printPidConstants();
+        // print();
+        // printConstants();
         // printThrottle();
         // printGyro();
 
@@ -195,16 +195,6 @@ void Drone::resetPid()
     pid.reset();
 }
 
-void Drone::setPidConstants(float kp, float ki, float kd)
-{
-    pid = QuadcopterPid(kp, ki, kd);
-}
-
-void Drone::setPidConstants(float kp, float ki, float kd, float yaw_kp, float yaw_ki, float yaw_kd)
-{
-    pid = QuadcopterPid(kp, ki, kd, yaw_kp, yaw_ki, yaw_kd);
-}
-
 void Drone::setPidConstants(float yaw_kp, float yaw_ki, float yaw_kd, float pitch_kp, float pitch_ki, float pitch_kd, float roll_kp, float roll_ki, float roll_kd)
 {
     pid = QuadcopterPid(yaw_kp, yaw_ki, yaw_kd, pitch_kp, pitch_ki, pitch_kd, roll_kp, roll_ki, roll_kd);
@@ -227,11 +217,6 @@ bool Drone::isMotorsEnabled()
 
 void Drone::setThrottle(float value)
 {
-    if (value > 1800)
-    {
-        value = 1800;
-    }
-
     throttle = value;
     throttle_set_timestamp = millis();
 }
@@ -284,7 +269,7 @@ void Drone::printPid()
 
 void Drone::printPidConstants()
 {
-    pid.printPidConstants();
+    pid.printConstants();
 }
 
 void Drone::setFlightMode(FlightMode flight_mode)
@@ -316,7 +301,7 @@ void Drone::setFlightModeAutoLevel()
     }
     else
     {
-        setPidConstants(1.25, 0.01, 25, 0.5, 0.005, 2);
+        setPidConstants(1.25, 0.01, 25, 1.25, 0.01, 25, 0.5, 0.005, 2);
     }
 
     setYawCompassMode(true);
@@ -348,7 +333,7 @@ void Drone::setFlightModeAcro()
     }
     else
     {
-        setPidConstants(0.4, 0.02, 6);
+        setPidConstants(0.4, 0.02, 6, 0.4, 0.02, 6, 0.4, 0.02, 6);
     }
 
     setYawCompassMode(false);
