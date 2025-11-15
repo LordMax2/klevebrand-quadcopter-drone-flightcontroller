@@ -298,6 +298,8 @@ void Drone::setFlightModeAutoLevel()
         setPidConstants(pid_constants.yaw_kp, pid_constants.yaw_ki, pid_constants.yaw_kd,
                         pid_constants.pitch_kp, pid_constants.pitch_ki, pid_constants.pitch_kd,
                         pid_constants.roll_kp, pid_constants.roll_ki, pid_constants.roll_kd);
+
+        pid_constants.print();
     }
     else
     {
@@ -330,6 +332,8 @@ void Drone::setFlightModeAcro()
         setPidConstants(pid_constants.yaw_kp, pid_constants.yaw_ki, pid_constants.yaw_kd,
                         pid_constants.pitch_kp, pid_constants.pitch_ki, pid_constants.pitch_kd,
                         pid_constants.roll_kp, pid_constants.roll_ki, pid_constants.roll_kd);
+
+        pid_constants.print();
     }
     else
     {

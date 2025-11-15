@@ -149,7 +149,7 @@ float GyroPid::pitchPidD(float gyro_pitch, float pitch_desired_angle)
 
 float GyroPid::yawPid(float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode)
 {
-  return constrain(yawPidP(gyro_yaw, yaw_desired_angle, yaw_compass_mode) + yawPidD(gyro_yaw, yaw_desired_angle, yaw_compass_mode), -pid_max, pid_max);
+  return constrain(yawPidP(gyro_yaw, yaw_desired_angle, yaw_compass_mode) + yaw_pid_i + yawPidD(gyro_yaw, yaw_desired_angle, yaw_compass_mode), -pid_max, pid_max);
 }
 
 float GyroPid::yawError(float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode)

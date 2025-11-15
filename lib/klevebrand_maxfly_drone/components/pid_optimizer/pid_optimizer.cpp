@@ -65,13 +65,14 @@ void PidOptimizer::startTrial()
     current_ki = best_ki;
     current_kd = best_kd;
 
-    current_kp += random(-0.025, 0.025);
-    current_ki += random(-0.0125, 0.0125);
-    current_kd += random(-0.05, 0.05);
+    current_kp += random(-5, 5) / 10000.0f;
+    current_ki += random(-3, 3) / 100000.0f;
+    current_kd += random(-10, 10) / 10000.0f;
 
-    current_kp = constrain(current_kp, 0.0, 10.0);
-    current_ki = constrain(current_ki, 0.0, 2.0);
-    current_kd = constrain(current_kd, 0.0, 30.0);
+
+    current_kp = constrain(current_kp, 0.1f, 1.0f);
+    current_ki = constrain(current_ki, 0.0001f, 0.05f);
+    current_kd = constrain(current_kd, 0.1f, 20.0f);
 
     error_sum_squared = 0;
     error_measurement_count = 0;

@@ -36,6 +36,28 @@ struct PidConstants
 
       return everything_is_not_zero && nothing_is_nan;
     }
+
+    void print()
+    {
+      Serial.print("YAW KP: ");
+      Serial.println(yaw_kp);
+      Serial.print("YAW KI: ");
+      Serial.println(yaw_ki);
+      Serial.print("YAW KD: ");
+      Serial.println(yaw_kd);
+      Serial.print("PITCH KP: ");
+      Serial.println(pitch_kp);
+      Serial.print("PITCH KI: ");
+      Serial.println(pitch_ki);
+      Serial.print("PITCH KD: ");
+      Serial.println(pitch_kd);
+      Serial.print("ROLL KP: ");
+      Serial.println(roll_kp);
+      Serial.print("ROLL KI: ");
+      Serial.println(roll_ki);
+      Serial.print("ROLL KD: ");
+      Serial.println(roll_kd);
+    }
 };
 
 #endif // PID_CONSTANTS_H
