@@ -1,11 +1,11 @@
 /*
-*
-*   This part of the drone was possbile because of my genious friend Pio Korinth. 
-*   He has explained how a Black Box smiulated annealing works in a way that I could finally wrap my head around.
-*
-*   Thanks a lot and big credits!: 
-*
-*/
+ *
+ *   This part of the drone was possbile because of my genious friend Pio Korinth.
+ *   He has explained how a Black Box smiulated annealing works in a way that I could finally wrap my head around.
+ *
+ *   Thanks a lot and big credits!:
+ *
+ */
 
 #include "pid_optimizer.h"
 
@@ -41,7 +41,7 @@ void PidOptimizer::run(float current_error)
         else
         {
             // If we dont get enough readings, restart the trial
-            if(error_measurement_count < ((TRIAL_DURATION_MILLISECONDS / 1000) * 200) * 0.9)  // TODO: Replace hardcoded 200 with the Flight Controller hz frequency, and the acceptance percentage deviation.
+            if (error_measurement_count < ((TRIAL_DURATION_MILLISECONDS / 1000) * 200) * 0.9) // TODO: Replace hardcoded 200 with the Flight Controller hz frequency, and the acceptance percentage deviation.
             {
                 startTrial();
 
@@ -68,7 +68,6 @@ void PidOptimizer::startTrial()
     current_kp += random(-5, 5) / 10000.0f;
     current_ki += random(-3, 3) / 100000.0f;
     current_kd += random(-10, 10) / 10000.0f;
-
 
     current_kp = constrain(current_kp, 0.1f, 1.0f);
     current_ki = constrain(current_ki, 0.0001f, 0.05f);
@@ -105,7 +104,7 @@ void PidOptimizer::evaluateTrial()
     best_kp = best_kp * factor + current_kp * (1.0f - factor);
     best_ki = best_ki * factor + current_ki * (1.0f - factor);
     best_kd = best_kd * factor + current_kd * (1.0f - factor);
-    
+
     previous_score = current_score;
 }
 
