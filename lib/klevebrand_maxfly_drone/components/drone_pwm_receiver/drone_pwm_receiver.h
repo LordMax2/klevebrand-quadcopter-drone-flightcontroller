@@ -1,8 +1,8 @@
 #ifndef DRONE_PWM_RECEIVER_H
 #define DRONE_PWM_RECEIVER_H
 
-#include "../pwm_receiver/pwm_receiver.h"
-#include "../../klevebrand_maxfly_drone.h"
+#include "../klevebrand_drone_core/components/pwm_receiver/pwm_receiver.h"
+#include "./klevebrand_maxfly_drone.h"
 
 class DronePwmReceiver
 {
@@ -27,8 +27,8 @@ public:
     };
 
     void setup();
-    void setThrottleYawPitchRoll(Drone *drone);
-    void setFlightMode(Drone *drone);
+    void setThrottleYawPitchRoll(KlevebrandMaxFlyDrone *drone);
+    void setFlightMode(KlevebrandMaxFlyDrone *drone);
 
 private:
     PwmReceiver receiver;

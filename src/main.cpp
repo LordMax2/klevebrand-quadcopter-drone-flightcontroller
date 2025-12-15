@@ -1,8 +1,8 @@
 #include "../lib/klevebrand_maxfly_drone/klevebrand_maxfly_drone.h"
-#include "../lib/klevebrand_maxfly_drone/components/pwm_receiver/pwm_receiver.h"
+#include "../lib/klevebrand_drone_core/components/pwm_receiver/pwm_receiver.h"
 #include "../lib/klevebrand_maxfly_drone/components/drone_pwm_receiver/drone_pwm_receiver.h"
 
-Drone drone = Drone(3, 2, 7, 6);
+KlevebrandMaxFlyDrone drone = KlevebrandMaxFlyDrone(3, 2, 7, 6);
 DronePwmReceiver receiver = DronePwmReceiver(1, 4, 3, 2, 7);
 
 void setup()

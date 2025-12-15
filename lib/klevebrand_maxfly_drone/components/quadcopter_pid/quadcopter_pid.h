@@ -1,9 +1,8 @@
 #ifndef PID_H
 #define PID_H
 
-#include <Arduino.h>
-#include "../pid_optimizer/pid_optimizer.h"
-#include "../gyro_pid/gyro_pid.h"
+#include "../klevebrand_drone_core/components/pid_optimizer/pid_optimizer.h"
+#include "../klevebrand_drone_core/components/gyro_pid/gyro_pid.h"
 
 #define PID_THROTTLE_THRESHOLD 1100
 #define PID_MAX 400

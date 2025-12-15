@@ -4,9 +4,9 @@
 #include <Arduino.h>
 #include <Servo.h>
 #include "./components/quadcopter_pid/quadcopter_pid.h"
-#include "./components/gyro/gyro.h"
-#include "./components/flight_mode/flight_mode.h"
-#include "./components/eeprom_pid_repository/eeprom_pid_repository.h"
+#include "../klevebrand_drone_core/components/gyro/gyro.h"
+#include "../klevebrand_drone_core/entities/flight_mode/flight_mode.h"
+#include "../klevebrand_drone_core/components/eeprom_pid_repository/eeprom_pid_repository.h"
 
 #define TRANSMITION_TIMEOUT_DEFINITION_MILLISECONDS 500
 
@@ -16,13 +16,13 @@
 
 #define PID_PERSIST_INTERVAL_MILLISECONDS 10000
 
-class Drone
+class KlevebrandMaxFlyDrone
 {
 public:
   /*
    * Create a drone
    */
-  Drone(
+  KlevebrandMaxFlyDrone(
       uint8_t motor_left_front_pin_number,
       uint8_t motor_right_front_pin_number,
       uint8_t motor_left_back_pin_number,

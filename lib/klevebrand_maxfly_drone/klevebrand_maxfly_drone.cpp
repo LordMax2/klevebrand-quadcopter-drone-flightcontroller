@@ -1,7 +1,6 @@
 #include "klevebrand_maxfly_drone.h"
-#include "components/flight_mode/flight_mode.h"
 
-void Drone::setup()
+void KlevebrandMaxFlyDrone::setup()
 {
     Serial.begin(SERIAL_BAUD_RATE);
 
@@ -25,7 +24,7 @@ void Drone::setup()
     Serial.println("DRONE STARTED!");
 }
 
-void Drone::run()
+void KlevebrandMaxFlyDrone::run()
 {
     long start_micros_timestamp = micros();
 
@@ -78,7 +77,7 @@ void Drone::run()
     }
 }
 
-void Drone::persistPidConstants()
+void KlevebrandMaxFlyDrone::persistPidConstants()
 {
     if(millis() - last_pid_persist_timestamp_milliseconds >= PID_PERSIST_INTERVAL_MILLISECONDS)
     {
@@ -105,14 +104,14 @@ void Drone::persistPidConstants()
     }
 }
 
-void Drone::runPidOptimizer()
+void KlevebrandMaxFlyDrone::runPidOptimizer()
 {
     pid.runRollOptimizer(gyro.roll(), roll_desired_angle);
     pid.runPitchOptimizer(gyro.pitch(), pitch_desired_angle);
     pid.runYawOptimizer(gyro.yaw(), yaw_desired_angle, yaw_compass_mode);
 }
 
-void Drone::delayToKeepFeedbackLoopHz(long start_micros_timestamp)
+void KlevebrandMaxFlyDrone::delayToKeepFeedbackLoopHz(long start_micros_timestamp)
 {
     long current_micros_timestamp = micros();
 
@@ -126,7 +125,7 @@ void Drone::delayToKeepFeedbackLoopHz(long start_micros_timestamp)
     }
 }
 
-void Drone::setupMotors()
+void KlevebrandMaxFlyDrone::setupMotors()
 {
     Serial.println("SETTING UP MOTORS...");
 
@@ -150,7 +149,7 @@ void Drone::setupMotors()
     Serial.println("MOTORS SETUP!");
 }
 
-void Drone::stopMotors()
+void KlevebrandMaxFlyDrone::stopMotors()
 {
     motor_left_front.writeMicroseconds(THROTTLE_MINIMUM);
     motor_right_front.writeMicroseconds(THROTTLE_MINIMUM);
@@ -158,7 +157,7 @@ void Drone::stopMotors()
     motor_right_back.writeMicroseconds(THROTTLE_MINIMUM);
 }
 
-void Drone::runMotors(float gyro_roll, float gyro_pitch, float gyro_yaw)
+void KlevebrandMaxFlyDrone::runMotors(float gyro_roll, float gyro_pitch, float gyro_yaw)
 {
     motor_left_front.writeMicroseconds(pid.pidThrottleLF(throttle, gyro_roll, roll_desired_angle, gyro_pitch, pitch_desired_angle, gyro_yaw, yaw_desired_angle, yaw_compass_mode));
     motor_right_front.writeMicroseconds(pid.pidThrottleRF(throttle, gyro_roll, roll_desired_angle, gyro_pitch, pitch_desired_angle, gyro_yaw, yaw_desired_angle, yaw_compass_mode));
@@ -166,12 +165,12 @@ void Drone::runMotors(float gyro_roll, float gyro_pitch, float gyro_yaw)
     motor_right_back.writeMicroseconds(pid.pidThrottleRB(throttle, gyro_roll, roll_desired_angle, gyro_pitch, pitch_desired_angle, gyro_yaw, yaw_desired_angle, yaw_compass_mode));
 }
 
-void Drone::calculatePidIntegral(float gyro_roll, float gyro_pitch, float gyro_yaw)
+void KlevebrandMaxFlyDrone::calculatePidIntegral(float gyro_roll, float gyro_pitch, float gyro_yaw)
 {
     pid.updateIntegral(gyro_roll, roll_desired_angle, gyro_pitch, pitch_desired_angle, gyro_yaw, yaw_desired_angle, yaw_compass_mode);
 }
 
-bool Drone::hasLostConnection()
+bool KlevebrandMaxFlyDrone::hasLostConnection()
 {
     bool transmitter_lost_connection = millis() - throttle_set_timestamp >= TRANSMITION_TIMEOUT_DEFINITION_MILLISECONDS;
 
@@ -180,73 +179,73 @@ bool Drone::hasLostConnection()
     return transmitter_lost_connection || gyro_lost_connection;
 }
 
-bool Drone::updateGyro()
+bool KlevebrandMaxFlyDrone::updateGyro()
 {
     return gyro.reload();
 }
 
-void Drone::printGyro()
+void KlevebrandMaxFlyDrone::printGyro()
 {
     gyro.printYawPitchRoll();
 }
 
-void Drone::resetPid()
+void KlevebrandMaxFlyDrone::resetPid()
 {
     pid.reset();
 }
 
-void Drone::setPidConstants(float yaw_kp, float yaw_ki, float yaw_kd, float pitch_kp, float pitch_ki, float pitch_kd, float roll_kp, float roll_ki, float roll_kd)
+void KlevebrandMaxFlyDrone::setPidConstants(float yaw_kp, float yaw_ki, float yaw_kd, float pitch_kp, float pitch_ki, float pitch_kd, float roll_kp, float roll_ki, float roll_kd)
 {
     pid = QuadcopterPid(yaw_kp, yaw_ki, yaw_kd, pitch_kp, pitch_ki, pitch_kd, roll_kp, roll_ki, roll_kd);
 }
 
-void Drone::disableMotors()
+void KlevebrandMaxFlyDrone::disableMotors()
 {
     is_motors_enabled = false;
 }
 
-void Drone::enableMotors()
+void KlevebrandMaxFlyDrone::enableMotors()
 {
     is_motors_enabled = true;
 }
 
-bool Drone::isMotorsEnabled()
+bool KlevebrandMaxFlyDrone::isMotorsEnabled()
 {
     return is_motors_enabled;
 }
 
-void Drone::setThrottle(float value)
+void KlevebrandMaxFlyDrone::setThrottle(float value)
 {
     throttle = value;
     throttle_set_timestamp = millis();
 }
 
-void Drone::setDesiredYawAngle(float value)
+void KlevebrandMaxFlyDrone::setDesiredYawAngle(float value)
 {
     yaw_desired_angle = value;
     yaw_desired_angle_set_timestamp = millis();
 }
 
-void Drone::setDesiredPitchAngle(float value)
+void KlevebrandMaxFlyDrone::setDesiredPitchAngle(float value)
 {
     pitch_desired_angle = value;
     desired_pitch_angle_set_timestamp = millis();
 }
 
-void Drone::setDesiredRollAngle(float value)
+void KlevebrandMaxFlyDrone::setDesiredRollAngle(float value)
 {
     roll_desired_angle = value;
     desired_roll_angle_set_timestamp = millis();
 }
 
-void Drone::savePidErrors(float gyro_roll, float gyro_pitch, float gyro_yaw)
+void KlevebrandMaxFlyDrone::savePidErrors(float gyro_roll, float gyro_pitch, float gyro_yaw)
 {
     pid.savePitchError(gyro_pitch, pitch_desired_angle);
     pid.saveRollError(gyro_roll, roll_desired_angle);
     pid.saveYawError(gyro_yaw, yaw_desired_angle, yaw_compass_mode);
 }
 
-void Drone::printThrottle()
+void KlevebrandMaxFlyDrone::printThrottle()
 {
     Serial.print(pid.pidThrottleLF(throttle, gyro.roll(), roll_desired_angle, gyro.pitch(), pitch_desired_angle, gyro.yaw(), yaw_desired_angle, yaw_compass_mode));
     Serial.print("    ");
@@ -257,27 +256,27 @@ void Drone::printThrottle()
     Serial.println("-----------------------------------------");
 }
 
-void Drone::setYawCompassMode(bool yaw_compass_mode)
+void KlevebrandMaxFlyDrone::setYawCompassMode(bool yaw_compass_mode)
 {
     this->yaw_compass_mode = yaw_compass_mode;
 }
 
-void Drone::printPid()
+void KlevebrandMaxFlyDrone::printPid()
 {
     pid.printPid(gyro.roll(), roll_desired_angle, gyro.pitch(), pitch_desired_angle, gyro.yaw(), yaw_desired_angle, yaw_compass_mode);
 }
 
-void Drone::printPidConstants()
+void KlevebrandMaxFlyDrone::printPidConstants()
 {
     pid.printConstants();
 }
 
-void Drone::setFlightMode(FlightMode flight_mode)
+void KlevebrandMaxFlyDrone::setFlightMode(FlightMode flight_mode)
 {
-    Drone::flight_mode = flight_mode;
+    KlevebrandMaxFlyDrone::flight_mode = flight_mode;
 }
 
-void Drone::setFlightModeAutoLevel()
+void KlevebrandMaxFlyDrone::setFlightModeAutoLevel()
 {
     // Temprorary return early util I have connected the IMU's reset pin
     if (getFlightMode() == auto_level)
@@ -311,7 +310,7 @@ void Drone::setFlightModeAutoLevel()
     Serial.println("FLIGHT MODE AUTOLEVEL");
 }
 
-void Drone::setFlightModeAcro()
+void KlevebrandMaxFlyDrone::setFlightModeAcro()
 {
     // Temprorary return early util I have connected the IMU's reset pin
     if (getFlightMode() == acro)
@@ -345,7 +344,7 @@ void Drone::setFlightModeAcro()
     Serial.println("FLIGHT MODE ACRO");
 }
 
-FlightMode Drone::getFlightMode()
+FlightMode KlevebrandMaxFlyDrone::getFlightMode()
 {
     return flight_mode;
 }

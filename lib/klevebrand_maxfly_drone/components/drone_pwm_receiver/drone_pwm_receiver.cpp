@@ -1,6 +1,6 @@
 #include "drone_pwm_receiver.h"
 
-void DronePwmReceiver::setThrottleYawPitchRoll(Drone *drone)
+void DronePwmReceiver::setThrottleYawPitchRoll(KlevebrandMaxFlyDrone *drone)
 {
     float throttle_value = receiver.getChannelValue(throttle_receiver_channel_number);
     drone->setThrottle(throttle_value);
@@ -50,7 +50,7 @@ void DronePwmReceiver::setThrottleYawPitchRoll(Drone *drone)
     }
 }
 
-void DronePwmReceiver::setFlightMode(Drone *drone)
+void DronePwmReceiver::setFlightMode(KlevebrandMaxFlyDrone *drone)
 {
     int flight_mode_pwm_signal = receiver.getChannelValue(flight_mode_receiver_channel_number);
 
