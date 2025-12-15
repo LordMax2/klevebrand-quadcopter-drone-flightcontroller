@@ -1,5 +1,5 @@
-#ifndef PID_H
-#define PID_H
+#ifndef QUADCOPTER_PID_H 
+#define QUADCOPTER_PID_H
 
 #include "../klevebrand_drone_core/components/pid_optimizer/pid_optimizer.h"
 #include "../klevebrand_drone_core/components/gyro_pid/gyro_pid.h"
@@ -20,4 +20,5 @@ public:
     float pidThrottleRF(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode);
     float pidThrottleRB(float throttle, float gyro_roll, float roll_desired_angle, float gyro_pitch, float pitch_desired_angle, float gyro_yaw, float yaw_desired_angle, bool yaw_compass_mode);
 };
-#endif
+
+#endif // QUADCOPTER_PID_H
