@@ -14,7 +14,7 @@
 
 #define PID_PERSIST_INTERVAL_MILLISECONDS 10000
 
-class KlevebrandMaxJetDrone: public BaseFourMotorDrone
+class KlevebrandMaxJetDrone: public BaseFourMotorDrone<AirplaneVtailPid>
 {
 public:
     /*
@@ -24,13 +24,10 @@ public:
         uint8_t motor_left_front_pin_number,
         uint8_t motor_right_front_pin_number,
         uint8_t motor_left_back_pin_number,
-        uint8_t motor_right_back_pin_number) : BaseFourMotorDrone(motor_left_front_pin_number, motor_right_front_pin_number, motor_left_back_pin_number, motor_right_back_pin_number),
-                                               pid(0, 0, 0, 0, 0, 0, 0, 0, 0) {}
+        uint8_t motor_right_back_pin_number) : BaseFourMotorDrone<AirplaneVtailPid>(motor_left_front_pin_number, motor_right_front_pin_number, motor_left_back_pin_number, motor_right_back_pin_number) {}
     void setup() override;
     void run() override;
     void runMotors(float gyro_roll, float gyro_pitch, float gyro_yaw) override;
-    AirplaneVtailPid pid;
-    void setPidConstants(float yaw_kp, float yaw_ki, float yaw_kd, float pitch_kp, float pitch_ki, float pitch_kd, float roll_kp, float roll_ki, float roll_kd) override;
 };
 
 #endif // KLEVEBRAND_MAXJET_DRONE_H

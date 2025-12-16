@@ -81,8 +81,3 @@ void KlevebrandMaxJetDrone::runMotors(float gyro_roll, float gyro_pitch, float g
 {
     // Not implemented
 }
-
-void KlevebrandMaxJetDrone::setPidConstants(float yaw_kp, float yaw_ki, float yaw_kd, float pitch_kp, float pitch_ki, float pitch_kd, float roll_kp, float roll_ki, float roll_kd)
-{
-    pid = AirplaneVtailPid(yaw_kp, yaw_ki, yaw_kd, pitch_kp, pitch_ki, pitch_kd, roll_kp, roll_ki, roll_kd);
-}
