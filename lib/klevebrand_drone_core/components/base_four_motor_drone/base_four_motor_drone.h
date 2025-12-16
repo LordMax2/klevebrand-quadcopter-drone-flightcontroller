@@ -281,16 +281,16 @@ public:
     }
   };
   float throttle = 0;
+  float yaw_desired_angle = 0;
+  float pitch_desired_angle = 0;
+  float roll_desired_angle = 0;
+  bool yaw_compass_mode = false;
 
 private:
   FlightMode flight_mode;
   float throttle_set_timestamp = 0;
-  float yaw_desired_angle = 0;
   float yaw_desired_angle_set_timestamp = 0;
-  bool yaw_compass_mode = false;
-  float pitch_desired_angle = 0;
   float desired_pitch_angle_set_timestamp = 0;
-  float roll_desired_angle = 0;
   float desired_roll_angle_set_timestamp = 0;
   uint8_t motor_left_front_pin_number;
   uint8_t motor_right_front_pin_number;

@@ -2,7 +2,6 @@
 #define KLEVEBRAND_MAXJET_DRONE_H
 
 #include <Arduino.h>
-#include <Servo.h>
 #include "../klevebrand_drone_core/components/base_four_motor_drone/base_four_motor_drone.h"
 #include "./components/airplane_vtail_pid/airplane_vtail_pid.h"
 
@@ -14,7 +13,7 @@
 
 #define PID_PERSIST_INTERVAL_MILLISECONDS 10000
 
-class KlevebrandMaxJetDrone: public BaseFourMotorDrone<AirplaneVtailPid>
+class KlevebrandMaxJetDrone : public BaseFourMotorDrone<AirplaneVtailPid>
 {
 public:
     /*
