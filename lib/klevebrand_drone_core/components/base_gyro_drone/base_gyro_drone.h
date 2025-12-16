@@ -20,14 +20,14 @@
 
 #define PID_MAX 400
 
-template <class T>
-class BaseFourMotorDrone
+template <class SomeGyroPidType>
+class BaseGyroDrone
 {
 public:
   /*
    * Create a drone
    */
-  BaseFourMotorDrone(
+  BaseGyroDrone(
       uint8_t motor_left_front_pin_number,
       uint8_t motor_right_front_pin_number,
       uint8_t motor_left_back_pin_number,
@@ -44,11 +44,11 @@ public:
   virtual void setup() {};
   virtual void run() {};
   virtual void runMotors(float gyro_roll, float gyro_pitch, float gyro_yaw) {};
-  T pid;
+  SomeGyroPidType pid;
 
   void setPidConstants(float yaw_kp, float yaw_ki, float yaw_kd, float pitch_kp, float pitch_ki, float pitch_kd, float roll_kp, float roll_ki, float roll_kd)
   {
-    pid = T(yaw_kp, yaw_ki, yaw_kd, pitch_kp, pitch_ki, pitch_kd, roll_kp, roll_ki, roll_kd);
+    pid = SomeGyroPidType(yaw_kp, yaw_ki, yaw_kd, pitch_kp, pitch_ki, pitch_kd, roll_kp, roll_ki, roll_kd);
   };
   void printGyro()
   {
@@ -237,7 +237,7 @@ public:
   }
   void setFlightMode(FlightMode flight_mode)
   {
-    BaseFourMotorDrone::flight_mode = flight_mode;
+    BaseGyroDrone::flight_mode = flight_mode;
   }
   bool isMotorsEnabled()
   {
