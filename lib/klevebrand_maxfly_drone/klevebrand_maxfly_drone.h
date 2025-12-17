@@ -18,6 +18,7 @@ private:
   Servo motorRightFront() { return motors[1]; };
   Servo motorLeftBack() { return motors[2]; };
   Servo motorRightBack() { return motors[3]; };
+  void printThrottle();
 };
 
 #endif
