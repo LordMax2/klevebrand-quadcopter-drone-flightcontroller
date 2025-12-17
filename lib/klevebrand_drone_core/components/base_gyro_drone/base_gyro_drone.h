@@ -27,19 +27,9 @@ public:
   /*
    * Create a drone
    */
-  BaseGyroDrone(
-      uint8_t motor_left_front_pin_number,
-      uint8_t motor_right_front_pin_number,
-      uint8_t motor_left_back_pin_number,
-      uint8_t motor_right_back_pin_number) : pid(0, 0, 0, 0, 0, 0, 0, 0, 0)
+  BaseGyroDrone(uint8_t (&motor_pin_numbers)[16]) : pid(0, 0, 0, 0, 0, 0, 0, 0, 0)
   {
-    /*
-     * Map the motor pin numbers
-     */
-    this->motor_left_front_pin_number = motor_left_front_pin_number;
-    this->motor_right_front_pin_number = motor_right_front_pin_number;
-    this->motor_left_back_pin_number = motor_left_back_pin_number;
-    this->motor_right_back_pin_number = motor_right_back_pin_number;
+    this->motor_pin_numbers = motor_pin_numbers;
   }
   virtual void setup() {};
   virtual void run() {};
@@ -174,28 +164,21 @@ public:
   }
   EepromPidRepository eeprom_pid_repository;
   Gyro gyro;
-  Servo motor_left_front;
-  Servo motor_right_front;
-  Servo motor_left_back;
-  Servo motor_right_back;
+  Servo* motors;
   void setupMotors()
   {
     Serial.println("SETTING UP MOTORS...");
 
-    pinMode(motor_left_front_pin_number, OUTPUT);
-    pinMode(motor_right_front_pin_number, OUTPUT);
-    pinMode(motor_left_back_pin_number, OUTPUT);
-    pinMode(motor_right_back_pin_number, OUTPUT);
+    for(int i = 0; i < 16; i++) {
+      if(motor_pin_numbers[i] <= 0) continue;
 
-    motor_left_front.attach(motor_left_front_pin_number);
-    motor_right_front.attach(motor_right_front_pin_number);
-    motor_left_back.attach(motor_left_back_pin_number);
-    motor_right_back.attach(motor_right_back_pin_number);
+      pinMode(motor_pin_numbers[i], OUTPUT);
 
-    motor_left_front.writeMicroseconds(THROTTLE_MINIMUM);
-    motor_right_front.writeMicroseconds(THROTTLE_MINIMUM);
-    motor_left_back.writeMicroseconds(THROTTLE_MINIMUM);
-    motor_right_back.writeMicroseconds(THROTTLE_MINIMUM);
+      Servo motor;
+      motors[motor_pin_numbers[i]] = motor;
+      motors[motor_pin_numbers[i]].attach(motor_pin_numbers[i]);
+      motors[motor_pin_numbers[i]].writeMicroseconds(THROTTLE_MINIMUM);
+    }
 
     delay(1000);
 
@@ -207,10 +190,11 @@ public:
   }
   void stopMotors()
   {
-    motor_left_front.writeMicroseconds(THROTTLE_MINIMUM);
-    motor_right_front.writeMicroseconds(THROTTLE_MINIMUM);
-    motor_left_back.writeMicroseconds(THROTTLE_MINIMUM);
-    motor_right_back.writeMicroseconds(THROTTLE_MINIMUM);
+    for(int i = 0; i < 16; i++) {
+      if(motor_pin_numbers[i] <= 0) continue;
+
+      motors[motor_pin_numbers[i]].writeMicroseconds(THROTTLE_MINIMUM);
+    }
   }
   bool updateGyro()
   {
@@ -292,10 +276,7 @@ private:
   float yaw_desired_angle_set_timestamp = 0;
   float desired_pitch_angle_set_timestamp = 0;
   float desired_roll_angle_set_timestamp = 0;
-  uint8_t motor_left_front_pin_number;
-  uint8_t motor_right_front_pin_number;
-  uint8_t motor_left_back_pin_number;
-  uint8_t motor_right_back_pin_number;
+  uint8_t* motor_pin_numbers;
   bool is_motors_enabled = false;
   unsigned long last_pid_persist_timestamp_milliseconds = 0;
 };

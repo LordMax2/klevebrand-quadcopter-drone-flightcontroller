@@ -3,8 +3,10 @@
 #include "../lib/klevebrand_drone_core/components/pwm_receiver/pwm_receiver.h"
 #include "../lib/klevebrand_maxfly_drone/components/drone_pwm_receiver/drone_pwm_receiver.h"
 
-KlevebrandMaxFlyDrone drone = KlevebrandMaxFlyDrone(3, 2, 7, 6);
-KlevebrandMaxJetDrone drone2 = KlevebrandMaxJetDrone(3, 2, 7, 6);
+uint8_t motor_pin_numbers[16] = { 3, 2, 7, 6};
+
+KlevebrandMaxFlyDrone drone = KlevebrandMaxFlyDrone(motor_pin_numbers);
+//KlevebrandMaxJetDrone drone2 = KlevebrandMaxJetDrone(motor_pin_numbers);
 DronePwmReceiver receiver = DronePwmReceiver(1, 4, 3, 2, 7);
 
 void setup()

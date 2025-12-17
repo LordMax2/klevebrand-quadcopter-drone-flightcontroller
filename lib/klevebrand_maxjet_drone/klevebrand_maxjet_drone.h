@@ -8,11 +8,7 @@
 class KlevebrandMaxJetDrone : public BaseGyroDrone<AirplaneVtailPid>
 {
 public:
-    KlevebrandMaxJetDrone(
-        uint8_t motor_left_front_pin_number,
-        uint8_t motor_right_front_pin_number,
-        uint8_t motor_left_back_pin_number,
-        uint8_t motor_right_back_pin_number) : BaseGyroDrone<AirplaneVtailPid>(motor_left_front_pin_number, motor_right_front_pin_number, motor_left_back_pin_number, motor_right_back_pin_number) {}
+    KlevebrandMaxJetDrone(uint8_t (&motor_pin_numbers)[16]) : BaseGyroDrone<AirplaneVtailPid>(motor_pin_numbers) {}
     void setup() override;
     void run() override;
     void runMotors(float gyro_roll, float gyro_pitch, float gyro_yaw) override;
