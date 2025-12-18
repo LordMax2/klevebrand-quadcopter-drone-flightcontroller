@@ -1,6 +1,6 @@
-# Klevebrand quadcopter flight controller
+# Klevebrand all drone controller
 
-An open-source C++ flight controller for quadcopters, designed with a the vision: **it doesnt need to be harder than it needs to be**. Optimized for AVR microcontrollers like the ATmega2560, this project provides a lightweight yet powerful foundation for any drone.
+An open-source C++ drone controller for all types of drones, designed with a the vision: **it doesnt need to be harder than it needs to be**. Optimized for AVR microcontrollers like the ATmega2560, this project provides a lightweight yet powerful foundation for any drone.
 
 Its standout feature is a **self-calibrating PID system** using Black Box optimization, which makes the integration process with the quadcopter much easier!  
 
@@ -16,7 +16,7 @@ Its standout feature is a **self-calibrating PID system** using Black Box optimi
 
 Tuning the PID controller for a drone to get a stable and reliable flight is a pretty time consuming, difficult and challenging task. This project offers a solution that automates the process, making it far simpler and more efficient and better.
 
-Using a Simulated Annealing algorithm, the flight controller can autonomously run tests and intelligently adjust its PID parameters. This "Black Box" tuning method finds a near-optimal PID configuration with minimal manual input, ensuring a stable and responsive flight.
+Using a Simulated Annealing algorithm, the drone controller can autonomously run tests and intelligently adjust its PID parameters. This "Black Box" tuning method finds a near-optimal PID configuration with minimal manual input, ensuring a stable and responsive flight.
 
 Furthermore, this optimization runs continuously during flight, adapting to environmental changes like wind, rain, or motor defects. It constantly seeks the ideal configuration to keep the drone stable and maneuverable in real time.
 
@@ -25,4 +25,5 @@ And the real caveat, is that it adapts to the most stable configuration, based o
 ## License
 
 This project is licensed under the MIT `LICENSE`. 
+
 
