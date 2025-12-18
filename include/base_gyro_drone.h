@@ -3,10 +3,10 @@
 
 #include <Arduino.h>
 #include <Servo.h>
-#include "../gyro/gyro.h"
-#include "../gyro_pid/gyro_pid.h"
-#include "../../entities/flight_mode/flight_mode.h"
-#include "../eeprom_pid_repository/eeprom_pid_repository.h"
+#include "./gyro.h"
+#include "./gyro_pid.h"
+#include "./flight_mode.h"
+#include "./eeprom_pid_repository.h"
 
 #define TRANSMITION_TIMEOUT_DEFINITION_MILLISECONDS 500
 

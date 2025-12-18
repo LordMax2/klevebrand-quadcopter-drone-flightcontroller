@@ -1,0 +1,26 @@
+{
+  "name": "klevebrand-all-drone-controller-core",
+  "version": "1.0.0",
+  "description": "A drone core library for all types of drones. By Klevebrand.",
+  "keywords": "klevebrand, drone, quadcopter, airplane, hexacopter, octacopter",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/LordMax2/klevebrand-all-drone-controller.git"
+  },
+  "authors":
+  [
+    {
+      "name": "Max Klevebrand",
+      "email": "max.klevebrand@gmail.com",
+      "url": "https://klevebrand.se"
+    }
+  ],
+  "license": "MIT",
+  "homepage": "https://klevebrand.se",
+  "dependencies": { 
+    "klevebrand/klevebrand-skywire-framework": "1.0.0"
+  },
+  "frameworks": "*",
+  "platforms": "Arduino"
+}

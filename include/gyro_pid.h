@@ -2,7 +2,7 @@
 #define GYRO_PID_H
 
 #include <Arduino.h>
-#include "../pid_optimizer/pid_optimizer.h"
+#include "./pid_optimizer.h"
 
 class GyroPid
 {

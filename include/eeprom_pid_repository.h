@@ -3,7 +3,7 @@
 
 #include <I2C_eeprom.h>
 #include <Wire.h>
-#include "./entities/pid_constants.h"
+#include "./pid_constants.h"
 
 class EepromPidRepository
 {
